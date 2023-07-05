@@ -11,6 +11,7 @@ import {
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Container from '../../components/container';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Welcome = () => {
   const windowWidth = Dimensions.get('window').width;
@@ -32,16 +33,38 @@ const Welcome = () => {
           />
         </View>
         <View style={styles.bottomContainer}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Login')}
-            style={styles.button}>
-            <Text style={styles.fontStyle}>GİRİŞ YAP</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Login')}
-            style={styles.button}>
-            <Text style={styles.fontStyle}>KAYIT OL</Text>
-          </TouchableOpacity>
+          <LinearGradient
+            colors={['#b717d2', '#ce25ab']}
+            start={{x: 1, y: 0}}
+            end={{x: 0, y: 0}}
+            style={{
+              borderRadius: 5,
+              width: '100%',
+              alignItems: 'center',
+              marginTop: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Login')}
+              style={styles.button}>
+              <Text style={styles.fontStyle}>GİRİŞ YAP</Text>
+            </TouchableOpacity>
+          </LinearGradient>
+          <LinearGradient
+            colors={['#b717d2', '#ce25ab']}
+            start={{x: 1, y: 0}}
+            end={{x: 0, y: 0}}
+            style={{
+              borderRadius: 5,
+              width: '100%',
+              alignItems: 'center',
+              marginTop: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Register')}
+              style={styles.button}>
+              <Text style={styles.fontStyle}>KAYIT OL</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </SafeAreaView>
     </Container>
@@ -59,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   bottomContainer: {
-    width: '80%',
+    width: '90%',
     flexDirection: 'column',
     position: 'absolute',
     bottom: 100,
@@ -68,10 +91,10 @@ const styles = StyleSheet.create({
     height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
-    backgroundColor: '#f307dd',
+
     borderRadius: 10,
     opacity: 1,
+    width: '100%',
   },
   fontStyle: {
     fontSize: 28,

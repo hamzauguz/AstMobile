@@ -12,9 +12,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		6B005416F5F655442C30801F /* libPods-AstMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5471AF7E1B2D5D6BF8F7A75A /* libPods-AstMobile.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		E86B36AC8B47AE26DE341229 /* libPods-AstMobile-AstMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92520DDA323E1F3EF4A3CD78 /* libPods-AstMobile-AstMobileTests.a */; };
+		B729C663D465A57C963754E5 /* libPods-AstMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE8C7A6915A8AD25C722E91C /* libPods-AstMobile.a */; };
+		F3C58C8E93B4AD17393CA25D /* libPods-AstMobile-AstMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AC589B2BEC080FDCD52A221 /* libPods-AstMobile-AstMobileTests.a */; };
 		F7AEA42E12DB4161803000A1 /* Dorian-Gray.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A37B5A35A6A2476E8EE12C58 /* Dorian-Gray.ttf */; };
 /* End PBXBuildFile section */
 
@@ -38,14 +38,14 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AstMobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AstMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AstMobile/main.m; sourceTree = "<group>"; };
-		3C31424F56F500BEB601944D /* Pods-AstMobile-AstMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AstMobile-AstMobileTests.release.xcconfig"; path = "Target Support Files/Pods-AstMobile-AstMobileTests/Pods-AstMobile-AstMobileTests.release.xcconfig"; sourceTree = "<group>"; };
-		5471AF7E1B2D5D6BF8F7A75A /* libPods-AstMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AstMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F216C0F5B92419E84CE5D6D /* Pods-AstMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AstMobile.debug.xcconfig"; path = "Target Support Files/Pods-AstMobile/Pods-AstMobile.debug.xcconfig"; sourceTree = "<group>"; };
+		3AC589B2BEC080FDCD52A221 /* libPods-AstMobile-AstMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AstMobile-AstMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AstMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9103EE584A35453CE1389CBC /* Pods-AstMobile-AstMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AstMobile-AstMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-AstMobile-AstMobileTests/Pods-AstMobile-AstMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
-		92520DDA323E1F3EF4A3CD78 /* libPods-AstMobile-AstMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AstMobile-AstMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B66016161DA133E805D4FD8 /* Pods-AstMobile-AstMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AstMobile-AstMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-AstMobile-AstMobileTests/Pods-AstMobile-AstMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9757366C62A6A2AEF10B0D7D /* Pods-AstMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AstMobile.release.xcconfig"; path = "Target Support Files/Pods-AstMobile/Pods-AstMobile.release.xcconfig"; sourceTree = "<group>"; };
+		9FE66BEDC93BF451CD8C7B0C /* Pods-AstMobile-AstMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AstMobile-AstMobileTests.release.xcconfig"; path = "Target Support Files/Pods-AstMobile-AstMobileTests/Pods-AstMobile-AstMobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		A37B5A35A6A2476E8EE12C58 /* Dorian-Gray.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Dorian-Gray.ttf"; path = "../assets/fonts/Dorian-Gray.ttf"; sourceTree = "<group>"; };
-		CD00C0492EECBA06DEAE0530 /* Pods-AstMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AstMobile.debug.xcconfig"; path = "Target Support Files/Pods-AstMobile/Pods-AstMobile.debug.xcconfig"; sourceTree = "<group>"; };
-		DB0A19FB9E94994F2B73B814 /* Pods-AstMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AstMobile.release.xcconfig"; path = "Target Support Files/Pods-AstMobile/Pods-AstMobile.release.xcconfig"; sourceTree = "<group>"; };
+		DE8C7A6915A8AD25C722E91C /* libPods-AstMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AstMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F2047D7779F2443FAAEE3EF5 /* CormorantGaramond-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CormorantGaramond-Italic.ttf"; path = "../assets/fonts/CormorantGaramond-Italic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E86B36AC8B47AE26DE341229 /* libPods-AstMobile-AstMobileTests.a in Frameworks */,
+				F3C58C8E93B4AD17393CA25D /* libPods-AstMobile-AstMobileTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B005416F5F655442C30801F /* libPods-AstMobile.a in Frameworks */,
+				B729C663D465A57C963754E5 /* libPods-AstMobile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,8 +104,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5471AF7E1B2D5D6BF8F7A75A /* libPods-AstMobile.a */,
-				92520DDA323E1F3EF4A3CD78 /* libPods-AstMobile-AstMobileTests.a */,
+				DE8C7A6915A8AD25C722E91C /* libPods-AstMobile.a */,
+				3AC589B2BEC080FDCD52A221 /* libPods-AstMobile-AstMobileTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -155,10 +155,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CD00C0492EECBA06DEAE0530 /* Pods-AstMobile.debug.xcconfig */,
-				DB0A19FB9E94994F2B73B814 /* Pods-AstMobile.release.xcconfig */,
-				9103EE584A35453CE1389CBC /* Pods-AstMobile-AstMobileTests.debug.xcconfig */,
-				3C31424F56F500BEB601944D /* Pods-AstMobile-AstMobileTests.release.xcconfig */,
+				2F216C0F5B92419E84CE5D6D /* Pods-AstMobile.debug.xcconfig */,
+				9757366C62A6A2AEF10B0D7D /* Pods-AstMobile.release.xcconfig */,
+				8B66016161DA133E805D4FD8 /* Pods-AstMobile-AstMobileTests.debug.xcconfig */,
+				9FE66BEDC93BF451CD8C7B0C /* Pods-AstMobile-AstMobileTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -170,12 +170,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AstMobileTests" */;
 			buildPhases = (
-				38FF473F3E54BD6899160940 /* [CP] Check Pods Manifest.lock */,
+				68A5EF95F16CD08C5BE71E6D /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				88A4FFA9A45E0D90D7CE7E3F /* [CP] Embed Pods Frameworks */,
-				D67C4CB23A7FC3108FCE83C6 /* [CP] Copy Pods Resources */,
+				70784CDC4FABF9DEF24FE354 /* [CP] Embed Pods Frameworks */,
+				D167528D7B5F38961B8C3C4D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -191,14 +191,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AstMobile" */;
 			buildPhases = (
-				79E3F6B8B1AD811460478BD8 /* [CP] Check Pods Manifest.lock */,
+				4A55CAE80C492544DE2F3DB4 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				3F0AEBD0B42D8D8E13B6C4E4 /* [CP] Embed Pods Frameworks */,
-				0B80952825AFE9C40C12E61D /* [CP] Copy Pods Resources */,
+				EAEDAEF873FF28CC67A8C490 /* [CP] Embed Pods Frameworks */,
+				CE653136CC6AB5B4461AD5DC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -283,63 +283,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		0B80952825AFE9C40C12E61D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		38FF473F3E54BD6899160940 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AstMobile-AstMobileTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3F0AEBD0B42D8D8E13B6C4E4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		79E3F6B8B1AD811460478BD8 /* [CP] Check Pods Manifest.lock */ = {
+		4A55CAE80C492544DE2F3DB4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -361,7 +305,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		88A4FFA9A45E0D90D7CE7E3F /* [CP] Embed Pods Frameworks */ = {
+		68A5EF95F16CD08C5BE71E6D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AstMobile-AstMobileTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		70784CDC4FABF9DEF24FE354 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -378,7 +344,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AstMobile-AstMobileTests/Pods-AstMobile-AstMobileTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D67C4CB23A7FC3108FCE83C6 /* [CP] Copy Pods Resources */ = {
+		CE653136CC6AB5B4461AD5DC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D167528D7B5F38961B8C3C4D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,6 +376,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AstMobile-AstMobileTests/Pods-AstMobile-AstMobileTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EAEDAEF873FF28CC67A8C490 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AstMobile/Pods-AstMobile-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -447,7 +447,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9103EE584A35453CE1389CBC /* Pods-AstMobile-AstMobileTests.debug.xcconfig */;
+			baseConfigurationReference = 8B66016161DA133E805D4FD8 /* Pods-AstMobile-AstMobileTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -474,7 +474,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C31424F56F500BEB601944D /* Pods-AstMobile-AstMobileTests.release.xcconfig */;
+			baseConfigurationReference = 9FE66BEDC93BF451CD8C7B0C /* Pods-AstMobile-AstMobileTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -498,7 +498,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD00C0492EECBA06DEAE0530 /* Pods-AstMobile.debug.xcconfig */;
+			baseConfigurationReference = 2F216C0F5B92419E84CE5D6D /* Pods-AstMobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -525,7 +525,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB0A19FB9E94994F2B73B814 /* Pods-AstMobile.release.xcconfig */;
+			baseConfigurationReference = 9757366C62A6A2AEF10B0D7D /* Pods-AstMobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
