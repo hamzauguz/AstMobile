@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
+
 import Container from '../../components/container';
 import CustomHeader from '../../components/custom-header';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -107,7 +108,9 @@ const Login = () => {
               position: 'absolute',
               bottom: 50,
             }}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Dashboard')}
+              style={styles.button}>
               <Text style={{color: 'white', fontWeight: '600'}}>Giriş Yap</Text>
             </TouchableOpacity>
           </LinearGradient>
