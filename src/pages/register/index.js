@@ -1,10 +1,7 @@
 import {
-  Dimensions,
   Image,
-  KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -21,7 +18,7 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import InputWithLabel from '../../components/input-with-label';
 import HeaderButton from '../../components/header-button';
 import LinearGradient from 'react-native-linear-gradient';
-
+import {CreateUserWithEmailAndPassword} from '../../utils/utils';
 const Register = () => {
   const navigation = useNavigation();
 
@@ -42,6 +39,14 @@ const Register = () => {
   };
 
   console.log('formdata: ', formData);
+
+  const handleSignIn = (email, password) => {
+    CreateUserWithEmailAndPassword({email, password});
+  };
+
+  const handleRegister = () => {
+    handleSignIn(formData.email, formData.password);
+  };
 
   return (
     <Container>
@@ -136,7 +141,7 @@ const Register = () => {
               position: 'absolute',
               bottom: 50,
             }}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={handleRegister} style={styles.button}>
               <Text style={{color: 'white', fontWeight: '600'}}>Kayıt Ol</Text>
             </TouchableOpacity>
           </LinearGradient>

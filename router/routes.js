@@ -1,14 +1,6 @@
-import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../src/pages/login';
 import Register from '../src/pages/register';
@@ -26,8 +18,6 @@ import auth from '@react-native-firebase/auth';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
 
   const stackOptions = {
     headerTransparent: true,
