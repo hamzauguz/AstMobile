@@ -1,7 +1,23 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
+import InputRightIcon from '../input-right-icon';
 
-const CustomInput = ({placeholder, containerStyle}) => {
+const CustomInput = ({
+  placeholder,
+  containerStyle,
+  value,
+  onChangeText,
+  inputRightContainer,
+  inputRightIcon,
+  secureTextEntry,
+  inputRightClick,
+}) => {
   return (
     <View
       style={[
@@ -14,7 +30,13 @@ const CustomInput = ({placeholder, containerStyle}) => {
         placeholder={placeholder}
         placeholderTextColor={'white'}
         style={styles.textStyle}
+        value={value}
+        onChangeText={onChangeText}
+        secureTextEntry={secureTextEntry}
       />
+      {inputRightContainer && (
+        <InputRightIcon onPress={inputRightClick} icon={inputRightIcon} />
+      )}
     </View>
   );
 };

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "28271342960",
+    "project_id": "ast-app-9656b",
+    "storage_bucket": "ast-app-9656b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28271342960:android:241300ee5e70fc6b49cbb5",
+        "android_client_info": {
+          "package_name": "com.astmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28271342960-5innmig57g3h1563ricbgocs2mm4vdtu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.astmobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "28271342960-gkacljivqssjd6tg1ende3s4av82be9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD14Fd1AQL_xIblpm1kKDEuxJV47-lVRQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28271342960-gkacljivqssjd6tg1ende3s4av82be9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

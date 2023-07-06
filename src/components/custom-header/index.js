@@ -8,16 +8,18 @@ import {
 import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const CustomHeader = ({iconLeft, iconTitle}) => {
+const CustomHeader = ({iconLeft, iconTitle, containerStyle}) => {
   return (
     <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-
-        width: '100%',
-      }}>
+      style={[
+        containerStyle,
+        {
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+        },
+      ]}>
       <View
         style={{
           width: '40%',

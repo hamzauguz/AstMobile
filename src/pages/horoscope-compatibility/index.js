@@ -2,14 +2,14 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Container from '../../components/container';
 
-const Home = () => {
+const HoroscopeCompatibility = () => {
   return (
     <Container>
-      <Text>Home</Text>
+      <Text>HoroscopeCompatibility</Text>
     </Container>
   );
 };
 
-export default Home;
+export default HoroscopeCompatibility;
 
 const styles = StyleSheet.create({});

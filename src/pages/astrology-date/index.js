@@ -2,14 +2,14 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Container from '../../components/container';
 
-const Home = () => {
+const AstrologyDate = () => {
   return (
     <Container>
-      <Text>Home</Text>
+      <Text>AstrologyDate</Text>
     </Container>
   );
 };
 
-export default Home;
+export default AstrologyDate;
 
 const styles = StyleSheet.create({});

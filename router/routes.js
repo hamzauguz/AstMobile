@@ -2,11 +2,12 @@ import {
   Dimensions,
   Image,
   ImageBackground,
+  Platform,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../src/pages/login';
@@ -16,6 +17,12 @@ import Container from '../src/components/container';
 import Home from '../src/pages/home';
 import Profile from '../src/pages/profile';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import HoroscopeCompatibility from '../src/pages/horoscope-compatibility';
+import AstrologyDate from '../src/pages/astrology-date';
+import auth from '@react-native-firebase/auth';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -27,25 +34,93 @@ const Routes = () => {
     headerShown: false,
     backgroundColor: 'transparent',
   };
-
   const Tab = createMaterialBottomTabNavigator();
+
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
 
   const Dashboard = () => {
     return (
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Profile" component={Profile} />
-      </Tab.Navigator>
+      <Container>
+        <Tab.Navigator
+          initialRouteName="Home"
+          activeColor="#0c2337"
+          inactiveColor="purple"
+          barStyle={{
+            backgroundColor: '#bfbafc',
+            height: Platform.OS === 'ios' ? 90 : 70,
+            opacity: 0.9,
+          }}>
+          <Tab.Screen
+            name="Home"
+            component={Home}
+            options={{
+              tabBarLabel: 'Anasayfa',
+              tabBarIcon: ({color}) => (
+                <AntDesignIcon name="home" color={'purple'} size={26} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="HoroscopeCompatibility"
+            component={HoroscopeCompatibility}
+            options={{
+              tabBarLabel: 'Burç Uyumu',
+              tabBarIcon: ({color}) => (
+                <MaterialCommunityIcons
+                  name="cards-playing-heart-multiple-outline"
+                  color={'purple'}
+                  size={26}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="AstrologyDate"
+            component={AstrologyDate}
+            options={{
+              tabBarLabel: 'Önemli Tarihler',
+              tabBarIcon: ({color}) => (
+                <MaterialIcons name="date-range" color={'purple'} size={26} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={Profile}
+            options={{
+              tabBarLabel: 'Profil',
+              tabBarIcon: ({color}) => (
+                <AntDesignIcon name="user" color={'purple'} size={26} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </Container>
     );
   };
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={stackOptions}>
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
+        {user ? (
+          <Stack.Screen name="Dashboard" component={Dashboard} />
+        ) : (
+          <>
+            <Stack.Screen name="Welcome" component={Welcome} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Register" component={Register} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

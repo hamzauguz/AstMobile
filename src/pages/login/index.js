@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -27,6 +28,7 @@ const Login = () => {
           alignItems: 'center',
         }}>
         <CustomHeader
+          containerStyle={styles.headerStyle}
           iconLeft={
             <HeaderButton
               onPress={() => navigation.goBack()}
@@ -143,5 +145,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'purple',
     marginTop: 20,
+  },
+  headerStyle: {
+    marginTop: Platform.OS === 'ios' ? 0 : 50,
   },
 });
