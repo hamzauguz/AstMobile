@@ -48,6 +48,8 @@
 		A37B5A35A6A2476E8EE12C58 /* Dorian-Gray.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Dorian-Gray.ttf"; path = "../assets/fonts/Dorian-Gray.ttf"; sourceTree = "<group>"; };
 		A65A4F79BC100C2486206BCF /* libPods-AstMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AstMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE8CDB7F2A56CFCF00D748F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DE8CDB812A57FF2D00D748F8 /* libGoogleSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libGoogleSignIn.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE8CDB832A57FF3300D748F8 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = GoogleSignIn.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F2047D7779F2443FAAEE3EF5 /* CormorantGaramond-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CormorantGaramond-Italic.ttf"; path = "../assets/fonts/CormorantGaramond-Italic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,6 +108,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DE8CDB832A57FF3300D748F8 /* GoogleSignIn.bundle */,
+				DE8CDB812A57FF2D00D748F8 /* libGoogleSignIn.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				A65A4F79BC100C2486206BCF /* libPods-AstMobile.a */,
 				5E7A739D9156405CE243ABDB /* libPods-AstMobile-AstMobileTests.a */,

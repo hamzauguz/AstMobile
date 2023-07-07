@@ -1,10 +1,8 @@
 import {
   ActivityIndicator,
   Image,
-  Keyboard,
   Platform,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -17,13 +15,14 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Container from '../../components/container';
 import CustomHeader from '../../components/custom-header';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+
 import InputWithLabel from '../../components/input-with-label';
 import HeaderButton from '../../components/header-button';
 import LinearGradient from 'react-native-linear-gradient';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {SignIn} from '../../utils/utils';
+import {SignIn, SignInWithGoogle} from '../../utils/utils';
 import {useHeaderHeight} from '@react-navigation/elements';
+import LoginWithGoogleButton from '../../components/login-with-google-button';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -100,9 +99,13 @@ const Login = () => {
                   style={{height: 200, width: 200}}
                 />
 
-                <TouchableOpacity style={styles.googleButton}>
-                  <AntDesignIcon size={30} name={'google'} color={'white'} />
-                </TouchableOpacity>
+                <LoginWithGoogleButton
+                  onPress={() =>
+                    SignInWithGoogle().then(() =>
+                      Alert.alert('Info', 'Signed In'),
+                    )
+                  }
+                />
               </View>
               <View style={{width: '100%'}}>
                 <InputWithLabel
@@ -201,17 +204,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
   },
-  googleButton: {
-    width: '90%',
-    height: 60,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: 'purple',
-    marginTop: 20,
-  },
+
   headerStyle: {
     marginTop: Platform.OS === 'ios' ? 0 : 50,
   },

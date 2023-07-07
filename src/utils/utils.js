@@ -1,5 +1,16 @@
 import auth from '@react-native-firebase/auth';
-import {Alert} from 'react-native';
+import {Alert, Platform} from 'react-native';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  webClientId: Platform.select({
+    ios: '28271342960-c0i41k486gjf163hsmasdfsg7gvk3d5j.apps.googleusercontent.com',
+    android:
+      '28271342960-gkacljivqssjd6tg1ende3s4av82be9b.apps.googleusercontent.com',
+  }),
+  scopes: ['email'],
+  offlineAccess: true,
+});
 
 export const CreateUserWithEmailAndPassword = ({
   email,
@@ -71,6 +82,18 @@ export const SignIn = ({email, password, setShowProgressBar}) => {
         );
       }
     });
+};
+
+export const SignInWithGoogle = async () => {
+  await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+  // Get the users ID token
+  const {idToken} = await GoogleSignin.signIn();
+
+  // Create a Google credential with the token
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+  // Sign-in the user with the credential
+  return auth().signInWithCredential(googleCredential);
 };
 
 export const SignOut = () => {

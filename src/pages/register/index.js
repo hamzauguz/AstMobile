@@ -1,10 +1,9 @@
 import {
   ActivityIndicator,
+  Alert,
   Image,
-  KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,16 +12,21 @@ import {
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Container from '../../components/container';
-import CustomInput from '../../components/custom-input';
+
 import CustomHeader from '../../components/custom-header';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+
 import InputWithLabel from '../../components/input-with-label';
 import HeaderButton from '../../components/header-button';
 import LinearGradient from 'react-native-linear-gradient';
-import {CreateUserWithEmailAndPassword} from '../../utils/utils';
+import {
+  CreateUserWithEmailAndPassword,
+  SignInWithGoogle,
+} from '../../utils/utils';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
+import LoginWithGoogleButton from '../../components/login-with-google-button';
 
 const Register = () => {
   const navigation = useNavigation();
@@ -101,9 +105,13 @@ const Register = () => {
                   style={{height: 100, width: 100}}
                 />
 
-                <TouchableOpacity style={styles.googleButton}>
-                  <AntDesignIcon size={30} name={'google'} color={'white'} />
-                </TouchableOpacity>
+                <LoginWithGoogleButton
+                  onPress={() =>
+                    SignInWithGoogle().then(() =>
+                      Alert.alert('Info', 'Signed In'),
+                    )
+                  }
+                />
               </View>
               <View style={{width: '100%'}}>
                 <InputWithLabel
@@ -185,17 +193,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
   },
-  googleButton: {
-    width: '90%',
-    height: 60,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: 'purple',
-    marginTop: 20,
-  },
+
   customHeaderStyle: {
     top: Platform.OS === 'ios' ? 0 : 50,
     zIndex: 999,
