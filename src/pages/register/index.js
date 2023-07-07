@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -45,12 +46,15 @@ const Register = () => {
   console.log('formdata: ', formData);
 
   const handleSignIn = (email, password) => {
-    CreateUserWithEmailAndPassword({email, password});
+    CreateUserWithEmailAndPassword({email, password, setShowProgressBar});
   };
 
   const handleRegister = () => {
+    setShowProgressBar(true);
+
     handleSignIn(formData.email, formData.password);
   };
+  const [showProgressBar, setShowProgressBar] = useState(false);
 
   return (
     <Container>
@@ -152,9 +156,13 @@ const Register = () => {
                 alignItems: 'center',
               }}>
               <TouchableOpacity onPress={handleRegister} style={styles.button}>
-                <Text style={{color: 'white', fontWeight: '600'}}>
-                  Kayıt Ol
-                </Text>
+                {showProgressBar ? (
+                  <ActivityIndicator size={'large'} color={'white'} />
+                ) : (
+                  <Text style={{color: 'white', fontWeight: '600'}}>
+                    Kayıt Ol
+                  </Text>
+                )}
               </TouchableOpacity>
             </LinearGradient>
           </View>
@@ -190,5 +198,6 @@ const styles = StyleSheet.create({
   },
   customHeaderStyle: {
     top: Platform.OS === 'ios' ? 0 : 50,
+    zIndex: 999,
   },
 });

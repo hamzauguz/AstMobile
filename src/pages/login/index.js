@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Keyboard,
   Platform,
@@ -41,10 +42,13 @@ const Login = () => {
   };
 
   const handleSignIn = (email, password) => {
-    SignIn({email, password});
+    SignIn({email, password, setShowProgressBar});
   };
 
+  const [showProgressBar, setShowProgressBar] = useState(false);
+
   const handleDashboardNavigate = () => {
+    setShowProgressBar(true);
     handleSignIn(formData.email, formData.password);
   };
 
@@ -65,11 +69,7 @@ const Login = () => {
           }
           iconTitle={'Giriş Yap'}
         />
-        {/* <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'null'}
-          keyboardVerticalOffset={Platform.select({ios: 0, android: 500})}
-          style={{flex: 1, width: '100%'}}>
-          <ScrollView contentContainerStyle={{flexGrow: 1}}> */}
+
         <KeyboardAwareScrollView
           enableOnAndroid={true}
           contentContainerStyle={{flexGrow: 1}}
@@ -171,9 +171,14 @@ const Login = () => {
               <TouchableOpacity
                 onPress={() => handleDashboardNavigate()}
                 style={styles.button}>
-                <Text style={{color: 'white', fontWeight: '600'}}>
-                  Giriş Yap
-                </Text>
+                {showProgressBar ? (
+                  <ActivityIndicator size={'large'} color={'white'} />
+                ) : (
+                  <Text
+                    style={{color: 'white', fontWeight: '600', fontSize: 18}}>
+                    Giriş Yap
+                  </Text>
+                )}
               </TouchableOpacity>
             </LinearGradient>
           </View>
