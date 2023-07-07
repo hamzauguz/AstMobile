@@ -1,7 +1,9 @@
 import {
   Image,
+  KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -19,6 +21,8 @@ import InputWithLabel from '../../components/input-with-label';
 import HeaderButton from '../../components/header-button';
 import LinearGradient from 'react-native-linear-gradient';
 import {CreateUserWithEmailAndPassword} from '../../utils/utils';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 const Register = () => {
   const navigation = useNavigation();
 
@@ -65,87 +69,96 @@ const Register = () => {
           }
           iconTitle={'Kayıt Ol'}
         />
-        <View
-          style={{
-            width: '100%',
-            alignItems: 'center',
-            flex: 1,
-            flexDirection: 'column',
-          }}>
+        <KeyboardAwareScrollView
+          enableOnAndroid={true}
+          contentContainerStyle={{flexGrow: 1}}
+          extraHeight={130}
+          scrollEnabled
+          extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
+          resetScrollToCoords={{x: 0, y: 0}}
+          style={{width: '100%', flexGrow: 1}}>
           <View
             style={{
               width: '100%',
               alignItems: 'center',
-              justifyContent: 'center',
-              flex: 0.75,
+              flex: 1,
+              flexDirection: 'column',
             }}>
-            <View style={{width: '100%', alignItems: 'center'}}>
-              <Image
-                source={require('../../../assets/astrology.png')}
-                style={{height: 100, width: 100}}
-              />
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 0.75,
+              }}>
+              <View style={{width: '100%', alignItems: 'center'}}>
+                <Image
+                  source={require('../../../assets/astrology.png')}
+                  style={{height: 100, width: 100}}
+                />
 
-              <TouchableOpacity style={styles.googleButton}>
-                <AntDesignIcon size={30} name={'google'} color={'white'} />
+                <TouchableOpacity style={styles.googleButton}>
+                  <AntDesignIcon size={30} name={'google'} color={'white'} />
+                </TouchableOpacity>
+              </View>
+              <View style={{width: '100%'}}>
+                <InputWithLabel
+                  containerStyle={styles.customInputStyle}
+                  label={'İsim'}
+                  placeholder={'İsminizi giriniz.'}
+                  value={formData.name}
+                  onChangeText={value => handleInputChange('name', value)}
+                />
+                <InputWithLabel
+                  containerStyle={styles.customInputStyle}
+                  label={'Email'}
+                  placeholder={'Email adresinizi giriniz.'}
+                  value={formData.email}
+                  onChangeText={value => handleInputChange('email', value)}
+                />
+                <InputWithLabel
+                  containerStyle={styles.customInputStyle}
+                  label={'Telefon'}
+                  placeholder={'Telefon numaranızı giriniz.'}
+                  value={formData.phone}
+                  onChangeText={value => handleInputChange('phone', value)}
+                />
+                <InputWithLabel
+                  containerStyle={styles.customInputStyle}
+                  label={'Şifre'}
+                  placeholder={'Şifrenizi giriniz.'}
+                  value={formData.password}
+                  onChangeText={value => handleInputChange('password', value)}
+                  inputRightContainer
+                  inputRightClick={() => setShowPassword(!showPassword)}
+                  inputRightIcon={
+                    showPassword ? (
+                      <FeatherIcon size={28} color={'white'} name={'eye'} />
+                    ) : (
+                      <FeatherIcon size={28} color={'white'} name={'eye-off'} />
+                    )
+                  }
+                  secureTextEntry={showPassword}
+                />
+              </View>
+            </View>
+            <LinearGradient
+              colors={['#b717d2', '#ce25ab']}
+              start={{x: 1, y: 0}}
+              end={{x: 0, y: 0}}
+              style={{
+                borderRadius: 10,
+                width: '90%',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity onPress={handleRegister} style={styles.button}>
+                <Text style={{color: 'white', fontWeight: '600'}}>
+                  Kayıt Ol
+                </Text>
               </TouchableOpacity>
-            </View>
-            <View style={{width: '100%'}}>
-              <InputWithLabel
-                containerStyle={styles.customInputStyle}
-                label={'İsim'}
-                placeholder={'İsminizi giriniz.'}
-                value={formData.name}
-                onChangeText={value => handleInputChange('name', value)}
-              />
-              <InputWithLabel
-                containerStyle={styles.customInputStyle}
-                label={'Email'}
-                placeholder={'Email adresinizi giriniz.'}
-                value={formData.email}
-                onChangeText={value => handleInputChange('email', value)}
-              />
-              <InputWithLabel
-                containerStyle={styles.customInputStyle}
-                label={'Telefon'}
-                placeholder={'Telefon numaranızı giriniz.'}
-                value={formData.phone}
-                onChangeText={value => handleInputChange('phone', value)}
-              />
-              <InputWithLabel
-                containerStyle={styles.customInputStyle}
-                label={'Şifre'}
-                placeholder={'Şifrenizi giriniz.'}
-                value={formData.password}
-                onChangeText={value => handleInputChange('password', value)}
-                inputRightContainer
-                inputRightClick={() => setShowPassword(!showPassword)}
-                inputRightIcon={
-                  showPassword ? (
-                    <FeatherIcon size={28} color={'white'} name={'eye'} />
-                  ) : (
-                    <FeatherIcon size={28} color={'white'} name={'eye-off'} />
-                  )
-                }
-                secureTextEntry={showPassword}
-              />
-            </View>
+            </LinearGradient>
           </View>
-          <LinearGradient
-            colors={['#b717d2', '#ce25ab']}
-            start={{x: 1, y: 0}}
-            end={{x: 0, y: 0}}
-            style={{
-              borderRadius: 10,
-              width: '90%',
-              alignItems: 'center',
-              position: 'absolute',
-              bottom: 50,
-            }}>
-            <TouchableOpacity onPress={handleRegister} style={styles.button}>
-              <Text style={{color: 'white', fontWeight: '600'}}>Kayıt Ol</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
+        </KeyboardAwareScrollView>
       </SafeAreaView>
     </Container>
   );
