@@ -15,7 +15,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HoroscopeCompatibility from '../src/pages/horoscope-compatibility';
 import AstrologyDate from '../src/pages/astrology-date';
 import auth from '@react-native-firebase/auth';
-
+import UserInfo from '../src/pages/user-info';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserData, getUserInfoByEmail} from '../src/utils/utils';
 const Routes = () => {
   const Stack = createNativeStackNavigator();
 
@@ -36,6 +38,44 @@ const Routes = () => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
+  }, [user]);
+
+  const onAuthStateChangedContainer = async user => {
+    if (user) {
+      await AsyncStorage.setItem('useremail', user.email);
+      await AsyncStorage.setItem('useremailverified', `${user.emailVerified}`);
+    } else {
+      await AsyncStorage.removeItem('userinfo');
+      await AsyncStorage.removeItem('useremailverified');
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged(onAuthStateChangedContainer);
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const getAllStorageData = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      const storageData = await AsyncStorage.multiGet(keys);
+      const dataMap = new Map(storageData);
+
+      // Anahtar-değer çiftlerini yazdır
+      dataMap.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  getAllStorageData();
+
+  useEffect(() => {
+    getAllStorageData();
   }, []);
 
   const Dashboard = () => {
@@ -103,7 +143,10 @@ const Routes = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={stackOptions}>
         {user ? (
-          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <>
+            <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen name="UserInfo" component={UserInfo} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Welcome" component={Welcome} />

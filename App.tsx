@@ -1,7 +1,8 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Routes from './router/routes';
 import 'react-native-gesture-handler';
+import {auth, onAuthStateChanged} from './src/utils/firebase';
 
 const App = () => {
   return (

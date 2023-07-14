@@ -36,9 +36,12 @@ const Register = () => {
     email: '',
     phone: '',
     password: '',
+    rePassword: '',
   });
 
   const [showPassword, setShowPassword] = useState(true);
+  const [showRePassword, setShowRePassword] = useState(false);
+  const [showProgressBar, setShowProgressBar] = useState(false);
 
   const handleInputChange = (field, value) => {
     setFormData(prevState => ({
@@ -54,11 +57,11 @@ const Register = () => {
   };
 
   const handleRegister = () => {
+    if (formData.password !== formData.rePassword)
+      return Alert.alert('Uyarı', 'Şifreler eşleşmiyor!');
     setShowProgressBar(true);
-
     handleSignIn(formData.email, formData.password);
   };
-  const [showProgressBar, setShowProgressBar] = useState(false);
 
   return (
     <Container>
@@ -116,25 +119,12 @@ const Register = () => {
               <View style={{width: '100%'}}>
                 <InputWithLabel
                   containerStyle={styles.customInputStyle}
-                  label={'İsim'}
-                  placeholder={'İsminizi giriniz.'}
-                  value={formData.name}
-                  onChangeText={value => handleInputChange('name', value)}
-                />
-                <InputWithLabel
-                  containerStyle={styles.customInputStyle}
                   label={'Email'}
                   placeholder={'Email adresinizi giriniz.'}
                   value={formData.email}
                   onChangeText={value => handleInputChange('email', value)}
                 />
-                <InputWithLabel
-                  containerStyle={styles.customInputStyle}
-                  label={'Telefon'}
-                  placeholder={'Telefon numaranızı giriniz.'}
-                  value={formData.phone}
-                  onChangeText={value => handleInputChange('phone', value)}
-                />
+
                 <InputWithLabel
                   containerStyle={styles.customInputStyle}
                   label={'Şifre'}
@@ -151,6 +141,23 @@ const Register = () => {
                     )
                   }
                   secureTextEntry={showPassword}
+                />
+                <InputWithLabel
+                  containerStyle={styles.customInputStyle}
+                  label={'Şifre Tekrar'}
+                  placeholder={'Tekrar şifrenizi giriniz.'}
+                  value={formData.rePassword}
+                  onChangeText={value => handleInputChange('rePassword', value)}
+                  inputRightContainer
+                  inputRightClick={() => setShowRePassword(!showRePassword)}
+                  inputRightIcon={
+                    !showRePassword ? (
+                      <FeatherIcon size={28} color={'white'} name={'eye'} />
+                    ) : (
+                      <FeatherIcon size={28} color={'white'} name={'eye-off'} />
+                    )
+                  }
+                  secureTextEntry={!showRePassword}
                 />
               </View>
             </View>

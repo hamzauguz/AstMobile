@@ -1,6 +1,9 @@
 import auth from '@react-native-firebase/auth';
 import {Alert, Platform} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
 
 GoogleSignin.configure({
   webClientId: Platform.select({
@@ -20,12 +23,20 @@ export const CreateUserWithEmailAndPassword = ({
   console.log(email, password);
   auth()
     .createUserWithEmailAndPassword(email, password)
-    .then(() => {
+    .then(userCredential => {
       setShowProgressBar(true);
 
-      console.log('User account created & signed in!');
-      Alert.alert('Tebrikler', 'Hesap başarıyla oluşturuldu.');
+      userCredential.user
+        .sendEmailVerification()
+        .then(() => {
+          Alert.alert(
+            'Bilgilendirme',
+            `Giriş yapabilmek için ${userCredential.user.email} adresine gönderdiğimiz e-postadaki bağlantıya tikla.`,
+          );
+        })
+        .then(() => SignOut());
     })
+
     .catch(error => {
       setShowProgressBar(false);
 
@@ -51,8 +62,43 @@ export const CreateUserWithEmailAndPassword = ({
 export const SignIn = ({email, password, setShowProgressBar}) => {
   auth()
     .signInWithEmailAndPassword(email, password)
-    .then(() => {
-      console.log('User account created & signed in!');
+    .then(user => {
+      if (!user.user.emailVerified)
+        return (
+          Alert.alert(
+            'Uyarı',
+            'Lütfen mail adresinizi doğrulayın',
+
+            [
+              {
+                text: 'Tamam',
+                style: 'cancel',
+                onPress: () => {
+                  SignOut();
+                },
+              },
+              {
+                text: 'Tekrar gönder',
+                style: 'default',
+                onPress: () => {
+                  // Evet'e tıklandığında yapılacak işlemler buraya gelecek
+                  console.log('Evet seçeneği seçildi.');
+                  auth()
+                    .currentUser.sendEmailVerification()
+                    .then(() => {
+                      Alert.alert(
+                        'Bilgilendirme',
+                        'Hesabı doğrulamak için mail gönderilmiştir.',
+                      );
+                    })
+                    .finally(() => SignOut());
+                },
+              },
+            ],
+            {cancelable: false},
+          ),
+          console.log('User account created & signed in!')
+        );
       setShowProgressBar(true);
     })
     .catch(error => {
@@ -99,5 +145,42 @@ export const SignInWithGoogle = async () => {
 export const SignOut = () => {
   auth()
     .signOut()
-    .then(() => console.log('User signed out!'));
+    .then(() => {
+      console.log('User signed out!');
+      AsyncStorage.removeItem('userinfo');
+      AsyncStorage.removeItem('useremailverified');
+    });
+};
+
+// export const UserData = async () => {
+//   await auth().onAuthStateChanged(user => {
+//     AsyncStorage.setItem('userinfo', user?.emailVerified);
+//   });
+// };
+
+export const getUserInfoByEmail = async email => {
+  const navigation = useNavigation();
+  try {
+    const querySnapshot = await firestore()
+      .collection('UserInfo')
+      .where('email', '==', email)
+      .get();
+
+    if (querySnapshot.empty) {
+      //console.log('Kullanıcı bulunamadı.');
+      navigation.navigate('UserInfo');
+      // Alert.alert('Bilgilendirme', 'Lütfen kaydınızı tamamlayınız');
+      return null;
+    }
+
+    // İstenen kullanıcının bilgilerini alın
+    const userInfo = querySnapshot.docs[0].data();
+
+    console.log('Kullanıcı bilgileri:', userInfo);
+
+    return userInfo;
+  } catch (error) {
+    console.error('Kullanıcı bilgileri alınamadı:', error);
+    return null;
+  }
 };
