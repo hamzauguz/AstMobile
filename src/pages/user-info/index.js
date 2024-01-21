@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   SafeAreaView,
   StyleSheet,
@@ -6,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {SignOut} from '../../utils/utils';
 import Container from '../../components/container';
 import CustomHeader from '../../components/custom-header';
@@ -17,14 +18,14 @@ import {phoneNumberRegex} from '../../utils/regex';
 import InputWithLabel from '../../components/input-with-label';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
-import 'moment/locale/tr';
 import CityModal from '../../components/city-modal';
 import LinearGradient from 'react-native-linear-gradient';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import 'moment/locale/tr';
 
 import {addDoc, collection, db} from '../../utils/firebase';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const UserInfo = () => {
   const [date, setDate] = useState(new Date());
@@ -32,11 +33,13 @@ const UserInfo = () => {
 
   const [dateTime, setDateTime] = useState(new Date());
   const [openTime, setOpenTime] = useState(false);
+  const [progressBar, setProgressBar] = useState(false);
   const DatePickerRef = useRef(null);
-  moment.locale('tr'); // Türkçe dilini kullan
+  moment.locale('tr');
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedCity, setSelectedCity] = useState('');
+  const {user} = useSelector(state => state.user);
 
   const handleCitySelect = city => {
     setSelectedCity(city);
@@ -50,37 +53,6 @@ const UserInfo = () => {
     phone: '',
   });
 
-  const [userEmail, setUserEmail] = useState('');
-  const [emailVerif, setEmailVerif] = useState('');
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const userEmail = await AsyncStorage.getItem('useremail');
-        const emailVerification = await AsyncStorage.getItem(
-          'useremailverified',
-        );
-        if (userEmail !== null || emailVerification !== null) {
-          setUserEmail(userEmail);
-          setEmailVerif(emailVerification);
-        }
-      } catch (error) {
-        console.log(error); // Hata durumunda işlemleri yönetebilirsiniz
-      }
-    };
-
-    getData();
-  }, []);
-
-  console.log('useremail: ', userEmail);
-
-  console.log(
-    'formdata: ',
-    formData,
-    selectedCity,
-    moment(date).format('LL'),
-    dateTime.toLocaleTimeString('tr-TR'),
-  );
   const handleInputChange = (field, value) => {
     setFormData(prevState => ({
       ...prevState,
@@ -93,23 +65,26 @@ const UserInfo = () => {
     try {
       if (formData.fullName == '' || formData.phone == '' || selectedCity == '')
         return Alert.alert('Bilgilendirme', 'Lütfen tüm alanları doldurunuz.');
+      setProgressBar(true);
+
       await addDoc(collection(db, 'UserInfo'), {
         fullName: formData.fullName,
         phone: formData.phone,
         country: selectedCity,
         birthdate: moment(date).format('LL'),
         birthtime: dateTime.toLocaleTimeString('tr-TR'),
-        email: userEmail,
+        email: user.email,
       }).then(() => {
         Alert.alert('Tebrikler', 'Kaydınız tamamlanmıştır');
         navigation.navigate('Dashboard');
+        setProgressBar(false);
       });
     } catch (e) {
       console.error('Error adding document: ', e);
+      setProgressBar(false);
     }
   };
 
-  console.log('MaskInputRef: ', DatePickerRef);
   return (
     <Container>
       <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
@@ -117,7 +92,6 @@ const UserInfo = () => {
           containerStyle={styles.customHeaderStyle}
           iconLeft={
             <HeaderButton
-              // onPress={() => navigation.goBack()}
               children={<Icon size={24} name="chevron-left" color={'white'} />}
             />
           }
@@ -135,7 +109,6 @@ const UserInfo = () => {
             <Text style={{backgroundColor: 'red'}}>Home</Text>
           </TouchableOpacity>
           <InputWithLabel
-            // containerStyle={styles.customInputStyle}
             label={'Ad & Soyad'}
             placeholder={'Adınızı ve soyadınızı giriniz.'}
             value={formData.fullName}
@@ -227,13 +200,13 @@ const UserInfo = () => {
               onPress={() => addUserInfo()}
               //  onPress={handleRegister}
               style={styles.button}>
-              {/* {showProgressBar ? (
-                  <ActivityIndicator size={'large'} color={'white'} />
-                ) : ( */}
-              <Text style={{color: 'white', fontWeight: '600', fontSize: 18}}>
-                Bilgilerimi Kaydet
-              </Text>
-              {/* )} */}
+              {progressBar ? (
+                <ActivityIndicator size={'large'} color={'white'} />
+              ) : (
+                <Text style={{color: 'white', fontWeight: '600', fontSize: 18}}>
+                  Bilgilerimi Kaydet
+                </Text>
+              )}
             </TouchableOpacity>
           </LinearGradient>
 

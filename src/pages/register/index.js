@@ -53,7 +53,12 @@ const Register = () => {
   console.log('formdata: ', formData);
 
   const handleSignIn = (email, password) => {
-    CreateUserWithEmailAndPassword({email, password, setShowProgressBar});
+    CreateUserWithEmailAndPassword({
+      email,
+      password,
+      setShowProgressBar,
+      handleOkey: () => navigation.navigate('Login'),
+    });
   };
 
   const handleRegister = () => {

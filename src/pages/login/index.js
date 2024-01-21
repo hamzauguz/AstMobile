@@ -146,6 +146,7 @@ const Login = () => {
                 </Text>
 
                 <TouchableOpacity
+                  onPress={() => navigation.navigate('Register')}
                   style={{
                     alignItems: 'center',
                     justifyContent: 'center',

@@ -1,14 +1,17 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useEffect} from 'react';
 import Routes from './router/routes';
+import {Provider} from 'react-redux';
+import store from './src/store';
 import 'react-native-gesture-handler';
-import {auth, onAuthStateChanged} from './src/utils/firebase';
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Routes />
-    </View>
+    <Provider store={store}>
+      <View style={styles.container}>
+        <Routes />
+      </View>
+    </Provider>
   );
 };
 

@@ -1,8 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import {Alert, Platform} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
 
 GoogleSignin.configure({
@@ -19,8 +17,8 @@ export const CreateUserWithEmailAndPassword = ({
   email,
   password,
   setShowProgressBar,
+  handleOkey,
 }) => {
-  console.log(email, password);
   auth()
     .createUserWithEmailAndPassword(email, password)
     .then(userCredential => {
@@ -32,9 +30,18 @@ export const CreateUserWithEmailAndPassword = ({
           Alert.alert(
             'Bilgilendirme',
             `Giriş yapabilmek için ${userCredential.user.email} adresine gönderdiğimiz e-postadaki bağlantıya tikla.`,
+            [
+              {
+                text: 'Tamam',
+                onPress: () => handleOkey(),
+              },
+            ],
           );
         })
-        .then(() => SignOut());
+        .then(() => {
+          SignOut();
+          setShowProgressBar(false);
+        });
     })
 
     .catch(error => {
@@ -75,13 +82,13 @@ export const SignIn = ({email, password, setShowProgressBar}) => {
                 style: 'cancel',
                 onPress: () => {
                   SignOut();
+                  setShowProgressBar(false);
                 },
               },
               {
                 text: 'Tekrar gönder',
                 style: 'default',
                 onPress: () => {
-                  // Evet'e tıklandığında yapılacak işlemler buraya gelecek
                   console.log('Evet seçeneği seçildi.');
                   auth()
                     .currentUser.sendEmailVerification()
@@ -91,7 +98,10 @@ export const SignIn = ({email, password, setShowProgressBar}) => {
                         'Hesabı doğrulamak için mail gönderilmiştir.',
                       );
                     })
-                    .finally(() => SignOut());
+                    .finally(() => {
+                      SignOut();
+                      setShowProgressBar(false);
+                    });
                 },
               },
             ],
@@ -147,19 +157,10 @@ export const SignOut = () => {
     .signOut()
     .then(() => {
       console.log('User signed out!');
-      AsyncStorage.removeItem('userinfo');
-      AsyncStorage.removeItem('useremailverified');
     });
 };
 
-// export const UserData = async () => {
-//   await auth().onAuthStateChanged(user => {
-//     AsyncStorage.setItem('userinfo', user?.emailVerified);
-//   });
-// };
-
 export const getUserInfoByEmail = async email => {
-  const navigation = useNavigation();
   try {
     const querySnapshot = await firestore()
       .collection('UserInfo')
@@ -167,20 +168,15 @@ export const getUserInfoByEmail = async email => {
       .get();
 
     if (querySnapshot.empty) {
-      //console.log('Kullanıcı bulunamadı.');
-      navigation.navigate('UserInfo');
-      // Alert.alert('Bilgilendirme', 'Lütfen kaydınızı tamamlayınız');
       return null;
     }
 
-    // İstenen kullanıcının bilgilerini alın
-    const userInfo = querySnapshot.docs[0].data();
+    const userInfo = await querySnapshot.docs[0].data();
 
     console.log('Kullanıcı bilgileri:', userInfo);
 
     return userInfo;
   } catch (error) {
-    console.error('Kullanıcı bilgileri alınamadı:', error);
     return null;
   }
 };

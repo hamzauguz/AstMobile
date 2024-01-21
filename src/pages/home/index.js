@@ -1,41 +1,42 @@
 import {
+  ActivityIndicator,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Container from '../../components/container';
 import {SignOut, getUserInfoByEmail} from '../../utils/utils';
 import {useNavigation} from '@react-navigation/native';
-import {auth} from '../../utils/firebase';
+import {useSelector} from 'react-redux';
 
 const Home = () => {
-  const [userEmail, setUserEmail] = useState('');
+  const navigation = useNavigation();
+  const {user, userLoading} = useSelector(state => state.user);
+
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const userEmail = await AsyncStorage.getItem('useremail');
-
-        if (userEmail !== null) {
-          setUserEmail(userEmail);
+    const userInfoControl = async () => {
+      await getUserInfoByEmail(user.email).then(res => {
+        if (res === null) {
+          navigation.navigate('UserInfo');
         }
-      } catch (error) {
-        console.log(error); // Hata durumunda işlemleri yönetebilirsiniz
-      }
+      });
     };
-
-    getData();
-  }, []);
-  getUserInfoByEmail(userEmail);
+    userInfoControl();
+  }, [user]);
 
   return (
     <Container>
       <SafeAreaView>
-        <TouchableOpacity style={{top: 50}} onPress={() => SignOut()}>
-          <Text style={{backgroundColor: 'red'}}>UserInfo</Text>
-        </TouchableOpacity>
+        {userLoading ? (
+          <ActivityIndicator size={'large'} color={'white'} />
+        ) : (
+          <TouchableOpacity style={{top: 50}} onPress={() => SignOut()}>
+            <Text style={{backgroundColor: 'red'}}>UserInfo</Text>
+          </TouchableOpacity>
+        )}
       </SafeAreaView>
     </Container>
   );

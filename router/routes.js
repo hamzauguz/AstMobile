@@ -1,5 +1,5 @@
-import {Dimensions, Platform, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {Platform, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../src/pages/login';
@@ -16,11 +16,13 @@ import HoroscopeCompatibility from '../src/pages/horoscope-compatibility';
 import AstrologyDate from '../src/pages/astrology-date';
 import auth from '@react-native-firebase/auth';
 import UserInfo from '../src/pages/user-info';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {UserData, getUserInfoByEmail} from '../src/utils/utils';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUser} from '../src/store/features/user-slice';
+
 const Routes = () => {
   const Stack = createNativeStackNavigator();
-
+  const {user} = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const stackOptions = {
     headerTransparent: true,
     headerShown: false,
@@ -28,55 +30,13 @@ const Routes = () => {
   };
   const Tab = createMaterialBottomTabNavigator();
 
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
+  async function onAuthStateChanged(u) {
+    await dispatch(setUser(u));
   }
-
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, [user]);
-
-  const onAuthStateChangedContainer = async user => {
-    if (user) {
-      await AsyncStorage.setItem('useremail', user.email);
-      await AsyncStorage.setItem('useremailverified', `${user.emailVerified}`);
-    } else {
-      await AsyncStorage.removeItem('userinfo');
-      await AsyncStorage.removeItem('useremailverified');
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(onAuthStateChangedContainer);
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  const getAllStorageData = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const storageData = await AsyncStorage.multiGet(keys);
-      const dataMap = new Map(storageData);
-
-      // Anahtar-değer çiftlerini yazdır
-      dataMap.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  getAllStorageData();
-
-  useEffect(() => {
-    getAllStorageData();
-  }, []);
 
   const Dashboard = () => {
     return (
@@ -142,7 +102,7 @@ const Routes = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={stackOptions}>
-        {user ? (
+        {user && user.emailVerified ? (
           <>
             <Stack.Screen name="Dashboard" component={Dashboard} />
             <Stack.Screen name="UserInfo" component={UserInfo} />

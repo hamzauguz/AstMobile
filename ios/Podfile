@@ -37,6 +37,8 @@ target 'AstMobile' do
   pod 'FirebaseCore', :modular_headers => true
   pod 'GoogleSignIn', '~> 7.0'
 
+  
+
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.
