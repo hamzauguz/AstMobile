@@ -1,10 +1,8 @@
 import {
   ActivityIndicator,
-  FlatList,
   Image,
   Platform,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -16,12 +14,13 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {horoscopes} from '../../utils/horoscopes';
 import Carousel from 'react-native-snap-carousel';
+import styles from './styles';
 
 const Home = () => {
   const navigation = useNavigation();
   const {user, userLoading} = useSelector(state => state.user);
   const carouselRef = useRef(null);
-
+  const [activeItem, setActiveItem] = useState();
   useEffect(() => {
     const userInfoControl = async () => {
       await getUserInfoByEmail(user.email).then(res => {
@@ -40,10 +39,10 @@ const Home = () => {
     offset: ITEM_WIDTH * index,
     index,
   });
-
+  console.log('carousel ref2: ', carouselRef.current);
   return (
     <Container>
-      <SafeAreaView style={{flexGrow: 1}}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         {userLoading ? (
           <ActivityIndicator size={'large'} color={'white'} />
         ) : (
@@ -54,48 +53,32 @@ const Home = () => {
                 onPress={() => SignOut()}>
                 <Text style={{backgroundColor: 'red'}}>UserInfo</Text>
               </TouchableOpacity>
-              <Text style={{color: 'red'}}>hey</Text>
             </View>
             <Carousel
               disableIntervalMomentum={true}
               ref={ref => (carouselRef.current = ref)}
               loop={true}
               data={horoscopes}
+              onSnapToItem={index => setActiveItem(index)}
               itemWidth={ITEM_WIDTH}
               getItemLayout={getCarouselItemLayout}
-              containerCustomStyle={{
-                right: Platform.OS === 'ios' ? 30 : 50,
-                flexGrow: 0.1,
-                top: 30,
-              }}
+              containerCustomStyle={styles.containerCustomStyle}
               renderItem={({item, index}) => (
                 <TouchableOpacity
                   onPress={() => {
                     carouselRef.current.snapToItem(index - 3);
+                    if (activeItem + 3 === index) {
+                      navigation.navigate('HoroscopeDetail');
+                    }
                   }}
-                  style={{
-                    alignItems: 'center',
-                    padding: 10,
-                    justifyContent: 'center',
-                    display: 'flex',
-                    backgroundColor: '#6768B3',
-                    borderRadius: 10,
-                  }}>
+                  style={styles.toucableCardStyle}>
                   <Image
-                    style={{
-                      width: 140,
-                      height: 140,
-                      backgroundColor: '#141848',
-                      borderRadius: 70,
-                      resizeMode: 'center',
-                    }}
+                    style={styles.toucableCardImage}
                     source={{uri: item.image}}
                   />
-                  <View style={{alignItems: 'center', marginTop: 5}}>
-                    <Text style={{color: 'white', fontSize: 22}}>
-                      {item.horoscope}
-                    </Text>
-                    <Text style={{color: 'white', width: 75}}>{item.date}</Text>
+                  <View style={styles.toucableTextContainer}>
+                    <Text style={styles.toucableText}>{item.horoscope}</Text>
+                    <Text style={styles.toucableTextDate}>{item.date}</Text>
                   </View>
                 </TouchableOpacity>
               )}
@@ -109,5 +92,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({});

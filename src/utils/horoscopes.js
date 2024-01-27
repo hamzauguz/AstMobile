@@ -2,7 +2,7 @@ const horoscopes = [
   {
     id: 1,
     horoscope: 'Koç',
-    date: '21 Mart - 19 Nisan',
+    date: '21 Mart -\n 19 Nisan',
     image: 'https://www.iconsdb.com/icons/preview/white/aries-2-xxl.png',
     status: {
       daily:
@@ -16,7 +16,7 @@ const horoscopes = [
   {
     id: 2,
     horoscope: 'Boğa',
-    date: '20 Nisan - 20 Mayıs',
+    date: '20 Nisan -\n 20 Mayıs',
     image: 'https://www.iconsdb.com/icons/preview/white/taurus-2-xxl.png',
     status: {
       daily:
@@ -30,7 +30,7 @@ const horoscopes = [
   {
     id: 3,
     horoscope: 'İkizler',
-    date: '21 Mayıs - 20 Haziran',
+    date: '21 Mayıs -\n 20 Haziran',
     image: 'https://www.iconsdb.com/icons/preview/white/gemini-2-xxl.png',
     status: {
       daily:
@@ -44,7 +44,7 @@ const horoscopes = [
   {
     id: 4,
     horoscope: 'Yengeç',
-    date: '21 Haziran - 22 Temmuz',
+    date: '21 Haziran -\n 22 Temmuz',
     image: 'https://www.iconsdb.com/icons/preview/white/cancer-2-xxl.png',
     status: {
       daily:
@@ -58,7 +58,7 @@ const horoscopes = [
   {
     id: 5,
     horoscope: 'Aslan',
-    date: '23 Temmuz - 22 Ağustos',
+    date: '23 Temmuz -\n 22 Ağustos',
     image: 'https://www.iconsdb.com/icons/preview/white/leo-2-xxl.png',
     status: {
       daily:
@@ -72,7 +72,7 @@ const horoscopes = [
   {
     id: 6,
     horoscope: 'Başak',
-    date: '23 Ağustos - 22 Eylül',
+    date: '23 Ağustos -\n 22 Eylül',
     image: 'https://www.iconsdb.com/icons/preview/white/virgo-2-xxl.png',
     status: {
       daily:
@@ -86,7 +86,7 @@ const horoscopes = [
   {
     id: 7,
     horoscope: 'Terazi',
-    date: '23 Eylül - 22 Ekim',
+    date: '23 Eylül -\n 22 Ekim',
     image: 'https://www.iconsdb.com/icons/preview/white/libra-2-xxl.png',
     status: {
       daily:
@@ -100,7 +100,7 @@ const horoscopes = [
   {
     id: 8,
     horoscope: 'Akrep',
-    date: '23 Ekim - 21 Kasım',
+    date: '23 Ekim -\n 21 Kasım',
     image: 'https://www.iconsdb.com/icons/preview/white/scorpio-2-xxl.png',
     status: {
       daily:
@@ -114,7 +114,7 @@ const horoscopes = [
   {
     id: 9,
     horoscope: 'Yay',
-    date: '22 Kasım - 21 Aralık',
+    date: '22 Kasım -\n 21 Aralık',
     image: 'https://www.iconsdb.com/icons/preview/white/sagittarius-2-xxl.png',
     status: {
       daily:
@@ -128,7 +128,7 @@ const horoscopes = [
   {
     id: 9,
     horoscope: 'Oğlak',
-    date: '22 Aralık - 19 Ocak',
+    date: '22 Aralık -\n 19 Ocak',
     image: 'https://www.iconsdb.com/icons/preview/white/capricorn-2-xxl.png',
     status: {
       daily:
@@ -142,7 +142,7 @@ const horoscopes = [
   {
     id: 10,
     horoscope: 'Kova',
-    date: '20 Ocak - 18 Şubat',
+    date: '20 Ocak -\n 18 Şubat',
     image: 'https://www.iconsdb.com/icons/preview/white/aquarius-2-xxl.png',
     status: {
       daily:
@@ -156,7 +156,7 @@ const horoscopes = [
   {
     id: 11,
     horoscope: 'Balık',
-    date: '19 Ocak - 20 Mart',
+    date: '19 Ocak -\n 20 Mart',
     image: 'https://www.iconsdb.com/icons/preview/white/pisces-2-xxl.png',
     status: {
       daily:
