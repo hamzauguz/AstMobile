@@ -1,11 +1,18 @@
-import {StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import React, {useEffect} from 'react';
 import Routes from './router/routes';
 import {Provider} from 'react-redux';
 import store from './src/store';
 import 'react-native-gesture-handler';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
+  // useEffect(() => {
+  //   if (Platform.OS === 'android') {
+  //     SplashScreen.hide();
+  //   }
+  // }, []);
+
   return (
     <Provider store={store}>
       <View style={styles.container}>
