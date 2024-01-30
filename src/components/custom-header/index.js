@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const CustomHeader = ({iconLeft, iconTitle, containerStyle}) => {
+const CustomHeader = ({iconLeft, iconTitle, containerStyle, iconRight}) => {
   return (
     <View
       style={[
@@ -22,6 +22,7 @@ const CustomHeader = ({iconLeft, iconTitle, containerStyle}) => {
       ]}>
       <View
         style={{
+          flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-around',
@@ -39,7 +40,11 @@ const CustomHeader = ({iconLeft, iconTitle, containerStyle}) => {
           {iconTitle}
         </Text>
       </View>
-      <View style={{width: '50%'}}></View>
+      <View style={{flex: 1, alignItems: 'flex-end'}}>
+        <Text style={{color: 'white', textAlign: 'right', right: 30}}>
+          {iconRight}
+        </Text>
+      </View>
     </View>
   );
 };
