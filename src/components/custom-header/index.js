@@ -1,12 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
 
 const CustomHeader = ({iconLeft, iconTitle, containerStyle, iconRight}) => {
   return (
@@ -34,7 +27,6 @@ const CustomHeader = ({iconLeft, iconTitle, containerStyle, iconRight}) => {
             color: 'white',
             fontSize: 24,
             fontWeight: 'bold',
-
             left: 10,
           }}>
           {iconTitle}
