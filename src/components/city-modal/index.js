@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Modal,
   View,
@@ -8,9 +8,13 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
-import {cities} from '../../utils/cities';
+import {getCitiesCollection, getHoroscopesCollection} from '../../utils/utils';
 
 const CityModal = ({visible, onClose, onSelectCity}) => {
+  const [citiesData, setCitiesData] = useState(null);
+  useEffect(() => {
+    getCitiesCollection().then(res => setCitiesData(res));
+  }, []);
   const handleCitySelect = city => {
     onSelectCity(city);
     onClose();
@@ -19,6 +23,29 @@ const CityModal = ({visible, onClose, onSelectCity}) => {
   const handleModalClose = () => {
     onClose();
   };
+
+  const sortedCities = citiesData?.sort((a, b) => {
+    // Önemli şehirlerin listesini aşağıdaki gibi belirleyebilirsiniz.
+    const importantCities = [
+      'İstanbul',
+      'Ankara',
+      'İzmir' /* Diğer önemli şehirler */,
+    ];
+
+    // Eğer a veya b listedeki önemli şehirlerden biriyse, o şehirlerden biri olanı öne al.
+    if (
+      importantCities.includes(a.cityName) &&
+      importantCities.includes(b.cityName)
+    ) {
+      return a.cityName.localeCompare(b.cityName); // Alfabetik sıralama
+    } else if (importantCities.includes(a.cityName)) {
+      return -1; // a'yı öne al
+    } else if (importantCities.includes(b.cityName)) {
+      return 1; // b'yi öne al
+    } else {
+      return a.cityName.localeCompare(b.cityName); // Diğer durumlar için alfabetik sıralama
+    }
+  });
 
   return (
     <Modal
@@ -35,7 +62,7 @@ const CityModal = ({visible, onClose, onSelectCity}) => {
               alignItems: 'center',
             }}>
             <ScrollView style={styles.modalContent}>
-              {cities.map(city => (
+              {sortedCities?.map(item => (
                 <TouchableOpacity
                   style={{
                     marginTop: 10,
@@ -44,8 +71,8 @@ const CityModal = ({visible, onClose, onSelectCity}) => {
                     borderColor: 'white',
                     borderBottomWidth: 1,
                   }}
-                  key={city}
-                  onPress={() => handleCitySelect(city)}>
+                  key={item}
+                  onPress={() => handleCitySelect(item.cityName)}>
                   <Text
                     style={{
                       color: 'white',
@@ -53,7 +80,7 @@ const CityModal = ({visible, onClose, onSelectCity}) => {
                       fontWeight: '500',
                       left: 5,
                     }}>
-                    {city}
+                    {item.cityName}
                   </Text>
                 </TouchableOpacity>
               ))}

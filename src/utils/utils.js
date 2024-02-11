@@ -2,6 +2,8 @@ import auth from '@react-native-firebase/auth';
 import {Alert, Platform} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import firestore from '@react-native-firebase/firestore';
+import {collection, onSnapshot, query} from 'firebase/firestore';
+import {db} from './firebase';
 
 GoogleSignin.configure({
   webClientId: Platform.select({
@@ -177,6 +179,42 @@ export const getUserInfoByEmail = async email => {
 
     return userInfo;
   } catch (error) {
+    return null;
+  }
+};
+
+export const getHoroscopesCollection = async () => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Horoscopes')
+      .orderBy('id', 'asc')
+      .get();
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    console.log(objectsArray);
+    return objectsArray;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getCitiesCollection = async () => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Cities')
+      .orderBy('cityName', 'asc')
+      .get();
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    console.log(objectsArray);
+    return objectsArray;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
     return null;
   }
 };

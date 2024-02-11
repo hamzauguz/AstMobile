@@ -75,7 +75,7 @@ const Profile = () => {
             }}>
             <View style={styles.centerContainer}>
               <View style={styles.centerView}>
-                <Text>{userInfo.birthdate}</Text>
+                <Text>{userInfo?.birthdate}</Text>
               </View>
               <View style={styles.centerView}>
                 <Text>Burç</Text>
@@ -83,10 +83,10 @@ const Profile = () => {
             </View>
             <View style={styles.centerContainer}>
               <View style={styles.centerView}>
-                <Text>{userInfo.country}</Text>
+                <Text>{userInfo?.country}</Text>
               </View>
               <View style={styles.centerView}>
-                <Text>{userInfo.birthtime}</Text>
+                <Text>{userInfo?.birthtime}</Text>
               </View>
             </View>
           </View>

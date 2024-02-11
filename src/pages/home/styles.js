@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     alignItems: 'center',
   },
+  container: {flexDirection: 'row', alignItems: 'center', marginBottom: 16},
+  avatar: {height: 40, width: 40, borderRadius: 0},
+  textContainer: {flex: 1, marginLeft: 16},
+  title: {width: '90%', height: 14, borderRadius: 7, marginBottom: 5},
+  subtitle: {width: '70%', height: 14, borderRadius: 7},
+  icon: {height: 16, width: 16, borderRadius: 4},
 });
 
 export default styles;
