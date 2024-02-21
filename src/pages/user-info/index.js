@@ -26,7 +26,9 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {addDoc, collection, db} from '../../utils/firebase';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import {getBirthdateToHoroscopeDate} from '../../utils/helpers';
 
+moment.locale('tr');
 const UserInfo = () => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -34,8 +36,6 @@ const UserInfo = () => {
   const [dateTime, setDateTime] = useState(new Date());
   const [openTime, setOpenTime] = useState(false);
   const [progressBar, setProgressBar] = useState(false);
-  const DatePickerRef = useRef(null);
-  moment.locale('tr');
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedCity, setSelectedCity] = useState('');
@@ -60,6 +60,9 @@ const UserInfo = () => {
     }));
   };
 
+  // console.log('datetime: ', moment(date).dayOfYear(), moment(date).month());
+  console.log('getbirtdate: ', moment(date).year());
+
   const navigation = useNavigation();
   const addUserInfo = async () => {
     try {
@@ -71,8 +74,12 @@ const UserInfo = () => {
         fullName: formData.fullName,
         phone: formData.phone,
         country: selectedCity,
-        birthdate: moment(date).format('LL'),
+        birthdate: moment(date).year(),
         birthtime: dateTime.toLocaleTimeString('tr-TR'),
+        horoscope: getBirthdateToHoroscopeDate(
+          moment(date).dayOfYear(),
+          moment(date).month(),
+        ),
         email: user.email,
       }).then(() => {
         Alert.alert('Tebrikler', 'Kaydınız tamamlanmıştır');
@@ -152,7 +159,7 @@ const UserInfo = () => {
                   color: 'white',
                   fontSize: 16,
                 }}>
-                {moment(date).format('LL')}
+                {date.toLocaleDateString('tr-TR')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -212,7 +219,8 @@ const UserInfo = () => {
 
           <DatePicker
             modal
-            mode="time"
+            // mode="time"
+            mode="date"
             open={openTime}
             date={dateTime}
             androidVariant="iosClone"
@@ -224,6 +232,7 @@ const UserInfo = () => {
               setOpenTime(false);
             }}
             locale="tr"
+            format="DD/MM/YYY"
           />
 
           <CityModal

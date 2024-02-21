@@ -13,8 +13,10 @@ import CustomHeader from '../../components/custom-header';
 import styles from './styles';
 import {useSelector} from 'react-redux';
 import {getUserInfoByEmail} from '../../utils/utils';
-
+import moment from 'moment';
 const Profile = () => {
+  moment.locale('tr');
+
   const {user, userLoading} = useSelector(state => state.user);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -75,10 +77,10 @@ const Profile = () => {
             }}>
             <View style={styles.centerContainer}>
               <View style={styles.centerView}>
-                <Text>{userInfo?.birthdate}</Text>
+                <Text> {new Date().getFullYear() - userInfo.birthdate}</Text>
               </View>
               <View style={styles.centerView}>
-                <Text>Burç</Text>
+                <Text>{userInfo?.horoscope}</Text>
               </View>
             </View>
             <View style={styles.centerContainer}>
