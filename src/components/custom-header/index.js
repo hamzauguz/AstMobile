@@ -1,7 +1,13 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const CustomHeader = ({iconLeft, iconTitle, containerStyle, iconRight}) => {
+const CustomHeader = ({
+  iconLeft,
+  iconTitle,
+  titleStyle,
+  containerStyle,
+  iconRight,
+}) => {
   return (
     <View
       style={[
@@ -23,12 +29,15 @@ const CustomHeader = ({iconLeft, iconTitle, containerStyle, iconRight}) => {
         }}>
         <View>{iconLeft}</View>
         <Text
-          style={{
-            color: 'white',
-            fontSize: 24,
-            fontWeight: 'bold',
-            left: 10,
-          }}>
+          style={[
+            titleStyle,
+            {
+              color: 'white',
+              fontSize: 24,
+              fontWeight: 'bold',
+              left: 10,
+            },
+          ]}>
           {iconTitle}
         </Text>
       </View>

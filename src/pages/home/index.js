@@ -15,13 +15,14 @@ import {
 } from '../../utils/utils';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-// import {horoscopes} from '../../utils/horoscopes';
 import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
+import {windowHeight, windowWidth} from '../../utils/helpers';
 
 const Home = () => {
   const navigation = useNavigation();
   const {user, userLoading} = useSelector(state => state.user);
+  console.log('user: ', user);
   const carouselRef = useRef(null);
   const [activeItem, setActiveItem] = useState();
   const [horoscopesData, setHoroscopesData] = useState(null);
@@ -44,7 +45,7 @@ const Home = () => {
     offset: ITEM_WIDTH * index,
     index,
   });
-  console.log('carousel ref2: ', carouselRef.current);
+
   return (
     <Container>
       <SafeAreaView style={styles.safeAreaContainer}>
@@ -80,17 +81,21 @@ const Home = () => {
                       }
                     }}
                     style={styles.toucableCardStyle}>
-                    <Image
-                      style={styles.toucableCardImage}
-                      source={{uri: item.image}}
-                    />
+                    <View style={styles.toucableCardImage}>
+                      <Image
+                        width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
+                        height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
+                        source={{uri: item.image}}
+                        resizeMode="contain"
+                      />
+                    </View>
                     <View style={styles.toucableTextContainer}>
                       <Text style={styles.toucableText}>{item.horoscope}</Text>
                       <Text style={styles.toucableTextDate}>{item.date}</Text>
                     </View>
                   </TouchableOpacity>
                 )}
-                sliderWidth={500}
+                sliderWidth={windowWidth}
               />
             )}
           </View>

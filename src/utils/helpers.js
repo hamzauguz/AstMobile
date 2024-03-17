@@ -1,3 +1,5 @@
+import {Dimensions} from 'react-native';
+
 const getBirthdateToHoroscopeDate = (day, month) => {
   if ((month == 1 && day >= 21) || (month == 2 && day <= 19)) {
     return 'Kova';
@@ -26,4 +28,7 @@ const getBirthdateToHoroscopeDate = (day, month) => {
   }
 };
 
-export {getBirthdateToHoroscopeDate};
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+export {getBirthdateToHoroscopeDate, windowHeight, windowWidth};

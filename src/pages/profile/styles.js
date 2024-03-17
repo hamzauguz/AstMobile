@@ -1,4 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
+import {windowHeight} from '../../utils/helpers';
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#BFBAFC',
     position: 'absolute',
     width: '100%',
-    height: 200,
+    height: Platform.OS === 'ios' ? windowHeight / 3.35 : 200,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     opacity: 0.9,

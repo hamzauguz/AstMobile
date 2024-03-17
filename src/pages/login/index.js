@@ -95,7 +95,7 @@ const Login = () => {
               }}>
               <View style={{width: '100%', alignItems: 'center'}}>
                 <Image
-                  source={require('../../../assets/astrology.png')}
+                  source={require('../../../assets/astrology3.png')}
                   style={{height: 200, width: 200}}
                 />
 

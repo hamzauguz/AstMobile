@@ -177,7 +177,7 @@ export const getUserInfoByEmail = async email => {
 
     console.log('Kullanıcı bilgileri:', userInfo);
 
-    return userInfo;
+    return {...userInfo, collectionId: querySnapshot.docs[0].id};
   } catch (error) {
     return null;
   }

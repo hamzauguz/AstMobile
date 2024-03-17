@@ -28,7 +28,7 @@ const Welcome = () => {
             justifyContent: 'flex-end',
           }}>
           <Image
-            source={require('../../../assets/astrology.png')}
+            source={require('../../../assets/astrology3.png')}
             style={{height: 300, width: 300}}
           />
         </View>
