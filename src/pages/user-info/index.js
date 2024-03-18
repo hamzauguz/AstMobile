@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {SignOut} from '../../utils/utils';
 import Container from '../../components/container';
 import CustomHeader from '../../components/custom-header';
@@ -21,7 +21,6 @@ import moment from 'moment';
 import CityModal from '../../components/city-modal';
 import LinearGradient from 'react-native-linear-gradient';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-// import 'moment/locale/tr';
 
 import {addDoc, collection, db} from '../../utils/firebase';
 import {useNavigation} from '@react-navigation/native';
@@ -33,28 +32,31 @@ const UserInfo = () => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
-  const [dateTime, setDateTime] = useState(new Date());
-  const [openTime, setOpenTime] = useState(false);
+  const [birthTime, setBirthTime] = useState(new Date());
+  const [openBirthTimePicker, setOpenBirthTimePicker] = useState(false);
   const [progressBar, setProgressBar] = useState(false);
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedCity, setSelectedCity] = useState('');
   const {user} = useSelector(state => state.user);
+  const [userForm, setUserForm] = useState({
+    fullName: '',
+    phone: '',
+    city: '',
+  });
 
   const handleCitySelect = city => {
-    setSelectedCity(city);
+    setUserForm(prevState => ({
+      ...prevState,
+      city,
+    }));
   };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-  });
 
   const handleInputChange = (field, value) => {
-    setFormData(prevState => ({
+    setUserForm(prevState => ({
       ...prevState,
       [field]: value,
     }));
@@ -65,16 +67,20 @@ const UserInfo = () => {
   const navigation = useNavigation();
   const addUserInfo = async () => {
     try {
-      if (formData.fullName == '' || formData.phone == '' || selectedCity == '')
+      if (
+        userForm.fullName == '' ||
+        userForm.phone == '' ||
+        userForm.city == ''
+      )
         return Alert.alert('Bilgilendirme', 'Lütfen tüm alanları doldurunuz.');
       setProgressBar(true);
 
       await addDoc(collection(db, 'UserInfo'), {
-        fullName: formData.fullName,
-        phone: formData.phone,
-        country: selectedCity,
+        fullName: userForm.fullName,
+        phone: userForm.phone,
+        country: userForm.city,
         birthdate: moment(date).year(),
-        birthtime: dateTime.toLocaleTimeString('tr-TR'),
+        birthtime: birthTime.toLocaleTimeString('tr-TR'),
         horoscope: getBirthdateToHoroscopeDate(
           moment(date).dayOfYear(),
           moment(date).month(),
@@ -117,7 +123,7 @@ const UserInfo = () => {
           <InputWithLabel
             label={'Ad & Soyad'}
             placeholder={'Adınızı ve soyadınızı giriniz.'}
-            value={formData.fullName}
+            value={userForm.fullName}
             onChangeText={value => handleInputChange('fullName', value)}
           />
           <View style={styles.itemwithLabel}>
@@ -125,14 +131,7 @@ const UserInfo = () => {
             <MaskInput
               style={[styles.customButton, {fontSize: 16}]}
               placeholderTextColor={'white'}
-              value={formData.phone}
-              // onChangeText={(masked, unmasked) => {
-              //   setPhone(masked); // you can use the unmasked value as well
-
-              //   // assuming you typed "9" all the way:
-              //   console.log(masked); // (99) 99999-9999
-              //   console.log(unmasked); // 99999999999
-              // }}
+              value={userForm.phone}
               onChangeText={(masked, unmasked) =>
                 handleInputChange('phone', unmasked)
               }
@@ -143,7 +142,7 @@ const UserInfo = () => {
             <Text style={styles.labelStyle}>Şehir</Text>
             <TouchableOpacity onPress={toggleModal} style={styles.customButton}>
               <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
-                {selectedCity === '' ? 'Şehir Seçiniz.' : selectedCity}
+                {userForm.city === '' ? 'Şehir Seçiniz.' : userForm.city}
               </Text>
             </TouchableOpacity>
           </View>
@@ -181,13 +180,13 @@ const UserInfo = () => {
             <Text style={styles.labelStyle}>Doğum Saati</Text>
             <TouchableOpacity
               style={styles.customButton}
-              onPress={() => setOpenTime(true)}>
+              onPress={() => setOpenBirthTimePicker(true)}>
               <Text
                 style={{
                   color: 'white',
                   fontSize: 16,
                 }}>
-                {dateTime.toLocaleTimeString('tr-TR')}
+                {birthTime.toLocaleTimeString('tr-TR')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -204,7 +203,6 @@ const UserInfo = () => {
             }}>
             <TouchableOpacity
               onPress={() => addUserInfo()}
-              //  onPress={handleRegister}
               style={styles.button}>
               {progressBar ? (
                 <ActivityIndicator size={'large'} color={'white'} />
@@ -218,17 +216,16 @@ const UserInfo = () => {
 
           <DatePicker
             modal
-            // mode="time"
             mode="date"
-            open={openTime}
-            date={dateTime}
+            open={openBirthTimePicker}
+            date={birthTime}
             androidVariant="iosClone"
             onConfirm={date => {
-              setOpenTime(false);
-              setDateTime(date);
+              setOpenBirthTimePicker(false);
+              setBirthTime(date);
             }}
             onCancel={() => {
-              setOpenTime(false);
+              setOpenBirthTimePicker(false);
             }}
             locale="tr"
             format="DD/MM/YYY"

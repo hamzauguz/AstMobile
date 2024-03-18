@@ -31,4 +31,18 @@ const getBirthdateToHoroscopeDate = (day, month) => {
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export {getBirthdateToHoroscopeDate, windowHeight, windowWidth};
+const convertToISOTime = timeString => {
+  const now = new Date();
+  const [hour, minute, second] = timeString.split(':').map(Number);
+  now.setHours(hour);
+  now.setMinutes(minute);
+  now.setSeconds(second);
+  return now;
+};
+
+export {
+  getBirthdateToHoroscopeDate,
+  windowHeight,
+  windowWidth,
+  convertToISOTime,
+};
