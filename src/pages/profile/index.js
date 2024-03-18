@@ -60,8 +60,8 @@ const Profile = () => {
               ]}
               actions={[
                 EditMyInfoNavigate,
-                EditMyPasswordNavigate,
                 EditMyPhotoNavigate,
+                EditMyPasswordNavigate,
                 deletePost,
               ]}
             />
