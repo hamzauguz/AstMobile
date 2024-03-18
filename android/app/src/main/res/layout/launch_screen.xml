@@ -5,9 +5,8 @@
     
     >
 <ImageView
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:src="@drawable/screen"
+  
+    android:src="@drawable/rn_edit_text_material"
     
     
      android:scaleType="centerCrop"

@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   Image,
-  Platform,
   SafeAreaView,
   Text,
   TouchableOpacity,
@@ -9,19 +8,26 @@ import {
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/container';
-import {SignOut, getUserInfoByEmail} from '../../utils/utils';
+import {
+  SignOut,
+  getHoroscopesCollection,
+  getUserInfoByEmail,
+} from '../../utils/utils';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {horoscopes} from '../../utils/horoscopes';
 import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
+import {windowHeight, windowWidth} from '../../utils/helpers';
 
 const Home = () => {
   const navigation = useNavigation();
   const {user, userLoading} = useSelector(state => state.user);
+  console.log('user: ', user);
   const carouselRef = useRef(null);
   const [activeItem, setActiveItem] = useState();
+  const [horoscopesData, setHoroscopesData] = useState(null);
   useEffect(() => {
+    getHoroscopesCollection().then(res => setHoroscopesData(res));
     const userInfoControl = async () => {
       await getUserInfoByEmail(user.email).then(res => {
         if (res === null) {
@@ -39,7 +45,7 @@ const Home = () => {
     offset: ITEM_WIDTH * index,
     index,
   });
-  console.log('carousel ref2: ', carouselRef.current);
+
   return (
     <Container>
       <SafeAreaView style={styles.safeAreaContainer}>
@@ -54,36 +60,44 @@ const Home = () => {
                 <Text style={{backgroundColor: 'red'}}>UserInfo</Text>
               </TouchableOpacity>
             </View>
-            <Carousel
-              disableIntervalMomentum={true}
-              ref={ref => (carouselRef.current = ref)}
-              loop={true}
-              data={horoscopes}
-              onSnapToItem={index => setActiveItem(index)}
-              itemWidth={ITEM_WIDTH}
-              getItemLayout={getCarouselItemLayout}
-              containerCustomStyle={styles.containerCustomStyle}
-              renderItem={({item, index}) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    carouselRef.current.snapToItem(index - 3);
-                    if (activeItem + 3 === index) {
-                      navigation.navigate('HoroscopeDetail');
-                    }
-                  }}
-                  style={styles.toucableCardStyle}>
-                  <Image
-                    style={styles.toucableCardImage}
-                    source={{uri: item.image}}
-                  />
-                  <View style={styles.toucableTextContainer}>
-                    <Text style={styles.toucableText}>{item.horoscope}</Text>
-                    <Text style={styles.toucableTextDate}>{item.date}</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-              sliderWidth={500}
-            />
+            {horoscopesData === null ? (
+              <ActivityIndicator size={'large'} color={'white'} />
+            ) : (
+              <Carousel
+                disableIntervalMomentum={true}
+                ref={ref => (carouselRef.current = ref)}
+                loop={true}
+                data={horoscopesData}
+                onSnapToItem={index => setActiveItem(index)}
+                itemWidth={ITEM_WIDTH}
+                getItemLayout={getCarouselItemLayout}
+                containerCustomStyle={styles.containerCustomStyle}
+                renderItem={({item, index}) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      carouselRef.current.snapToItem(index - 3);
+                      if (activeItem + 3 === index) {
+                        navigation.navigate('HoroscopeDetail');
+                      }
+                    }}
+                    style={styles.toucableCardStyle}>
+                    <View style={styles.toucableCardImage}>
+                      <Image
+                        width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
+                        height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
+                        source={{uri: item.image}}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View style={styles.toucableTextContainer}>
+                      <Text style={styles.toucableText}>{item.horoscope}</Text>
+                      <Text style={styles.toucableTextDate}>{item.date}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+                sliderWidth={windowWidth}
+              />
+            )}
           </View>
         )}
       </SafeAreaView>

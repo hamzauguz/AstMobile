@@ -1,14 +1,13 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
 
-const CustomHeader = ({iconLeft, iconTitle, containerStyle}) => {
+const CustomHeader = ({
+  iconLeft,
+  iconTitle,
+  titleStyle,
+  containerStyle,
+  iconRight,
+}) => {
   return (
     <View
       style={[
@@ -22,6 +21,7 @@ const CustomHeader = ({iconLeft, iconTitle, containerStyle}) => {
       ]}>
       <View
         style={{
+          flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-around',
@@ -29,17 +29,23 @@ const CustomHeader = ({iconLeft, iconTitle, containerStyle}) => {
         }}>
         <View>{iconLeft}</View>
         <Text
-          style={{
-            color: 'white',
-            fontSize: 24,
-            fontWeight: 'bold',
-
-            left: 10,
-          }}>
+          style={[
+            titleStyle,
+            {
+              color: 'white',
+              fontSize: 24,
+              fontWeight: 'bold',
+              left: 10,
+            },
+          ]}>
           {iconTitle}
         </Text>
       </View>
-      <View style={{width: '50%'}}></View>
+      <View style={{flex: 1, alignItems: 'flex-end'}}>
+        <Text style={{color: 'white', textAlign: 'right', right: 30}}>
+          {iconRight}
+        </Text>
+      </View>
     </View>
   );
 };

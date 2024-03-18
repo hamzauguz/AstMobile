@@ -2,6 +2,9 @@ import auth from '@react-native-firebase/auth';
 import {Alert, Platform} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import firestore from '@react-native-firebase/firestore';
+import {collection, onSnapshot, query} from 'firebase/firestore';
+import {db} from './firebase';
+import seedrandom from 'seedrandom';
 
 GoogleSignin.configure({
   webClientId: Platform.select({
@@ -175,8 +178,66 @@ export const getUserInfoByEmail = async email => {
 
     console.log('Kullanıcı bilgileri:', userInfo);
 
-    return userInfo;
+    return {...userInfo, collectionId: querySnapshot.docs[0].id};
   } catch (error) {
+    return null;
+  }
+};
+
+export const getHoroscopesCollection = async () => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Horoscopes')
+      .orderBy('id', 'asc')
+      .get();
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    console.log(objectsArray);
+    return objectsArray;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getHoroscopesInfoCollection = async () => {
+  try {
+    const querySnapshot = await firestore().collection('HoroscopesInfo').get();
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+
+    // Rastgele bir öğe seçmek için
+    const seed = Math.random().toString(); // Her çağrıda farklı bir tohum oluşturun
+    const rng = seedrandom(seed);
+    const randomIndex = Math.floor(rng() * objectsArray.length);
+    const randomItem = objectsArray[randomIndex];
+
+    console.log(randomItem);
+    return randomItem;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getCitiesCollection = async () => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Cities')
+      .orderBy('cityName', 'asc')
+      .get();
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    console.log(objectsArray);
+    return objectsArray;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
     return null;
   }
 };

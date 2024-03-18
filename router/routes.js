@@ -19,6 +19,9 @@ import UserInfo from '../src/pages/user-info';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUser} from '../src/store/features/user-slice';
 import HoroscopeDetail from '../src/pages/horoscope-detail';
+import EditMyInfo from '../src/pages/edit-myInfo';
+import EditMyPassword from '../src/pages/edit-myPassword';
+import EditMyPhoto from '../src/pages/edit-myPhoto';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -106,6 +109,9 @@ const Routes = () => {
         {user && user.emailVerified ? (
           <>
             <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen name="EditMyInfo" component={EditMyInfo} />
+            <Stack.Screen name="EditMyPassword" component={EditMyPassword} />
+            <Stack.Screen name="EditMyPhoto" component={EditMyPhoto} />
             <Stack.Screen name="UserInfo" component={UserInfo} />
             <Stack.Screen name="HoroscopeDetail" component={HoroscopeDetail} />
           </>
