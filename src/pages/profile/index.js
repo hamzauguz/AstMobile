@@ -13,7 +13,10 @@ import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import CustomHeader from '../../components/custom-header';
 import styles from './styles';
 import {useSelector} from 'react-redux';
-import {getUserInfoByEmail} from '../../utils/utils';
+import {
+  getHoroscopesInfoCollection,
+  getUserInfoByEmail,
+} from '../../utils/utils';
 import moment from 'moment';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import OptionsMenu from 'react-native-option-menu';
@@ -24,22 +27,22 @@ const Profile = () => {
   const navigation = useNavigation();
   const {user, userLoading} = useSelector(state => state.user);
   const [userInfo, setUserInfo] = useState(null);
+  const [horoscopeInfo, setHoroscopeInfo] = useState('');
 
   useEffect(() => {
     const userInfoControl = async () => {
       await getUserInfoByEmail(user.email).then(res => {
         setUserInfo(res);
       });
+      await getHoroscopesInfoCollection().then(res => {
+        setHoroscopeInfo(res.label);
+      });
     };
     userInfoControl();
   }, [user]);
 
-  console.log('windowHeight: ', windowHeight);
-  console.log('windowWidth: ', windowWidth);
   const EditMyInfoNavigate = () => navigation.navigate('EditMyInfo');
   const EditMyPasswordNavigate = () => navigation.navigate('EditMyPassword');
-  const EditMyPhotoNavigate = () => navigation.navigate('EditMyPhoto');
-  const deletePost = () => alert('delete post');
 
   return (
     <Container>
@@ -52,18 +55,8 @@ const Profile = () => {
                 <AntDesignIcon name="setting" size={30} color="black" />
               }
               // destructiveIndex={3}
-              options={[
-                'Bilgilerimi Düzenle',
-                'Profil Fotoğrafımı Değiştir',
-                'Şifremi Değiştir',
-                'Cancel',
-              ]}
-              actions={[
-                EditMyInfoNavigate,
-                EditMyPhotoNavigate,
-                EditMyPasswordNavigate,
-                deletePost,
-              ]}
+              options={['Bilgilerimi Düzenle', 'Şifremi Değiştir', 'Cancel']}
+              actions={[EditMyInfoNavigate, EditMyPasswordNavigate]}
             />
           }
         />
@@ -90,7 +83,9 @@ const Profile = () => {
                 borderColor: 'purple',
                 borderWidth: 5,
               }}
-              src={user.photoURL}
+              // src={user.photoURL}
+              source={require('../../../assets/misis-lady.jpg')}
+              resizeMode="cover"
             />
           </View>
           <View
@@ -101,25 +96,26 @@ const Profile = () => {
               flexDirection: 'column',
               top: windowHeight / 13.34,
             }}>
-            <TouchableOpacity
-              // onPress={selectImage}
-              style={{backgroundColor: 'red'}}>
-              <Text>Profil Fotoğrafı Yükle</Text>
-            </TouchableOpacity>
             <View style={styles.centerContainer}>
               <View style={styles.centerView}>
-                <Text>{new Date().getFullYear() - userInfo?.birthdate}</Text>
+                <Text style={styles.dorianFontStyle}>
+                  {new Date().getFullYear() - userInfo?.birthdate}
+                </Text>
               </View>
               <View style={styles.centerView}>
-                <Text>{userInfo?.horoscope}</Text>
+                <Text style={styles.dorianFontStyle}>
+                  {userInfo?.horoscope}
+                </Text>
               </View>
             </View>
             <View style={styles.centerContainer}>
               <View style={styles.centerView}>
-                <Text>{userInfo?.country}</Text>
+                <Text style={styles.dorianFontStyle}>{userInfo?.country}</Text>
               </View>
               <View style={styles.centerView}>
-                <Text>{userInfo?.birthtime}</Text>
+                <Text style={styles.dorianFontStyle}>
+                  {userInfo?.birthtime}
+                </Text>
               </View>
             </View>
           </View>
@@ -135,8 +131,9 @@ const Profile = () => {
               marginTop: 200,
               borderRadius: 10,
               bottom: 20,
+              padding: 10,
             }}>
-            <Text>Burcuna göre günlük bilgiler</Text>
+            <Text style={styles.dorianFontStyle}>{horoscopeInfo}</Text>
           </View>
         </View>
       </SafeAreaView>
