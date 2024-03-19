@@ -77,7 +77,7 @@ const Home = () => {
                     onPress={() => {
                       carouselRef.current.snapToItem(index - 3);
                       if (activeItem + 3 === index) {
-                        navigation.navigate('HoroscopeDetail');
+                        navigation.navigate('HoroscopeDetail', {data: item});
                       }
                     }}
                     style={styles.toucableCardStyle}>
