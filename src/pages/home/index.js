@@ -24,7 +24,7 @@ const Home = () => {
   const {user, userLoading} = useSelector(state => state.user);
   console.log('user: ', user);
   const carouselRef = useRef(null);
-  const [activeItem, setActiveItem] = useState();
+  const [activeItem, setActiveItem] = useState(0);
   const [horoscopesData, setHoroscopesData] = useState(null);
   useEffect(() => {
     getHoroscopesCollection().then(res => setHoroscopesData(res));
