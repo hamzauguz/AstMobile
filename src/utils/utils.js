@@ -210,8 +210,7 @@ export const getHoroscopesInfoCollection = async () => {
       objectsArray.push(user.data());
     });
 
-    // Rastgele bir öğe seçmek için
-    const seed = Math.random().toString(); // Her çağrıda farklı bir tohum oluşturun
+    const seed = Math.random().toString();
     const rng = seedrandom(seed);
     const randomIndex = Math.floor(rng() * objectsArray.length);
     const randomItem = objectsArray[randomIndex];
@@ -230,6 +229,21 @@ export const getCitiesCollection = async () => {
       .collection('Cities')
       .orderBy('cityName', 'asc')
       .get();
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    console.log(objectsArray);
+    return objectsArray;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getImportantDates = async () => {
+  try {
+    const querySnapshot = await firestore().collection('ImportantDates').get();
     const objectsArray = [];
     querySnapshot.forEach(user => {
       objectsArray.push(user.data());
