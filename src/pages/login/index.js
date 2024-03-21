@@ -99,13 +99,7 @@ const Login = () => {
                   style={{height: 200, width: 200}}
                 />
 
-                <LoginWithGoogleButton
-                  onPress={() =>
-                    SignInWithGoogle().then(() =>
-                      Alert.alert('Info', 'Signed In'),
-                    )
-                  }
-                />
+                <LoginWithGoogleButton onPress={SignInWithGoogle} />
               </View>
               <View style={{width: '100%'}}>
                 <InputWithLabel

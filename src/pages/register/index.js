@@ -113,13 +113,7 @@ const Register = () => {
                   style={{height: 100, width: 100}}
                 />
 
-                <LoginWithGoogleButton
-                  onPress={() =>
-                    SignInWithGoogle().then(() =>
-                      Alert.alert('Info', 'Signed In'),
-                    )
-                  }
-                />
+                <LoginWithGoogleButton onPress={SignInWithGoogle} />
               </View>
               <View style={{width: '100%'}}>
                 <InputWithLabel
