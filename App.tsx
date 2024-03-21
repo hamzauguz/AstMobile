@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import store from './src/store';
 import 'react-native-gesture-handler';
 import SplashScreen from 'react-native-splash-screen';
+import './ignoreWarnings';
 
 const App = () => {
   useEffect(() => {
