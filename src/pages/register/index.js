@@ -27,6 +27,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import LoginWithGoogleButton from '../../components/login-with-google-button';
+import styles from './styles';
 
 const Register = () => {
   const navigation = useNavigation();
@@ -70,11 +71,7 @@ const Register = () => {
 
   return (
     <Container>
-      <SafeAreaView
-        style={{
-          alignItems: 'center',
-          flexGrow: 1,
-        }}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         <CustomHeader
           containerStyle={styles.customHeaderStyle}
           iconLeft={
@@ -87,35 +84,23 @@ const Register = () => {
         />
         <KeyboardAwareScrollView
           enableOnAndroid={true}
-          contentContainerStyle={{flexGrow: 1}}
+          contentContainerStyle={styles.keyboardContentContainer}
           extraHeight={130}
           scrollEnabled
           extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
           resetScrollToCoords={{x: 0, y: 0}}
-          style={{width: '100%', flexGrow: 1}}>
-          <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              flex: 1,
-              flexDirection: 'column',
-            }}>
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flex: 0.75,
-              }}>
-              <View style={{width: '100%', alignItems: 'center'}}>
+          style={styles.keyboardContainer}>
+          <View style={styles.keyboardViewContainer}>
+            <View style={styles.formView}>
+              <View style={styles.topContainer}>
                 <Image
                   source={require('../../../assets/astrology.png')}
-                  style={{height: 100, width: 100}}
+                  style={styles.appIcon}
                 />
 
                 <LoginWithGoogleButton onPress={SignInWithGoogle} />
               </View>
-              <View style={{width: '100%'}}>
+              <View style={styles.inputWithLabelContainer}>
                 <InputWithLabel
                   containerStyle={styles.customInputStyle}
                   label={'Email'}
@@ -164,18 +149,12 @@ const Register = () => {
               colors={['#b717d2', '#ce25ab']}
               start={{x: 1, y: 0}}
               end={{x: 0, y: 0}}
-              style={{
-                borderRadius: 10,
-                width: '90%',
-                alignItems: 'center',
-              }}>
+              style={styles.linearGradientContainer}>
               <TouchableOpacity onPress={handleRegister} style={styles.button}>
                 {showProgressBar ? (
                   <ActivityIndicator size={'large'} color={'white'} />
                 ) : (
-                  <Text style={{color: 'white', fontWeight: '600'}}>
-                    Kayıt Ol
-                  </Text>
+                  <Text style={styles.registerButonText}>Kayıt Ol</Text>
                 )}
               </TouchableOpacity>
             </LinearGradient>
@@ -187,21 +166,3 @@ const Register = () => {
 };
 
 export default Register;
-
-const styles = StyleSheet.create({
-  customInputStyle: {
-    marginTop: 10,
-  },
-  button: {
-    width: '90%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-  },
-
-  customHeaderStyle: {
-    top: Platform.OS === 'ios' ? 0 : 50,
-    zIndex: 999,
-  },
-});

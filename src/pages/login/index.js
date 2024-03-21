@@ -23,6 +23,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {SignIn, SignInWithGoogle} from '../../utils/utils';
 import {useHeaderHeight} from '@react-navigation/elements';
 import LoginWithGoogleButton from '../../components/login-with-google-button';
+import styles from './styles';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -53,11 +54,7 @@ const Login = () => {
 
   return (
     <Container>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          alignItems: 'center',
-        }}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         <CustomHeader
           containerStyle={styles.headerStyle}
           iconLeft={
@@ -71,37 +68,22 @@ const Login = () => {
 
         <KeyboardAwareScrollView
           enableOnAndroid={true}
-          contentContainerStyle={{flexGrow: 1}}
+          contentContainerStyle={styles.keyboardContentContainer}
           extraHeight={130}
           scrollEnabled
           extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
           resetScrollToCoords={{x: 0, y: 0}}
-          style={{width: '100%', flexGrow: 1}}>
-          <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              flex: 1,
-              flexDirection: 'column',
-              flexGrow: 1,
-            }}>
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-
-                justifyContent: 'space-around',
-                flex: 0.75,
-              }}>
-              <View style={{width: '100%', alignItems: 'center'}}>
+          style={styles.keyboardContainer}>
+          <View style={styles.keyboardViewContainer}>
+            <View style={styles.formView}>
+              <View style={styles.topContainer}>
                 <Image
                   source={require('../../../assets/astrology3.png')}
-                  style={{height: 200, width: 200}}
+                  style={styles.appIcon}
                 />
-
                 <LoginWithGoogleButton onPress={SignInWithGoogle} />
               </View>
-              <View style={{width: '100%'}}>
+              <View style={styles.inputWithLabelContainer}>
                 <InputWithLabel
                   containerStyle={styles.customInputStyle}
                   label={'Email'}
@@ -128,32 +110,13 @@ const Login = () => {
                   secureTextEntry={showPassword}
                 />
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <Text
-                  style={{
-                    color: 'white',
-
-                    fontWeight: '500',
-                    fontSize: 15,
-                  }}>
-                  Hesabın yokmu?
-                </Text>
+              <View style={styles.registerContainer}>
+                <Text style={styles.haventAccountText}>Hesabın yokmu?</Text>
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Register')}
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    left: 5,
-                  }}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontSize: 16,
-                      fontWeight: 'bold',
-                    }}>
-                    Hemen kaydol
-                  </Text>
+                  style={styles.nowRegisterStyle}>
+                  <Text style={styles.nowRegisterText}>Hemen kaydol</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -161,21 +124,14 @@ const Login = () => {
               colors={['#b717d2', '#ce25ab']}
               start={{x: 1, y: 0}}
               end={{x: 0, y: 0}}
-              style={{
-                borderRadius: 10,
-                width: '90%',
-                alignItems: 'center',
-              }}>
+              style={styles.linearGradientContainer}>
               <TouchableOpacity
                 onPress={() => handleDashboardNavigate()}
                 style={styles.button}>
                 {showProgressBar ? (
                   <ActivityIndicator size={'large'} color={'white'} />
                 ) : (
-                  <Text
-                    style={{color: 'white', fontWeight: '600', fontSize: 18}}>
-                    Giriş Yap
-                  </Text>
+                  <Text style={styles.loginButonText}>Giriş Yap</Text>
                 )}
               </TouchableOpacity>
             </LinearGradient>
@@ -187,20 +143,3 @@ const Login = () => {
 };
 
 export default Login;
-
-const styles = StyleSheet.create({
-  customInputStyle: {
-    marginTop: 20,
-  },
-  button: {
-    width: '90%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-  },
-
-  headerStyle: {
-    marginTop: Platform.OS === 'ios' ? 0 : 50,
-  },
-});
