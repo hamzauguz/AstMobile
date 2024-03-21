@@ -3475,6 +3475,11 @@ csstype@^3.0.2:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.2.tgz"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
+date-fns@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.6.0.tgz#f20ca4fe94f8b754951b24240676e8618c0206bf"
+  integrity sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==
+
 dayjs@^1.8.15:
   version "1.11.8"
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.8.tgz"
@@ -4041,7 +4046,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-fbjs@^0.8.4:
+fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.18"
   resolved "https://registry.npmjs.org/fbjs/-/fbjs-0.8.18.tgz"
   integrity sha512-EQaWFK+fEPSoibjNy8IxUtaFOMXcWsY0JaVrQoZR9zC8N2Ygf9iDITPWjUTVIax95b6I742JFLqASHfsag/vKA==
@@ -5459,7 +5464,7 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.npmjs.org/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz"
   integrity sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==
 
-lodash.debounce@^4.0.8:
+lodash.debounce@4.0.8, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
@@ -6250,6 +6255,11 @@ node-fetch@^2.2.0, node-fetch@^2.6.0:
   dependencies:
     whatwg-url "^5.0.0"
 
+node-git-hooks@^1.0.1:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/node-git-hooks/-/node-git-hooks-1.0.7.tgz#8a788baec6e0bdaaac7096a5599400fcabe769e7"
+  integrity sha512-IgIbLXsONu4sfHVaaTxQvVbNfo36ZxqCbzmataI/4hbwqmX2Eth4Vdxw9NvAAeroVuxzzmHqjVlV9TeHb3U2yw==
+
 node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.npmjs.org/node-int64/-/node-int64-0.4.0.tgz"
@@ -6662,7 +6672,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@*, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@*, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -6670,6 +6680,13 @@ prop-types@*, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-t
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
     react-is "^16.13.1"
+
+prop-types@15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  integrity sha512-QiDx7s0lWoAVxmEmOYnn3rIZGduup2PZgj3rta5O5y0NfPKu3ApWi+GdMfTto7PmO/5+p4yamSLMZkj0jaTL4A==
+  dependencies:
+    fbjs "^0.8.9"
 
 protobufjs@^6.11.3:
   version "6.11.3"
@@ -6790,6 +6807,15 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-native-calendar-picker@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-calendar-picker/-/react-native-calendar-picker-8.0.2.tgz#b8572a1b67ee0e4f0bd150892805e1366afbdaeb"
+  integrity sha512-HyQURg7dOcPcnDyFVinspKDotxbhr3dRoN6/bfXWtcI6S9e1pVft9Mcj1F9cbtosGPBOYcGczDgpDXSei3Eqpw==
+  dependencies:
+    node-git-hooks "^1.0.1"
+    prop-types "^15.6.0"
+    recyclerlistview "^3.0.0"
 
 react-native-collapsible-tab-view@^6.2.1:
   version "6.2.1"
@@ -7034,6 +7060,15 @@ recast@^0.21.0:
     esprima "~4.0.0"
     source-map "~0.6.1"
     tslib "^2.0.1"
+
+recyclerlistview@^3.0.0:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/recyclerlistview/-/recyclerlistview-3.0.5.tgz#50bf5bcaa401d56bb6bb264354083f4d424408eb"
+  integrity sha512-JVHz13u520faEsbVqFrJOMuJjc4mJlOXODe5QdqAJHdl5/IpyYeo83uiHrpzxyLb8QtJ0889JMlDik+Z1Ed0QQ==
+  dependencies:
+    lodash.debounce "4.0.8"
+    prop-types "15.5.8"
+    ts-object-utils "0.0.5"
 
 redux-devtools-core@^0.2.1:
   version "0.2.1"
@@ -7792,6 +7827,11 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz"
   integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
+
+ts-object-utils@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ts-object-utils/-/ts-object-utils-0.0.5.tgz#95361cdecd7e52167cfc5e634c76345e90a26077"
+  integrity sha512-iV0GvHqOmilbIKJsfyfJY9/dNHCs969z3so90dQWsO1eMMozvTpnB1MEaUbb3FYtZTGjv5sIy/xmslEz0Rg2TA==
 
 tslib@^1.8.1:
   version "1.14.1"
