@@ -12,6 +12,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
 import {getImportantDates} from '../../utils/utils';
+import CalendarSkeneton from '../../components/skeneton-cards/calendar-skeneton';
 
 const AstrologyDate = () => {
   const [selectedDate, setSelectedDate] = useState(moment());
@@ -78,35 +79,40 @@ const AstrologyDate = () => {
     <Container>
       <SafeAreaView style={styles.container}>
         <View style={{backgroundColor: '#BFBAFC'}}>
-          <CalendarPicker
-            startFromMonday={true}
-            selectedDayTextColor={'white'}
-            selectedDayStyle={{backgroundColor: 'purple'}}
-            todayBackgroundColor={'black'}
-            selectedDayTextStyle={{color: '#fff'}}
-            onDateChange={onDateChange}
-            customDatesStyles={customDatesStyles}
-            dayShape={{borderRadius: 0}}
-            selectMonthTitle="Aylar "
-            selectYearTitle="Yıl"
-            weekdays={['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']}
-            months={[
-              'Ocak',
-              'Şubat',
-              'Mart',
-              'Nisan',
-              'Mayıs',
-              'Haziran',
-              'Temmuz',
-              'Ağustos',
-              'Eylül',
-              'Ekim',
-              'Kasım',
-              'Aralık',
-            ]}
-            previousTitle="Önceki"
-            nextTitle="Sonraki"
-          />
+          {importantDates.length > 0 ? (
+            <CalendarPicker
+              startFromMonday={true}
+              selectedDayTextColor={'white'}
+              selectedDayStyle={{backgroundColor: 'purple'}}
+              todayBackgroundColor={'black'}
+              selectedDayTextStyle={{color: '#fff'}}
+              onDateChange={onDateChange}
+              customDatesStyles={customDatesStyles}
+              dayShape={{borderRadius: 0}}
+              textStyle={styles.textStyle}
+              selectMonthTitle="Aylar "
+              selectYearTitle="Yıl"
+              weekdays={['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']}
+              months={[
+                'Ocak',
+                'Şubat',
+                'Mart',
+                'Nisan',
+                'Mayıs',
+                'Haziran',
+                'Temmuz',
+                'Ağustos',
+                'Eylül',
+                'Ekim',
+                'Kasım',
+                'Aralık',
+              ]}
+              previousTitle="Önceki"
+              nextTitle="Sonraki"
+            />
+          ) : (
+            <CalendarSkeneton />
+          )}
         </View>
         <View style={{flex: 1}}>
           <View
@@ -199,5 +205,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
