@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Dimensions,
   Image,
   Platform,
   SafeAreaView,
@@ -19,6 +20,7 @@ import {useNavigation} from '@react-navigation/native';
 import * as GoogleGenerativeAI from '@google/generative-ai';
 import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
 import SkenetonButton from '../../components/skeneton-cards/skeneton-button';
+import LottieLoading from '../../components/lottie-loading';
 
 const HoroscopeCompatibility = () => {
   const navigation = useNavigation();
@@ -74,6 +76,12 @@ const HoroscopeCompatibility = () => {
   return (
     <Container>
       <SafeAreaView>
+        {loading && (
+          <LottieLoading
+            bgColor={'purple'}
+            lottieSource={require('../../../assets/lotties/loading-lottie.json')}
+          />
+        )}
         {horoscopesData === null ? (
           <View
             style={{
