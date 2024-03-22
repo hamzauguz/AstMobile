@@ -17,6 +17,8 @@ import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import * as GoogleGenerativeAI from '@google/generative-ai';
+import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
+import SkenetonButton from '../../components/skeneton-cards/skeneton-button';
 
 const HoroscopeCompatibility = () => {
   const navigation = useNavigation();
@@ -26,11 +28,6 @@ const HoroscopeCompatibility = () => {
   const [firstActiveItem, setFirstActiveItem] = useState(0);
   const [SecondActiveItem, setSecondActiveItem] = useState(0);
   const [horoscopesData, setHoroscopesData] = useState(null);
-
-  console.log(
-    'horoscopesData',
-    horoscopesData && horoscopesData[firstActiveItem],
-  );
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -78,7 +75,50 @@ const HoroscopeCompatibility = () => {
     <Container>
       <SafeAreaView>
         {horoscopesData === null ? (
-          <ActivityIndicator size={'large'} color={'white'} />
+          <View style={{display: 'flex', flexDirection: 'column'}}>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width:
+                  Platform.OS === 'ios' ? windowWidth + 120 : windowWidth + 140,
+                alignItems: 'center',
+                right: Platform.OS === 'ios' ? 80 : 90,
+                marginTop: Platform.OS === 'ios' ? 20 : 30,
+              }}>
+              <HoroscopeSkenetonCard
+                viewContainerStyle={styles.secondSkenetonCard}
+              />
+              <HoroscopeSkenetonCard
+                viewContainerStyle={styles.firstSkenetonCard}
+              />
+              <HoroscopeSkenetonCard
+                viewContainerStyle={styles.secondSkenetonCard}
+              />
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width:
+                  Platform.OS === 'ios' ? windowWidth + 120 : windowWidth + 140,
+                alignItems: 'center',
+                right: Platform.OS === 'ios' ? 80 : 90,
+                marginTop: Platform.OS === 'ios' ? 20 : 30,
+              }}>
+              <HoroscopeSkenetonCard
+                viewContainerStyle={styles.secondSkenetonCard}
+              />
+              <HoroscopeSkenetonCard
+                viewContainerStyle={styles.firstSkenetonCard}
+              />
+              <HoroscopeSkenetonCard
+                viewContainerStyle={styles.secondSkenetonCard}
+              />
+            </View>
+          </View>
         ) : (
           <View
             style={{
@@ -150,6 +190,7 @@ const HoroscopeCompatibility = () => {
                 sliderWidth={windowWidth}
               />
             </View>
+
             <View
               style={{
                 flex: 0.25,
@@ -158,23 +199,28 @@ const HoroscopeCompatibility = () => {
                 width: '100%',
                 alignItems: 'center',
               }}>
-              <TouchableOpacity
-                disabled={loading}
-                onPress={() => {
-                  sendMessage();
-                }}
-                style={{
-                  width: '95%',
-                  backgroundColor: loading ? 'gray' : 'purple',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 60,
-                  borderRadius: 20,
-                }}>
-                <Text style={{fontSize: 22, color: 'white', fontWeight: '600'}}>
-                  {loading ? 'YÜKLENİYOR...' : 'UYUMLULUĞU GÖSTER'}
-                </Text>
-              </TouchableOpacity>
+              {horoscopesData !== null ? (
+                <SkenetonButton />
+              ) : (
+                <TouchableOpacity
+                  disabled={loading}
+                  onPress={() => {
+                    sendMessage();
+                  }}
+                  style={{
+                    width: '95%',
+                    backgroundColor: loading ? 'gray' : 'purple',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: 60,
+                    borderRadius: 20,
+                  }}>
+                  <Text
+                    style={{fontSize: 22, color: 'white', fontWeight: '600'}}>
+                    {loading ? 'YÜKLENİYOR...' : 'UYUMLULUĞU GÖSTER'}
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         )}

@@ -18,6 +18,7 @@ import {useSelector} from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
 import {windowHeight, windowWidth} from '../../utils/helpers';
+import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -61,7 +62,29 @@ const Home = () => {
               </TouchableOpacity>
             </View>
             {horoscopesData === null ? (
-              <ActivityIndicator size={'large'} color={'white'} />
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  width:
+                    Platform.OS === 'ios'
+                      ? windowWidth + 120
+                      : windowWidth + 140,
+                  alignItems: 'center',
+                  right: Platform.OS === 'ios' ? 80 : 90,
+                  top: 30,
+                }}>
+                <HoroscopeSkenetonCard
+                  viewContainerStyle={styles.secondSkenetonCard}
+                />
+                <HoroscopeSkenetonCard
+                  viewContainerStyle={styles.firstSkenetonCard}
+                />
+                <HoroscopeSkenetonCard
+                  viewContainerStyle={styles.secondSkenetonCard}
+                />
+              </View>
             ) : (
               <Carousel
                 disableIntervalMomentum={true}

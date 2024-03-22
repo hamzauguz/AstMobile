@@ -42,6 +42,14 @@ const styles = StyleSheet.create({
   title: {width: '90%', height: 14, borderRadius: 7, marginBottom: 5},
   subtitle: {width: '70%', height: 14, borderRadius: 7},
   icon: {height: 16, width: 16, borderRadius: 4},
+  secondSkenetonCard: {
+    width: 160,
+    height: Platform.OS === 'ios' ? 200 : windowHeight / 4.7,
+  },
+  firstSkenetonCard: {
+    width: Platform.OS === 'ios' ? 200 : 180,
+    height: Platform.OS === 'ios' ? 260 : windowHeight / 4,
+  },
 });
 
 export default styles;

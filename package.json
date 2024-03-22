@@ -23,6 +23,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^2.0.1",
+    "@thevsstech/react-native-skeleton": "^2.0.11",
     "date-fns": "^3.6.0",
     "firebase": "^10.0.0",
     "moment": "^2.29.4",
