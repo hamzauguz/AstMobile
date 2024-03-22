@@ -21,6 +21,7 @@ import moment from 'moment';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import OptionsMenu from 'react-native-option-menu';
 import {useNavigation} from '@react-navigation/native';
+import AvatarSkeneton from '../../components/skeneton-cards/avatar-skeneton';
 
 const Profile = () => {
   moment.locale('tr');
@@ -67,26 +68,29 @@ const Profile = () => {
             alignItems: 'center',
           }}>
           <View>
-            <Image
-              style={{
-                width: windowWidth > 400 ? 120 : 100,
-                height: windowWidth > 400 ? 120 : 100,
-
-                backgroundColor: 'gray',
-                borderRadius: windowWidth > 400 ? 60 : 50,
-                alignItems: 'center',
-                justifyContent: 'center',
-                display: 'flex',
-                alignContent: 'center',
-                overflow: 'hidden',
-                resizeMode: 'contain',
-                borderColor: 'purple',
-                borderWidth: 5,
-              }}
-              // src={user.photoURL}
-              source={require('../../../assets/misis-lady.jpg')}
-              resizeMode="cover"
-            />
+            {userInfo === null ? (
+              <AvatarSkeneton />
+            ) : (
+              <Image
+                style={{
+                  width: windowWidth > 400 ? 120 : 100,
+                  height: windowWidth > 400 ? 120 : 100,
+                  backgroundColor: 'gray',
+                  borderRadius: windowWidth > 400 ? 60 : 50,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  display: 'flex',
+                  alignContent: 'center',
+                  overflow: 'hidden',
+                  resizeMode: 'contain',
+                  borderColor: 'purple',
+                  borderWidth: 5,
+                }}
+                // src={user.photoURL}
+                source={require('../../../assets/misis-lady.jpg')}
+                resizeMode="cover"
+              />
+            )}
           </View>
           <View
             style={{

@@ -1,7 +1,7 @@
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Skeleton from '@thevsstech/react-native-skeleton';
-import {windowHeight, windowWidth} from '../../../utils/helpers';
+import {windowHeight} from '../../../utils/helpers';
 
 const CalendarSkeneton = () => {
   return (
