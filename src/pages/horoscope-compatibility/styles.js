@@ -42,12 +42,18 @@ const styles = StyleSheet.create({
   subtitle: {width: '70%', height: 14, borderRadius: 7},
   icon: {height: 16, width: 16, borderRadius: 4},
   secondSkenetonCard: {
-    width: 160,
+    width: 100,
     height: Platform.OS === 'ios' ? 200 : windowHeight / 4.7,
+    marginLeft: -20,
   },
   firstSkenetonCard: {
     width: Platform.OS === 'ios' ? 200 : 180,
-    height: Platform.OS === 'ios' ? 250 : windowHeight / 4,
+    height: Platform.OS === 'ios' ? 220 : windowHeight / 4,
+  },
+  secondSkenetonRightCard: {
+    width: Platform.OS === 'ios' ? 100 : 180,
+    height: Platform.OS === 'ios' ? 200 : windowHeight / 4.7,
+    marginRight: 80,
   },
 });
 

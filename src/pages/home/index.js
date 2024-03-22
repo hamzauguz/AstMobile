@@ -72,8 +72,8 @@ const Home = () => {
                       ? windowWidth + 120
                       : windowWidth + 140,
                   alignItems: 'center',
-                  right: Platform.OS === 'ios' ? 80 : 90,
-                  top: 30,
+                  right: Platform.OS === 'ios' ? 50 : 95,
+                  top: 25,
                 }}>
                 <HoroscopeSkenetonCard
                   viewContainerStyle={styles.secondSkenetonCard}
@@ -82,7 +82,7 @@ const Home = () => {
                   viewContainerStyle={styles.firstSkenetonCard}
                 />
                 <HoroscopeSkenetonCard
-                  viewContainerStyle={styles.secondSkenetonCard}
+                  viewContainerStyle={styles.secondSkenetonRightCard}
                 />
               </View>
             ) : (

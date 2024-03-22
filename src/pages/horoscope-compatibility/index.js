@@ -82,9 +82,9 @@ const HoroscopeCompatibility = () => {
                 flexDirection: 'row',
                 justifyContent: 'space-around',
                 width:
-                  Platform.OS === 'ios' ? windowWidth + 120 : windowWidth + 140,
+                  Platform.OS === 'ios' ? windowWidth + 130 : windowWidth + 140,
                 alignItems: 'center',
-                right: Platform.OS === 'ios' ? 80 : 90,
+                right: Platform.OS === 'ios' ? 35 : 95,
                 marginTop: Platform.OS === 'ios' ? 20 : 30,
               }}>
               <HoroscopeSkenetonCard
@@ -94,7 +94,7 @@ const HoroscopeCompatibility = () => {
                 viewContainerStyle={styles.firstSkenetonCard}
               />
               <HoroscopeSkenetonCard
-                viewContainerStyle={styles.secondSkenetonCard}
+                viewContainerStyle={styles.secondSkenetonRightCard}
               />
             </View>
             <View
@@ -103,9 +103,9 @@ const HoroscopeCompatibility = () => {
                 flexDirection: 'row',
                 justifyContent: 'space-around',
                 width:
-                  Platform.OS === 'ios' ? windowWidth + 120 : windowWidth + 140,
+                  Platform.OS === 'ios' ? windowWidth + 130 : windowWidth + 140,
                 alignItems: 'center',
-                right: Platform.OS === 'ios' ? 80 : 90,
+                right: Platform.OS === 'ios' ? 35 : 95,
                 marginTop: Platform.OS === 'ios' ? 20 : 30,
               }}>
               <HoroscopeSkenetonCard
@@ -115,7 +115,7 @@ const HoroscopeCompatibility = () => {
                 viewContainerStyle={styles.firstSkenetonCard}
               />
               <HoroscopeSkenetonCard
-                viewContainerStyle={styles.secondSkenetonCard}
+                viewContainerStyle={styles.secondSkenetonRightCard}
               />
             </View>
           </View>
@@ -199,7 +199,7 @@ const HoroscopeCompatibility = () => {
                 width: '100%',
                 alignItems: 'center',
               }}>
-              {horoscopesData !== null ? (
+              {horoscopesData === null ? (
                 <SkenetonButton />
               ) : (
                 <TouchableOpacity
