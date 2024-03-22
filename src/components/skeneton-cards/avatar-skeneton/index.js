@@ -5,7 +5,7 @@ import {windowWidth} from '../../../utils/helpers';
 
 const AvatarSkeneton = () => {
   return (
-    <Skeleton highlightColor="#BFBAFC">
+    <Skeleton backgroundColor="purple" highlightColor="#BFBAFC">
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <View
           style={{

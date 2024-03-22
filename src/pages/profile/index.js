@@ -22,6 +22,8 @@ import {windowHeight, windowWidth} from '../../utils/helpers';
 import OptionsMenu from 'react-native-option-menu';
 import {useNavigation} from '@react-navigation/native';
 import AvatarSkeneton from '../../components/skeneton-cards/avatar-skeneton';
+import ProfileSkenetonCard from '../../components/skeneton-cards/profile-skeneton-card';
+import RandomInfoSkenetonCard from '../../components/skeneton-cards/random-info-skeneton-card';
 
 const Profile = () => {
   moment.locale('tr');
@@ -101,44 +103,68 @@ const Profile = () => {
               top: windowHeight / 13.34,
             }}>
             <View style={styles.centerContainer}>
-              <View style={styles.centerView}>
-                <Text style={styles.dorianFontStyle}>
-                  {new Date().getFullYear() - userInfo?.birthdate}
-                </Text>
-              </View>
-              <View style={styles.centerView}>
-                <Text style={styles.dorianFontStyle}>
-                  {userInfo?.horoscope}
-                </Text>
-              </View>
+              {userInfo === null ? (
+                <>
+                  <ProfileSkenetonCard />
+                  <ProfileSkenetonCard />
+                </>
+              ) : (
+                <>
+                  <View style={styles.centerView}>
+                    <Text style={styles.dorianFontStyle}>
+                      {new Date().getFullYear() - userInfo?.birthdate}
+                    </Text>
+                  </View>
+                  <View style={styles.centerView}>
+                    <Text style={styles.dorianFontStyle}>
+                      {userInfo?.horoscope}
+                    </Text>
+                  </View>
+                </>
+              )}
             </View>
             <View style={styles.centerContainer}>
-              <View style={styles.centerView}>
-                <Text style={styles.dorianFontStyle}>{userInfo?.country}</Text>
-              </View>
-              <View style={styles.centerView}>
-                <Text style={styles.dorianFontStyle}>
-                  {userInfo?.birthtime}
-                </Text>
-              </View>
+              {userInfo === null ? (
+                <>
+                  <ProfileSkenetonCard />
+                  <ProfileSkenetonCard />
+                </>
+              ) : (
+                <>
+                  <View style={styles.centerView}>
+                    <Text style={styles.dorianFontStyle}>
+                      {userInfo?.country}
+                    </Text>
+                  </View>
+                  <View style={styles.centerView}>
+                    <Text style={styles.dorianFontStyle}>
+                      {userInfo?.birthtime}
+                    </Text>
+                  </View>
+                </>
+              )}
             </View>
           </View>
-          <View
-            style={{
-              flex: 1,
-              width: '90%',
-              height: 100,
-              backgroundColor: '#BFBAFC',
-              justifyContent: 'center',
-              alignContent: 'flex-end',
-              alignItems: 'center',
-              marginTop: 200,
-              borderRadius: 10,
-              bottom: 20,
-              padding: 10,
-            }}>
-            <Text style={styles.dorianFontStyle}>{horoscopeInfo}</Text>
-          </View>
+          {horoscopeInfo === null ? (
+            <RandomInfoSkenetonCard />
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                width: '90%',
+                height: 100,
+                backgroundColor: '#BFBAFC',
+                justifyContent: 'center',
+                alignContent: 'flex-end',
+                alignItems: 'center',
+                marginTop: 200,
+                borderRadius: 10,
+                bottom: 20,
+                padding: 10,
+              }}>
+              <Text style={styles.dorianFontStyle}>{horoscopeInfo}</Text>
+            </View>
+          )}
         </View>
       </SafeAreaView>
     </Container>

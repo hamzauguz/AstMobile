@@ -75,16 +75,21 @@ const HoroscopeCompatibility = () => {
     <Container>
       <SafeAreaView>
         {horoscopesData === null ? (
-          <View style={{display: 'flex', flexDirection: 'column'}}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
             <View
               style={{
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-around',
+
                 width:
-                  Platform.OS === 'ios' ? windowWidth + 130 : windowWidth + 140,
+                  Platform.OS === 'ios' ? windowWidth + 130 : windowWidth + 180,
                 alignItems: 'center',
-                right: Platform.OS === 'ios' ? 35 : 95,
+                right: Platform.OS === 'ios' ? 35 : 25,
                 marginTop: Platform.OS === 'ios' ? 20 : 30,
               }}>
               <HoroscopeSkenetonCard
@@ -103,9 +108,9 @@ const HoroscopeCompatibility = () => {
                 flexDirection: 'row',
                 justifyContent: 'space-around',
                 width:
-                  Platform.OS === 'ios' ? windowWidth + 130 : windowWidth + 140,
+                  Platform.OS === 'ios' ? windowWidth + 130 : windowWidth + 180,
                 alignItems: 'center',
-                right: Platform.OS === 'ios' ? 35 : 95,
+                right: Platform.OS === 'ios' ? 35 : 25,
                 marginTop: Platform.OS === 'ios' ? 20 : 30,
               }}>
               <HoroscopeSkenetonCard
