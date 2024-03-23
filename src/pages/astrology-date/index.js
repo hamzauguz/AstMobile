@@ -65,9 +65,20 @@ const AstrologyDate = () => {
     return (
       <View style={styles.importantDateContainer}>
         <View style={[styles.importantDateButton, importantDateButtonStyle]}>
-          <Text style={[importantDateButtonTextStyle]}>X</Text>
+          <Text
+            style={[
+              {fontFamily: 'EBGaramond-SemiBold'},
+              importantDateButtonTextStyle,
+            ]}>
+            X
+          </Text>
         </View>
-        <Text style={{color: 'white', opacity: 0.8, fontWeight: '600'}}>
+        <Text
+          style={{
+            color: 'white',
+            opacity: 0.8,
+            fontFamily: 'EBGaramond-ExtraBold',
+          }}>
           {' '}
           : {title}
         </Text>
@@ -129,7 +140,6 @@ const AstrologyDate = () => {
             <ImportantDateInfo
               importantDateButtonTextStyle={{
                 color: 'black',
-                fontWeight: 'bold',
               }}
               importantDateButtonStyle={{
                 borderWidth: 2,
@@ -140,7 +150,6 @@ const AstrologyDate = () => {
             <ImportantDateInfo
               importantDateButtonTextStyle={{
                 color: 'white',
-                fontWeight: '600',
               }}
               importantDateButtonStyle={{
                 backgroundColor: 'purple',
@@ -149,7 +158,7 @@ const AstrologyDate = () => {
             />
 
             <ImportantDateInfo
-              importantDateButtonTextStyle={{color: 'white', fontWeight: '600'}}
+              importantDateButtonTextStyle={{color: 'white'}}
               importantDateButtonStyle={{
                 backgroundColor: 'black',
               }}
@@ -162,7 +171,12 @@ const AstrologyDate = () => {
               style={{
                 padding: 10,
               }}>
-              <Text style={{fontSize: 15, color: 'white'}}>
+              <Text
+                style={{
+                  fontSize: Platform.OS === 'ios' ? 17 : 15,
+                  color: 'white',
+                  fontFamily: 'EBGaramond-SemiBold',
+                }}>
                 {selectedDateDescription}
               </Text>
             </View>
@@ -191,7 +205,6 @@ const styles = StyleSheet.create({
   },
   importantTextStyle: {
     color: 'black',
-    fontWeight: 'bold',
   },
   importantDateContainer: {
     display: 'flex',
@@ -207,7 +220,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textStyle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: Platform.OS === 'ios' ? 20 : 18,
+    fontFamily: 'EBGaramond-Bold',
   },
 });

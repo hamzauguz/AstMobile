@@ -111,12 +111,12 @@ const Profile = () => {
               ) : (
                 <>
                   <View style={styles.centerView}>
-                    <Text style={styles.dorianFontStyle}>
+                    <Text style={styles.garamondFontStyle}>
                       {new Date().getFullYear() - userInfo?.birthdate}
                     </Text>
                   </View>
                   <View style={styles.centerView}>
-                    <Text style={styles.dorianFontStyle}>
+                    <Text style={styles.garamondFontStyle}>
                       {userInfo?.horoscope}
                     </Text>
                   </View>
@@ -132,12 +132,12 @@ const Profile = () => {
               ) : (
                 <>
                   <View style={styles.centerView}>
-                    <Text style={styles.dorianFontStyle}>
+                    <Text style={styles.garamondFontStyle}>
                       {userInfo?.country}
                     </Text>
                   </View>
                   <View style={styles.centerView}>
-                    <Text style={styles.dorianFontStyle}>
+                    <Text style={styles.garamondFontStyle}>
                       {userInfo?.birthtime}
                     </Text>
                   </View>
@@ -162,7 +162,7 @@ const Profile = () => {
                 bottom: 20,
                 padding: 10,
               }}>
-              <Text style={styles.dorianFontStyle}>{horoscopeInfo}</Text>
+              <Text style={styles.garamondFontStyle}>{horoscopeInfo}</Text>
             </View>
           )}
         </View>

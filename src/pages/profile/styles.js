@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
   dorianFontStyle: {
     fontFamily: 'Dorian-Gray',
   },
+  garamondFontStyle: {
+    fontFamily: 'EBGaramond-Bold',
+  },
 });
 
 export default styles;

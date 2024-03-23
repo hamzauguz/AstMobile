@@ -229,7 +229,11 @@ const HoroscopeCompatibility = () => {
                     borderRadius: 20,
                   }}>
                   <Text
-                    style={{fontSize: 22, color: 'white', fontWeight: '600'}}>
+                    style={{
+                      fontSize: Platform.OS === 'ios' ? 24 : 20,
+                      color: 'white',
+                      fontFamily: 'EBGaramond-ExtraBold',
+                    }}>
                     {loading ? 'YÜKLENİYOR...' : 'UYUMLULUĞU GÖSTER'}
                   </Text>
                 </TouchableOpacity>

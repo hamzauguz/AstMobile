@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     color: 'white',
     fontSize: 16,
-    fontWeight: '500',
+    // fontWeight: '500',
     width: '100%',
+    fontFamily: 'EBGaramond-SemiBold',
   },
 });

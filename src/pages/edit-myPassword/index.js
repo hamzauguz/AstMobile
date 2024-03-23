@@ -175,7 +175,12 @@ const EditMyPassword = () => {
               {progressBar ? (
                 <ActivityIndicator size={'large'} color={'white'} />
               ) : (
-                <Text style={{color: 'white', fontWeight: '600', fontSize: 18}}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 20,
+                    fontFamily: 'EBGaramond-ExtraBold',
+                  }}>
                   Şifremi Değiştir
                 </Text>
               )}

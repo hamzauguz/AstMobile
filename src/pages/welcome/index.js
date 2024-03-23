@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   fontStyle: {
     fontSize: 28,
     color: 'white',
-    fontWeight: 'bold',
-    fontFamily: 'Dorian-Gray',
+    fontFamily: 'EBGaramond-Bold',
   },
 });

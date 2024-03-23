@@ -1,4 +1,4 @@
-import {Platform, StyleSheet} from 'react-native';
+import {Platform, StyleSheet, Text} from 'react-native';
 import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -54,12 +54,15 @@ const Routes = () => {
             backgroundColor: '#bfbafc',
             height: Platform.OS === 'ios' ? 90 : 70,
             opacity: 0.9,
-          }}>
+          }}
+          screenOptions={() => ({
+            tabBarLabelStyle: styles.tabBarLabelStyle,
+          })}>
           <Tab.Screen
             name="Home"
             component={Home}
             options={{
-              tabBarLabel: 'Anasayfa',
+              tabBarLabel: <Text style={styles.tabBarLabel}>Anasayfa</Text>,
               tabBarIcon: ({color}) => (
                 <AntDesignIcon name="home" color={'purple'} size={26} />
               ),
@@ -69,7 +72,7 @@ const Routes = () => {
             name="HoroscopeCompatibility"
             component={HoroscopeCompatibility}
             options={{
-              tabBarLabel: 'Burç Uyumu',
+              tabBarLabel: <Text style={styles.tabBarLabel}>Burç Uyumu</Text>,
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons
                   name="cards-playing-heart-multiple-outline"
@@ -83,7 +86,11 @@ const Routes = () => {
             name="AstrologyDate"
             component={AstrologyDate}
             options={{
-              tabBarLabel: 'Önemli Tarihler',
+              tabBarLabel: (
+                <Text style={styles.tabBarLabel} numberOfLines={1}>
+                  Önemli Tarihler
+                </Text>
+              ),
               tabBarIcon: ({color}) => (
                 <MaterialIcons name="date-range" color={'purple'} size={26} />
               ),
@@ -93,7 +100,7 @@ const Routes = () => {
             name="Profile"
             component={Profile}
             options={{
-              tabBarLabel: 'Profil',
+              tabBarLabel: <Text style={styles.tabBarLabel}>Profil</Text>,
               tabBarIcon: ({color}) => (
                 <AntDesignIcon name="user" color={'purple'} size={26} />
               ),
@@ -138,5 +145,9 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  tabBarLabel: {
+    fontFamily: 'EBGaramond-ExtraBoldItalic',
+    fontSize: Platform.OS === 'ios' ? 14 : 12,
   },
 });

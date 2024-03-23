@@ -177,7 +177,12 @@ const EditMyInfo = () => {
               <TouchableOpacity
                 onPress={toggleModal}
                 style={styles.customButton}>
-                <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 16,
+                    fontFamily: 'EBGaramond-SemiBold',
+                  }}>
                   {userForm.city === '' ? 'Şehir Seçiniz.' : userForm.city}
                 </Text>
               </TouchableOpacity>
@@ -192,6 +197,7 @@ const EditMyInfo = () => {
                   style={{
                     color: 'white',
                     fontSize: 16,
+                    fontFamily: 'EBGaramond-SemiBold',
                   }}>
                   {userForm.birthDate.getFullYear()}
                 </Text>
@@ -220,6 +226,7 @@ const EditMyInfo = () => {
                   style={{
                     color: 'white',
                     fontSize: 16,
+                    fontFamily: 'EBGaramond-SemiBold',
                   }}>
                   {userForm.birthTime.toLocaleTimeString()}
                 </Text>
@@ -243,7 +250,11 @@ const EditMyInfo = () => {
                   <ActivityIndicator size={'large'} color={'white'} />
                 ) : (
                   <Text
-                    style={{color: 'white', fontWeight: '600', fontSize: 18}}>
+                    style={{
+                      color: 'white',
+                      fontSize: 20,
+                      fontFamily: 'EBGaramond-ExtraBold',
+                    }}>
                     Bilgilerimi Düzenle
                   </Text>
                 )}
@@ -321,7 +332,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   itemwithLabel: {width: '100%', alignItems: 'center', marginTop: 10},
-  labelStyle: {color: 'white', fontSize: 18, width: '90%'},
+  labelStyle: {
+    color: 'white',
+    fontSize: 18,
+    width: '90%',
+    fontFamily: 'EBGaramond-Bold',
+  },
   customButton: {
     width: '90%',
     backgroundColor: 'black',
@@ -332,5 +348,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: 10,
     color: 'white',
+    fontFamily: 'EBGaramond-SemiBold',
   },
 });

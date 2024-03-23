@@ -39,10 +39,12 @@ const styles = StyleSheet.create({
   },
   customInputStyle: {
     marginTop: 5,
+    fontFamily: 'EBGaramond-Bold',
   },
   labelStyle: {
     color: 'white',
     fontSize: 18,
     width: '90%',
+    fontFamily: 'EBGaramond-Bold',
   },
 });

@@ -8,7 +8,7 @@ import {
   Animated,
 } from 'react-native';
 import {Tabs} from 'react-native-collapsible-tab-view';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Container from '../../components/container';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import CustomHeader from '../../components/custom-header';
@@ -40,14 +40,20 @@ const HoroscopeDetail = ({navigation, route}) => {
         />
         <Text
           style={{
-            fontSize: 26,
+            fontSize: 30,
             marginTop: 10,
             color: 'white',
-            fontWeight: 'bold',
+            fontFamily: 'EBGaramond-ExtraBold',
           }}>
           {selectedHoroscope?.horoscope}
         </Text>
-        <Text style={{top: 10, color: 'white'}}>
+        <Text
+          style={{
+            top: 10,
+            color: 'white',
+            fontFamily: 'EBGaramond-Bold',
+            fontSize: 16,
+          }}>
           {selectedHoroscope?.date.replace(/\n/g, '')}
         </Text>
       </View>
@@ -82,9 +88,12 @@ const HoroscopeDetail = ({navigation, route}) => {
               children={<Icon size={24} name="chevron-left" color={'white'} />}
             />
           }
-          iconTitle={'Bilgilerimi Düzenle'}
+          iconTitle={'Burç Yorumu'}
         />
-        <Tabs.Container renderHeader={Header} headerHeight={HEADER_HEIGHT}>
+        <Tabs.Container
+          initialTabName="Haftalık"
+          renderHeader={Header}
+          headerHeight={HEADER_HEIGHT}>
           <Tabs.Tab name="Günlük">
             <Tabs.ScrollView style={styles.tabScrollStyle}>
               <ScrollContainerItem item={selectedHoroscope?.status?.daily} />
@@ -134,11 +143,12 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   text: {
-    color: 'white',
-    letterSpacing: 1.1,
-    fontSize: 15,
+    letterSpacing: 1,
+    fontSize: 18,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+    fontFamily: 'EBGaramond-Medium',
+    color: 'white',
   },
   tabScrollStyle: {flexGrow: 1},
   describeText: {
@@ -152,7 +162,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitleStyle: {
-    marginRight: -50,
+    marginRight: Platform.OS === 'ios' ? -30 : -40,
   },
 
   customHeaderStyle: {

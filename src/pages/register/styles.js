@@ -1,4 +1,4 @@
-const {StyleSheet} = require('react-native');
+const {StyleSheet, Platform} = require('react-native');
 
 const styles = StyleSheet.create({
   customInputStyle: {
@@ -35,7 +35,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flex: 0.75,
   },
-  topContainer: {width: '100%', alignItems: 'center'},
+  topContainer: {
+    width: '100%',
+    alignItems: 'center',
+    top: Platform.OS === 'ios' ? 0 : 20,
+  },
   appIcon: {height: 150, width: 150},
   inputWithLabelContainer: {width: '100%'},
   registerContainer: {flexDirection: 'row'},
@@ -59,7 +63,11 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'center',
   },
-  registerButonText: {color: 'white', fontWeight: '600', fontSize: 18},
+  registerButonText: {
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'EBGaramond-ExtraBold',
+  },
 });
 
 export default styles;

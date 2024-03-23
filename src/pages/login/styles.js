@@ -1,4 +1,4 @@
-const {StyleSheet} = require('react-native');
+const {StyleSheet, Platform} = require('react-native');
 
 const styles = StyleSheet.create({
   customInputStyle: {
@@ -15,7 +15,10 @@ const styles = StyleSheet.create({
   headerStyle: {
     marginTop: Platform.OS === 'ios' ? 0 : 50,
   },
-  safeAreaContainer: {flex: 1, alignItems: 'center'},
+  safeAreaContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
   keyboardContentContainer: {flexGrow: 1},
   keyboardContainer: {width: '100%', flexGrow: 1},
   keyboardViewContainer: {
@@ -37,8 +40,9 @@ const styles = StyleSheet.create({
   registerContainer: {flexDirection: 'row'},
   haventAccountText: {
     color: 'white',
-    fontWeight: '500',
-    fontSize: 15,
+    // fontWeight: '500',
+    fontSize: Platform.OS === 'ios' ? 18 : 16,
+    fontFamily: 'EBGaramond-Bold',
   },
   nowRegisterStyle: {
     alignItems: 'center',
@@ -55,7 +59,11 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'center',
   },
-  loginButonText: {color: 'white', fontWeight: '600', fontSize: 18},
+  loginButonText: {
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'EBGaramond-ExtraBold',
+  },
 });
 
 export default styles;

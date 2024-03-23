@@ -40,14 +40,20 @@ const HoroscopeCompatibilityDetail = ({route}) => {
           />
           <Text
             style={{
-              fontSize: 26,
+              fontSize: 28,
               marginTop: 10,
               color: 'white',
-              fontWeight: 'bold',
+              fontFamily: 'EBGaramond-ExtraBold',
             }}>
             {horoscopesCompatibility?.horoscope1?.horoscope}
           </Text>
-          <Text style={{top: 10, color: 'white'}}>
+          <Text
+            style={{
+              top: 10,
+              color: 'white',
+              fontFamily: 'EBGaramond-Medium',
+              fontSize: 16,
+            }}>
             {horoscopesCompatibility?.horoscope1?.date.replace(/\n/g, '')}
           </Text>
         </View>
@@ -60,14 +66,20 @@ const HoroscopeCompatibilityDetail = ({route}) => {
           />
           <Text
             style={{
-              fontSize: 26,
+              fontSize: 28,
               marginTop: 10,
               color: 'white',
-              fontWeight: 'bold',
+              fontFamily: 'EBGaramond-ExtraBold',
             }}>
             {horoscopesCompatibility?.horoscope2?.horoscope}
           </Text>
-          <Text style={{top: 10, color: 'white'}}>
+          <Text
+            style={{
+              top: 10,
+              color: 'white',
+              fontFamily: 'EBGaramond-Medium',
+              fontSize: 16,
+            }}>
             {horoscopesCompatibility?.horoscope2?.date.replace(/\n/g, '')}
           </Text>
         </View>
@@ -79,7 +91,7 @@ const HoroscopeCompatibilityDetail = ({route}) => {
     <View style={styles.messageContainer}>
       <Text style={[styles.messageText, item.user && styles.userMessage]}>
         {item?.text?.includes('**') ? (
-          <Text style={{fontWeight: 'bold', color: 'white'}}>
+          <Text style={{color: 'white'}}>
             {item?.text?.replace(/\*\*/g, '')}
           </Text>
         ) : (
@@ -101,7 +113,7 @@ const HoroscopeCompatibilityDetail = ({route}) => {
               children={<Icon size={24} name="chevron-left" color={'white'} />}
             />
           }
-          iconTitle={'Bilgilerimi Düzenle'}
+          iconTitle={'Burç Uyumu'}
         />
 
         <Tabs.Container renderHeader={Header} headerHeight={HEADER_HEIGHT}>
@@ -125,7 +137,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(139, 93, 182, 0.4)',
   },
   messageContainer: {padding: 10, marginVertical: 5},
-  messageText: {fontSize: 16},
+  messageText: {
+    fontSize: Platform.OS === 'ios' ? 20 : 18,
+    fontFamily: 'EBGaramond-Medium',
+  },
   inputContainer: {flexDirection: 'row', alignItems: 'center', padding: 10},
   input: {
     flex: 1,
