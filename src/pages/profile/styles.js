@@ -35,9 +35,6 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
   },
-  dorianFontStyle: {
-    fontFamily: 'Dorian-Gray',
-  },
   garamondFontStyle: {
     fontFamily: 'EBGaramond-Bold',
   },
