@@ -14,6 +14,7 @@ import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
+import styles from './style';
 
 const HEADER_HEIGHT = 250;
 
@@ -34,22 +35,10 @@ const HoroscopeDetail = ({navigation, route}) => {
           source={{uri: selectedHoroscope?.image}}
           resizeMode="contain"
         />
-        <Text
-          style={{
-            fontSize: 30,
-            marginTop: 10,
-            color: 'white',
-            fontFamily: 'EBGaramond-ExtraBold',
-          }}>
+        <Text style={styles.selectedHoroscopeText}>
           {selectedHoroscope?.horoscope}
         </Text>
-        <Text
-          style={{
-            top: 10,
-            color: 'white',
-            fontFamily: 'EBGaramond-Bold',
-            fontSize: 16,
-          }}>
+        <Text style={styles.selectedHoroscopeReplace}>
           {selectedHoroscope?.date.replace(/\n/g, '')}
         </Text>
       </View>
@@ -81,8 +70,7 @@ const HoroscopeDetail = ({navigation, route}) => {
 
   return (
     <Container>
-      <SafeAreaView
-        style={{flex: 1, backgroundColor: 'rgba(139, 93, 182, 0.4)'}}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         <CustomHeader
           containerStyle={styles.headerContainerStyle}
           titleStyle={styles.headerTitleStyle}
@@ -120,57 +108,3 @@ const HoroscopeDetail = ({navigation, route}) => {
 };
 
 export default HoroscopeDetail;
-
-const styles = StyleSheet.create({
-  box: {
-    height: 250,
-    width: '100%',
-  },
-  boxA: {
-    backgroundColor: 'white',
-  },
-  boxB: {
-    backgroundColor: '#D8D8D8',
-  },
-  header: {
-    height: HEADER_HEIGHT,
-    width: '100%',
-    backgroundColor: '#6768B3',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabContent: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flexGrow: 1,
-    padding: 10,
-    display: 'flex',
-  },
-  text: {
-    letterSpacing: 1,
-    fontSize: 18,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    fontFamily: 'EBGaramond-Medium',
-    color: 'white',
-  },
-  tabScrollStyle: {flexGrow: 1},
-  describeText: {
-    fontWeight: Platform.OS === 'ios' ? '600' : '500',
-  },
-  headerContainerStyle: {
-    marginTop: Platform.OS === 'ios' ? 0 : 30,
-    backgroundColor: 'transparent',
-    borderBottomWidth: 2,
-    borderBottomColor: 'black',
-  },
-
-  headerTitleStyle: {
-    marginRight: Platform.OS === 'ios' ? -30 : -40,
-  },
-
-  customHeaderStyle: {
-    marginTop: Platform.OS === 'ios' ? 0 : 50,
-    zIndex: 999,
-  },
-});

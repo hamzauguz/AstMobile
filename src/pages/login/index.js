@@ -3,7 +3,6 @@ import {
   Image,
   Platform,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -21,14 +20,12 @@ import HeaderButton from '../../components/header-button';
 import LinearGradient from 'react-native-linear-gradient';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {SignIn, SignInWithGoogle} from '../../utils/utils';
-import {useHeaderHeight} from '@react-navigation/elements';
 import LoginWithGoogleButton from '../../components/login-with-google-button';
 import styles from './styles';
 
 const Login = () => {
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(true);
-  const height = useHeaderHeight();
 
   const [formData, setFormData] = useState({
     email: '',

@@ -1,5 +1,4 @@
 import {
-  Button,
   Image,
   Platform,
   SafeAreaView,
@@ -19,13 +18,13 @@ import * as GoogleGenerativeAI from '@google/generative-ai';
 import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
 import SkenetonButton from '../../components/skeneton-cards/skeneton-button';
 import LottieLoading from '../../components/lottie-loading';
-import {useInterstitialAd, TestIds} from 'react-native-google-mobile-ads';
+import {useInterstitialAd} from 'react-native-google-mobile-ads';
 
 const HoroscopeCompatibility = () => {
   const navigation = useNavigation();
   const carouselFirstRef = useRef(null);
   const carouselSecondRef = useRef(null);
-  const {user, userLoading} = useSelector(state => state.user);
+  const {user} = useSelector(state => state.user);
   const [firstActiveItem, setFirstActiveItem] = useState(0);
   const [SecondActiveItem, setSecondActiveItem] = useState(0);
   const [horoscopesData, setHoroscopesData] = useState(null);

@@ -1,5 +1,5 @@
 import {Platform, StyleSheet} from 'react-native';
-import {windowHeight} from '../../utils/helpers';
+import {windowHeight, windowWidth} from '../../utils/helpers';
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
@@ -38,6 +38,44 @@ const styles = StyleSheet.create({
   garamondFontStyle: {
     fontFamily: 'EBGaramond-Bold',
     fontSize: 17,
+  },
+  avatarView: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  avatarImageStyle: {
+    width: windowWidth > 400 ? 120 : 100,
+    height: windowWidth > 400 ? 120 : 100,
+    backgroundColor: 'gray',
+    borderRadius: windowWidth > 400 ? 60 : 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
+    alignContent: 'center',
+    overflow: 'hidden',
+    resizeMode: 'contain',
+    borderColor: 'purple',
+    borderWidth: 5,
+  },
+  profileContainer: {
+    flex: 2,
+    width: '90%',
+    display: 'flex',
+    flexDirection: 'column',
+    top: windowHeight / 13.34,
+  },
+  randomInfoContainer: {
+    flex: 1,
+    width: '90%',
+    height: 100,
+    backgroundColor: '#BFBAFC',
+    justifyContent: 'center',
+    alignContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 200,
+    borderRadius: 10,
+    bottom: 20,
+    padding: 10,
   },
 });
 

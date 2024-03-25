@@ -26,6 +26,7 @@ import {addDoc, collection, db} from '../../utils/firebase';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {getBirthdateToHoroscopeDate} from '../../utils/helpers';
+import styles from './styles';
 
 moment.locale('tr');
 const UserInfo = () => {
@@ -96,7 +97,7 @@ const UserInfo = () => {
 
   return (
     <Container>
-      <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         <CustomHeader
           containerStyle={styles.customHeaderStyle}
           iconLeft={
@@ -138,7 +139,7 @@ const UserInfo = () => {
           <View style={styles.itemwithLabel}>
             <Text style={styles.labelStyle}>Şehir</Text>
             <TouchableOpacity onPress={toggleModal} style={styles.customButton}>
-              <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
+              <Text style={styles.citySelectTextStyle}>
                 {userForm.city === '' ? 'Şehir Seçiniz.' : userForm.city}
               </Text>
             </TouchableOpacity>
@@ -149,11 +150,7 @@ const UserInfo = () => {
             <TouchableOpacity
               style={styles.customButton}
               onPress={() => setOpen(true)}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 16,
-                }}>
+              <Text style={styles.dateSelectStyle}>
                 {date.toLocaleDateString('tr-TR')}
               </Text>
             </TouchableOpacity>
@@ -178,11 +175,7 @@ const UserInfo = () => {
             <TouchableOpacity
               style={styles.customButton}
               onPress={() => setOpenBirthTimePicker(true)}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 16,
-                }}>
+              <Text style={styles.dateSelectStyle}>
                 {birthTime.toLocaleTimeString('tr-TR')}
               </Text>
             </TouchableOpacity>
@@ -191,22 +184,14 @@ const UserInfo = () => {
             colors={['#b717d2', '#ce25ab']}
             start={{x: 1, y: 0}}
             end={{x: 0, y: 0}}
-            style={{
-              borderRadius: 10,
-              width: '90%',
-              alignItems: 'center',
-              marginTop: 10,
-              alignSelf: 'center',
-            }}>
+            style={styles.linearGradientSaveInfo}>
             <TouchableOpacity
               onPress={() => addUserInfo()}
               style={styles.button}>
               {progressBar ? (
                 <ActivityIndicator size={'large'} color={'white'} />
               ) : (
-                <Text style={{color: 'white', fontWeight: '600', fontSize: 18}}>
-                  Bilgilerimi Kaydet
-                </Text>
+                <Text style={styles.saveInfoTextStyle}>Bilgilerimi Kaydet</Text>
               )}
             </TouchableOpacity>
           </LinearGradient>
@@ -240,30 +225,3 @@ const UserInfo = () => {
 };
 
 export default UserInfo;
-
-const styles = StyleSheet.create({
-  customButton: {
-    width: '90%',
-    backgroundColor: 'black',
-    height: 60,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'purple',
-    justifyContent: 'center',
-    paddingLeft: 10,
-    color: 'white',
-  },
-  customHeaderStyle: {
-    marginTop: Platform.OS === 'ios' ? 0 : 50,
-    zIndex: 999,
-  },
-  button: {
-    width: '90%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-  },
-  itemwithLabel: {width: '100%', alignItems: 'center', marginTop: 10},
-  labelStyle: {color: 'white', fontSize: 18, width: '90%'},
-});

@@ -1,11 +1,4 @@
-import {
-  Image,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, Platform, SafeAreaView, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
 import {useNavigation} from '@react-navigation/native';
@@ -15,6 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Tabs} from 'react-native-collapsible-tab-view';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
+import styles from './styles';
 
 const HEADER_HEIGHT = 250;
 
@@ -39,22 +33,10 @@ const HoroscopeCompatibilityDetail = ({route}) => {
             source={{uri: horoscopesCompatibility?.horoscope1?.image}}
             resizeMode="contain"
           />
-          <Text
-            style={{
-              fontSize: 28,
-              marginTop: 10,
-              color: 'white',
-              fontFamily: 'EBGaramond-ExtraBold',
-            }}>
+          <Text style={styles.horoscopeOneTextStyle}>
             {horoscopesCompatibility?.horoscope1?.horoscope}
           </Text>
-          <Text
-            style={{
-              top: 10,
-              color: 'white',
-              fontFamily: 'EBGaramond-Medium',
-              fontSize: 16,
-            }}>
+          <Text style={styles.horoscopeOneTextReplaceStyle}>
             {horoscopesCompatibility?.horoscope1?.date.replace(/\n/g, '')}
           </Text>
         </View>
@@ -65,22 +47,10 @@ const HoroscopeCompatibilityDetail = ({route}) => {
             source={{uri: horoscopesCompatibility?.horoscope2?.image}}
             resizeMode="contain"
           />
-          <Text
-            style={{
-              fontSize: 28,
-              marginTop: 10,
-              color: 'white',
-              fontFamily: 'EBGaramond-ExtraBold',
-            }}>
+          <Text style={styles.horoscopeOneTextStyle}>
             {horoscopesCompatibility?.horoscope2?.horoscope}
           </Text>
-          <Text
-            style={{
-              top: 10,
-              color: 'white',
-              fontFamily: 'EBGaramond-Medium',
-              fontSize: 16,
-            }}>
+          <Text style={styles.horoscopeOneTextReplaceStyle}>
             {horoscopesCompatibility?.horoscope2?.date.replace(/\n/g, '')}
           </Text>
         </View>
@@ -138,59 +108,3 @@ const HoroscopeCompatibilityDetail = ({route}) => {
 };
 
 export default HoroscopeCompatibilityDetail;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: Platform.OS === 'ios' ? 50 : 0,
-    backgroundColor: 'rgba(139, 93, 182, 0.4)',
-  },
-  messageContainer: {padding: 10, marginVertical: 5},
-  messageText: {
-    fontSize: Platform.OS === 'ios' ? 20 : 18,
-    fontFamily: 'EBGaramond-Medium',
-  },
-  inputContainer: {flexDirection: 'row', alignItems: 'center', padding: 10},
-  input: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#B7C9F2',
-    borderRadius: 10,
-    height: 50,
-  },
-  micIcon: {
-    padding: 10,
-    backgroundColor: '#B7C9F2',
-    borderRadius: 25,
-    height: 50,
-    width: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 5,
-  },
-  headerContainerStyle: {
-    marginTop: Platform.OS === 'ios' ? 0 : 30,
-    backgroundColor: 'rgba(139, 93, 182, 0.4)',
-    borderBottomWidth: 2,
-    borderBottomColor: 'white',
-  },
-
-  headerTitleStyle: {
-    marginRight: -50,
-  },
-
-  customHeaderStyle: {
-    marginTop: Platform.OS === 'ios' ? 0 : 50,
-    zIndex: 999,
-  },
-  tabScrollStyle: {flexGrow: 1},
-  header: {
-    height: HEADER_HEIGHT,
-    width: '100%',
-    backgroundColor: '#6768B3',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-    display: 'flex',
-  },
-});

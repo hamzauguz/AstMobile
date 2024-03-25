@@ -1,13 +1,5 @@
-import {
-  Image,
-  Platform,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, SafeAreaView, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import auth from '@react-native-firebase/auth';
 import Container from '../../components/container';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import CustomHeader from '../../components/custom-header';
@@ -18,7 +10,6 @@ import {
   getUserInfoByEmail,
 } from '../../utils/utils';
 import moment from 'moment';
-import {windowHeight, windowWidth} from '../../utils/helpers';
 import OptionsMenu from 'react-native-option-menu';
 import {useNavigation} from '@react-navigation/native';
 import AvatarSkeneton from '../../components/skeneton-cards/avatar-skeneton';
@@ -28,7 +19,7 @@ import RandomInfoSkenetonCard from '../../components/skeneton-cards/random-info-
 const Profile = () => {
   moment.locale('tr');
   const navigation = useNavigation();
-  const {user, userLoading} = useSelector(state => state.user);
+  const {user} = useSelector(state => state.user);
   const [userInfo, setUserInfo] = useState(null);
   const [horoscopeInfo, setHoroscopeInfo] = useState('');
 
@@ -57,51 +48,26 @@ const Profile = () => {
               customButton={
                 <AntDesignIcon name="setting" size={30} color="black" />
               }
-              // destructiveIndex={3}
               options={['Bilgilerimi Düzenle', 'Şifremi Değiştir', 'Cancel']}
               actions={[EditMyInfoNavigate, EditMyPasswordNavigate]}
             />
           }
         />
         <View style={styles.topContainer} />
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-          }}>
+        <View style={styles.avatarView}>
           <View>
             {userInfo === null ? (
               <AvatarSkeneton />
             ) : (
               <Image
-                style={{
-                  width: windowWidth > 400 ? 120 : 100,
-                  height: windowWidth > 400 ? 120 : 100,
-                  backgroundColor: 'gray',
-                  borderRadius: windowWidth > 400 ? 60 : 50,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  display: 'flex',
-                  alignContent: 'center',
-                  overflow: 'hidden',
-                  resizeMode: 'contain',
-                  borderColor: 'purple',
-                  borderWidth: 5,
-                }}
+                style={styles.avatarImageStyle}
                 // src={user.photoURL}
                 source={require('../../../assets/misis-lady.jpg')}
                 resizeMode="cover"
               />
             )}
           </View>
-          <View
-            style={{
-              flex: 2,
-              width: '90%',
-              display: 'flex',
-              flexDirection: 'column',
-              top: windowHeight / 13.34,
-            }}>
+          <View style={styles.profileContainer}>
             <View style={styles.centerContainer}>
               {userInfo === null ? (
                 <>
@@ -148,20 +114,7 @@ const Profile = () => {
           {horoscopeInfo === null ? (
             <RandomInfoSkenetonCard />
           ) : (
-            <View
-              style={{
-                flex: 1,
-                width: '90%',
-                height: 100,
-                backgroundColor: '#BFBAFC',
-                justifyContent: 'center',
-                alignContent: 'flex-end',
-                alignItems: 'center',
-                marginTop: 200,
-                borderRadius: 10,
-                bottom: 20,
-                padding: 10,
-              }}>
+            <View style={styles.randomInfoContainer}>
               <Text style={styles.garamondFontStyle}>{horoscopeInfo}</Text>
             </View>
           )}
