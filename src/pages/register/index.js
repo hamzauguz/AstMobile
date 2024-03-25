@@ -51,8 +51,6 @@ const Register = () => {
     }));
   };
 
-  console.log('formdata: ', formData);
-
   const handleSignIn = (email, password) => {
     CreateUserWithEmailAndPassword({
       email,

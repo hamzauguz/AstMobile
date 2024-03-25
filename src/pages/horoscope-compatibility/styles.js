@@ -1,7 +1,6 @@
 import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {windowHeight, windowWidth} from '../../utils/helpers';
-console.log('windowheight: ', windowHeight);
-console.log('windowwidth: ', windowWidth);
+
 const styles = StyleSheet.create({
   safeAreaContainer: {flexGrow: 1},
   containerCustomStyle: {

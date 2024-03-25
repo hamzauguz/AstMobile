@@ -121,7 +121,6 @@ const EditMyInfo = () => {
       navigation.navigate('Profile');
       setProgressBar(false);
     } catch (e) {
-      console.error('Error updating document: ', e);
       setProgressBar(false);
     }
   };

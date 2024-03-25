@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   },
   garamondFontStyle: {
     fontFamily: 'EBGaramond-Bold',
+    fontSize: 17,
   },
 });
 

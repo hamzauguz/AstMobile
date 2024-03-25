@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   headerContainerStyle: {
     marginTop: Platform.OS === 'ios' ? 0 : 30,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(139, 93, 182, 0.4)',
     borderBottomWidth: 2,
     borderBottomColor: 'white',
   },

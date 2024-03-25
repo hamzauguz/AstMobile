@@ -39,9 +39,6 @@ const HoroscopeCompatibility = () => {
       : 'ca-app-pub-9650548064732377/3366763237';
   const {isLoaded, isClosed, load, show} = useInterstitialAd(HCPassedAdMob);
 
-  console.log('isclosed: ', isClosed);
-  console.log('isLoaded: ', isLoaded);
-
   useEffect(() => {
     load();
 
@@ -81,7 +78,6 @@ const HoroscopeCompatibility = () => {
     const result = await model.generateContent(prompt);
     const response = result.response;
     const text = response.text();
-    console.log('messages: ', messages);
     setMessages([...messages, {text, user: false}]);
     setLoading(false);
 

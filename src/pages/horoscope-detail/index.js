@@ -5,10 +5,9 @@ import {
   StyleSheet,
   Text,
   View,
-  Animated,
 } from 'react-native';
 import {Tabs} from 'react-native-collapsible-tab-view';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import CustomHeader from '../../components/custom-header';
@@ -23,10 +22,6 @@ const HoroscopeDetail = ({navigation, route}) => {
   useEffect(() => {
     if (route.params.data) {
       setSelectedHoroscope(route?.params?.data);
-      console.log(
-        'selected: ',
-        route?.params?.data?.status?.daily.split('\\n'),
-      );
     }
   }, [route.params?.data]);
 

@@ -62,8 +62,6 @@ const UserInfo = () => {
     }));
   };
 
-  console.log('getbirtdate: ', moment(date).year());
-
   const navigation = useNavigation();
   const addUserInfo = async () => {
     try {
@@ -92,7 +90,6 @@ const UserInfo = () => {
         setProgressBar(false);
       });
     } catch (e) {
-      console.error('Error adding document: ', e);
       setProgressBar(false);
     }
   };
