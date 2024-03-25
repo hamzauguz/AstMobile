@@ -8,6 +8,7 @@ import {useSelector} from 'react-redux';
 import {
   getHoroscopesInfoCollection,
   getUserInfoByEmail,
+  SignOut,
 } from '../../utils/utils';
 import moment from 'moment';
 import OptionsMenu from 'react-native-option-menu';
@@ -45,11 +46,17 @@ const Profile = () => {
           containerStyle={styles.headerStyle}
           iconRight={
             <OptionsMenu
+              destructiveIndex={2}
               customButton={
                 <AntDesignIcon name="setting" size={30} color="black" />
               }
-              options={['Bilgilerimi Düzenle', 'Şifremi Değiştir', 'Cancel']}
-              actions={[EditMyInfoNavigate, EditMyPasswordNavigate]}
+              options={[
+                'Bilgilerimi Düzenle',
+                'Şifremi Değiştir',
+                'Çıkış Yap',
+                'Cancel',
+              ]}
+              actions={[EditMyInfoNavigate, EditMyPasswordNavigate, SignOut]}
             />
           }
         />

@@ -1,4 +1,4 @@
-const {StyleSheet} = require('react-native');
+const {StyleSheet, Platform} = require('react-native');
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   tabScrollStyle: {flexGrow: 1},
   header: {
-    height: HEADER_HEIGHT,
+    height: 250,
     width: '100%',
     backgroundColor: '#6768B3',
     alignItems: 'center',
