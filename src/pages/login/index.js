@@ -25,6 +25,7 @@ import {SignIn, SignInWithGoogle} from '../../utils/utils';
 import LoginWithGoogleButton from '../../components/login-with-google-button';
 import styles from './styles';
 import {windowHeight, windowWidth} from '../../utils/helpers';
+import {firebase} from '@react-native-firebase/auth';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -113,12 +114,17 @@ const Login = () => {
                   />
                 </View>
                 <View style={styles.registerContainer}>
-                  <Text style={styles.haventAccountText}>Hesabın yokmu?</Text>
+                  <Text style={styles.haventAccountText}>
+                    Şifrenimi unuttun?
+                  </Text>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('Register')}
+                    onPress={() => {
+                      // firebase.auth().sendPasswordResetEmail(formData.email);
+                      navigation.navigate('ForgotPassword');
+                    }}
                     style={styles.nowRegisterStyle}>
-                    <Text style={styles.nowRegisterText}>Hemen kaydol</Text>
+                    <Text style={styles.nowRegisterText}>Hemen tıkla</Text>
                   </TouchableOpacity>
                 </View>
               </View>

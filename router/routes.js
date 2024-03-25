@@ -23,6 +23,7 @@ import EditMyInfo from '../src/pages/edit-myInfo';
 import EditMyPassword from '../src/pages/edit-myPassword';
 import EditMyPhoto from '../src/pages/edit-myPhoto';
 import HoroscopeCompatibilityDetail from '../src/pages/horoscope-compatibility-detail';
+import ForgotPassword from '../src/pages/forgot-password';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -132,6 +133,7 @@ const Routes = () => {
             <Stack.Screen name="Welcome" component={Welcome} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           </>
         )}
       </Stack.Navigator>

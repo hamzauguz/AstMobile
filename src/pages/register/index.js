@@ -92,7 +92,7 @@ const Register = () => {
             <View style={styles.formView}>
               <View style={styles.topContainer}>
                 <Image
-                  source={require('../../../assets/astrology.png')}
+                  source={require('../../../assets/astrology3.png')}
                   style={styles.appIcon}
                 />
 
