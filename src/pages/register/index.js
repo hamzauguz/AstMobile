@@ -85,7 +85,7 @@ const Register = () => {
           contentContainerStyle={styles.keyboardContentContainer}
           extraHeight={130}
           scrollEnabled
-          extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
+          extraScrollHeight={Platform.OS === 'ios' ? 100 : 0}
           resetScrollToCoords={{x: 0, y: 0}}
           style={styles.keyboardContainer}>
           <View style={styles.keyboardViewContainer}>

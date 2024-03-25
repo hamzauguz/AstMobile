@@ -3,6 +3,7 @@ import {
   Alert,
   Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,7 +15,6 @@ import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MaskInput from 'react-native-mask-input';
 import InputWithLabel from '../../components/input-with-label';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,7 +26,7 @@ import {getUserInfoByEmail} from '../../utils/utils';
 import HoroscopesModal from '../../components/horoscopes-modal';
 import {doc, updateDoc} from 'firebase/firestore';
 import {db} from '../../utils/firebase';
-import {convertToISOTime} from '../../utils/helpers';
+import {convertToISOTime, windowHeight} from '../../utils/helpers';
 
 const EditMyInfo = () => {
   const navigation = useNavigation();
@@ -145,14 +145,7 @@ const EditMyInfo = () => {
             iconTitle={'Bilgilerimi Düzenle'}
           />
 
-          <KeyboardAwareScrollView
-            enableOnAndroid={true}
-            contentContainerStyle={{flexGrow: 1}}
-            extraHeight={130}
-            scrollEnabled
-            extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
-            resetScrollToCoords={{x: 0, y: 0}}
-            style={{width: '100%', flexGrow: 1}}>
+          <ScrollView style={{height: windowHeight}}>
             <InputWithLabel
               label={'Ad & Soyad'}
               placeholder={'Adınızı ve soyadınızı giriniz.'}
@@ -301,7 +294,7 @@ const EditMyInfo = () => {
               onClose={toggleModal}
               onSelectCity={handleCitySelect}
             />
-          </KeyboardAwareScrollView>
+          </ScrollView>
         </SafeAreaView>
       )}
     </Container>

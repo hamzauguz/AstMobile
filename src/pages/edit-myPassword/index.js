@@ -3,6 +3,7 @@ import {
   Alert,
   Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -20,6 +21,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {firebase} from '@react-native-firebase/auth';
 // import auth from '@react-native-firebase/auth';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import {windowHeight} from '../../utils/helpers';
 
 const EditMyPassword = () => {
   const navigation = useNavigation();
@@ -84,14 +86,7 @@ const EditMyPassword = () => {
           iconTitle={'Şifremi Değiştir'}
         />
 
-        <KeyboardAwareScrollView
-          enableOnAndroid={true}
-          contentContainerStyle={{flexGrow: 1}}
-          extraHeight={130}
-          scrollEnabled
-          extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
-          resetScrollToCoords={{x: 0, y: 0}}
-          style={{width: '100%', flexGrow: 1}}>
+        <ScrollView style={{height: windowHeight}}>
           <InputWithLabel
             containerStyle={styles.inputContainerStyle}
             label={'Eski Şifre'}
@@ -186,7 +181,7 @@ const EditMyPassword = () => {
               )}
             </TouchableOpacity>
           </LinearGradient>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </SafeAreaView>
     </Container>
   );

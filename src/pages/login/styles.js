@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     // fontWeight: '500',
     fontSize: Platform.OS === 'ios' ? 18 : 16,
     fontFamily: 'EBGaramond-Bold',
+    padding: 10,
   },
   nowRegisterStyle: {
     alignItems: 'center',
