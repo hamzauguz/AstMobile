@@ -19,6 +19,7 @@ import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-ske
 import SkenetonButton from '../../components/skeneton-cards/skeneton-button';
 import LottieLoading from '../../components/lottie-loading';
 import {useInterstitialAd} from 'react-native-google-mobile-ads';
+import {GoogleGenerativeAI_ID} from '@env';
 
 const HoroscopeCompatibility = () => {
   const navigation = useNavigation();
@@ -31,7 +32,6 @@ const HoroscopeCompatibility = () => {
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const API_KEY = 'AIzaSyCxRL8FVFdHx2ZPrgheB-RLc-OSpMj1Gcw';
   const HCPassedAdMob =
     Platform.OS === 'ios'
       ? 'ca-app-pub-9650548064732377/9274546092'
@@ -71,7 +71,9 @@ const HoroscopeCompatibility = () => {
     };
     setMessages([...messages, userMessage]);
 
-    const genAI = new GoogleGenerativeAI.GoogleGenerativeAI(API_KEY);
+    const genAI = new GoogleGenerativeAI.GoogleGenerativeAI(
+      GoogleGenerativeAI_ID,
+    );
     const model = genAI.getGenerativeModel({model: 'gemini-pro'});
     const prompt = userMessage.text;
     const result = await model.generateContent(prompt);
