@@ -20,7 +20,9 @@ import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
+import {FIREBASE_API_URL} from '@env';
 
+console.log('FIREBASE_API_URL2: ', FIREBASE_API_URL);
 const Home = () => {
   const navigation = useNavigation();
   const {user, userLoading} = useSelector(state => state.user);

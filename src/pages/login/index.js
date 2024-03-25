@@ -120,7 +120,6 @@ const Login = () => {
 
                   <TouchableOpacity
                     onPress={() => {
-                      // firebase.auth().sendPasswordResetEmail(formData.email);
                       navigation.navigate('ForgotPassword');
                     }}
                     style={styles.nowRegisterStyle}>

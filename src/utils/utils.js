@@ -2,15 +2,13 @@ import auth from '@react-native-firebase/auth';
 import {Alert, Platform} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import firestore from '@react-native-firebase/firestore';
-import {collection, onSnapshot, query} from 'firebase/firestore';
-import {db} from './firebase';
+import {IOS_GOOGLE_WEB_CLIENT_ID, ANDROID_GOOGLE_WEB_CLIENT_ID} from '@env';
 import seedrandom from 'seedrandom';
 
 GoogleSignin.configure({
   webClientId: Platform.select({
-    ios: '28271342960-c0i41k486gjf163hsmasdfsg7gvk3d5j.apps.googleusercontent.com',
-    android:
-      '28271342960-gkacljivqssjd6tg1ende3s4av82be9b.apps.googleusercontent.com',
+    ios: IOS_GOOGLE_WEB_CLIENT_ID,
+    android: ANDROID_GOOGLE_WEB_CLIENT_ID,
   }),
   scopes: ['email'],
   offlineAccess: true,
