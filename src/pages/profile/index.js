@@ -34,6 +34,11 @@ const Profile = () => {
       });
     };
     userInfoControl();
+    const unsubscribe = navigation.addListener('focus', () => {
+      userInfoControl();
+    });
+
+    return unsubscribe;
   }, [user]);
 
   const EditMyInfoNavigate = () => navigation.navigate('EditMyInfo');
@@ -54,7 +59,7 @@ const Profile = () => {
                 'Bilgilerimi Düzenle',
                 'Şifremi Değiştir',
                 'Çıkış Yap',
-                'Cancel',
+                'İptal',
               ]}
               actions={[EditMyInfoNavigate, EditMyPasswordNavigate, SignOut]}
             />

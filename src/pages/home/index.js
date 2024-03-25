@@ -54,13 +54,7 @@ const Home = () => {
           <ActivityIndicator size={'large'} color={'white'} />
         ) : (
           <View style={{flex: 1}}>
-            <View style={{flex: 0.9}}>
-              <TouchableOpacity
-                style={{marginTop: 50}}
-                onPress={() => SignOut()}>
-                <Text style={{backgroundColor: 'red'}}>UserInfo</Text>
-              </TouchableOpacity>
-            </View>
+            <View style={{flex: 0.9}}></View>
             {horoscopesData === null ? (
               <View
                 style={{
