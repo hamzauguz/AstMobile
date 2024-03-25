@@ -1,10 +1,8 @@
 import {
-  ActivityIndicator,
-  Dimensions,
+  Button,
   Image,
   Platform,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -21,6 +19,7 @@ import * as GoogleGenerativeAI from '@google/generative-ai';
 import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
 import SkenetonButton from '../../components/skeneton-cards/skeneton-button';
 import LottieLoading from '../../components/lottie-loading';
+import {useInterstitialAd, TestIds} from 'react-native-google-mobile-ads';
 
 const HoroscopeCompatibility = () => {
   const navigation = useNavigation();
@@ -34,6 +33,24 @@ const HoroscopeCompatibility = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const API_KEY = 'AIzaSyCxRL8FVFdHx2ZPrgheB-RLc-OSpMj1Gcw';
+  const HCPassedAdMob =
+    Platform.OS === 'ios'
+      ? 'ca-app-pub-9650548064732377/9274546092'
+      : 'ca-app-pub-9650548064732377/3366763237';
+  const {isLoaded, isClosed, load, show} = useInterstitialAd(HCPassedAdMob);
+
+  console.log('isclosed: ', isClosed);
+  console.log('isLoaded: ', isLoaded);
+
+  useEffect(() => {
+    load();
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      load();
+    });
+
+    return unsubscribe;
+  }, [load, navigation]);
 
   useEffect(() => {
     getHoroscopesCollection().then(res => setHoroscopesData(res));
@@ -49,6 +66,9 @@ const HoroscopeCompatibility = () => {
 
   const sendMessage = async () => {
     setLoading(true);
+    if (isLoaded) {
+      show();
+    }
     const userMessage = {
       text: `${horoscopesData[firstActiveItem]?.horoscope} burcu ile ${horoscopesData[SecondActiveItem]?.horoscope} burcu arasındaki burç uyumluluğu nedir?`,
       user: true,
@@ -64,6 +84,7 @@ const HoroscopeCompatibility = () => {
     console.log('messages: ', messages);
     setMessages([...messages, {text, user: false}]);
     setLoading(false);
+
     navigation.navigate('HoroscopeCompatibilityDetail', {
       data: {
         text,
@@ -216,7 +237,7 @@ const HoroscopeCompatibility = () => {
                 <SkenetonButton />
               ) : (
                 <TouchableOpacity
-                  disabled={loading}
+                  disabled={loading && isLoaded}
                   onPress={() => {
                     sendMessage();
                   }}

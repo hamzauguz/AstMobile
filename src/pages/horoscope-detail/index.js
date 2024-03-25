@@ -14,6 +14,7 @@ import {windowHeight, windowWidth} from '../../utils/helpers';
 import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 
 const HEADER_HEIGHT = 250;
 
@@ -71,6 +72,14 @@ const HoroscopeDetail = ({navigation, route}) => {
             </React.Fragment>
           ))}
         </Text>
+        <BannerAd
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          unitId={
+            Platform.OS === 'ios'
+              ? 'ca-app-pub-9650548064732377/7517761239'
+              : 'ca-app-pub-9650548064732377/3262019124'
+          }
+        />
       </View>
     );
   };

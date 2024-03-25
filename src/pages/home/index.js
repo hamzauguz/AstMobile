@@ -20,7 +20,6 @@ import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
-import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -62,24 +61,6 @@ const Home = () => {
                 onPress={() => SignOut()}>
                 <Text style={{backgroundColor: 'red'}}>UserInfo</Text>
               </TouchableOpacity>
-              <BannerAd
-                size={BannerAdSize.ADAPTIVE_BANNER}
-                unitId={
-                  Platform.OS === 'ios'
-                    ? 'ca-app-pub-9650548064732377/4401192042'
-                    : 'ca-app-pub-9650548064732377/4790421896'
-                }
-                onAdLoaded={() => {
-                  console.log('Advert loaded');
-                }}
-                onAdFailedToLoad={error => {
-                  console.error('Advert failed to load: ', error);
-                }}
-              />
-              <BannerAd
-                size={BannerAdSize.FULL_BANNER}
-                unitId="ca-app-pub-9650548064732377~7220294055"
-              />
             </View>
             {horoscopesData === null ? (
               <View

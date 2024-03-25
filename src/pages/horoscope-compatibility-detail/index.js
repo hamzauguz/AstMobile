@@ -14,6 +14,7 @@ import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Tabs} from 'react-native-collapsible-tab-view';
 import {windowHeight, windowWidth} from '../../utils/helpers';
+import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 
 const HEADER_HEIGHT = 250;
 
@@ -121,6 +122,14 @@ const HoroscopeCompatibilityDetail = ({route}) => {
             <Tabs.ScrollView style={styles.tabScrollStyle}>
               <RenderMessage item={horoscopesCompatibility} />
             </Tabs.ScrollView>
+            <BannerAd
+              size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+              unitId={
+                Platform.OS === 'ios'
+                  ? 'ca-app-pub-9650548064732377/7517761239'
+                  : 'ca-app-pub-9650548064732377/3262019124'
+              }
+            />
           </Tabs.Tab>
         </Tabs.Container>
       </SafeAreaView>

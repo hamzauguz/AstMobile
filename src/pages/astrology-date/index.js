@@ -13,6 +13,7 @@ import moment from 'moment';
 import {useSelector} from 'react-redux';
 import {getImportantDates} from '../../utils/utils';
 import CalendarSkeneton from '../../components/skeneton-cards/calendar-skeneton';
+import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 
 const AstrologyDate = () => {
   const [selectedDate, setSelectedDate] = useState(moment());
@@ -181,6 +182,14 @@ const AstrologyDate = () => {
               </Text>
             </View>
           </ScrollView>
+          <BannerAd
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            unitId={
+              Platform.OS === 'ios'
+                ? 'ca-app-pub-9650548064732377/8281028625'
+                : 'ca-app-pub-9650548064732377/4680694965'
+            }
+          />
         </View>
       </SafeAreaView>
     </Container>
@@ -220,7 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textStyle: {
-    fontSize: Platform.OS === 'ios' ? 20 : 18,
+    fontSize: 18,
     fontFamily: 'EBGaramond-Bold',
   },
 });
