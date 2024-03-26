@@ -61,7 +61,7 @@ const Home = () => {
                 marginTop: Platform.OS === 'ios' ? 0 : 30,
               }}>
               <ColorfulCard
-                title="Alahçın Hatun ile"
+                title="🌟 Alahçın Hatun ile"
                 value="Ruya yorumu"
                 valueTextStyle={{bottom: 10}}
                 footerTextStyle={{fontSize: 15}}
@@ -78,7 +78,7 @@ const Home = () => {
                 }}
               />
               <ColorfulCard
-                title="Umay Hanıma"
+                title="🌟 Umay Ana'ya"
                 value="Soru sor"
                 footerTextStyle={{fontSize: 15}}
                 footerValue="Geçici süreliğine bedava, Tıkla"
