@@ -1690,6 +1690,11 @@
   resolved "https://registry.npmjs.org/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.10.1.tgz"
   integrity sha512-Dq5rYfEpdeel0bLVN+nfD1VWmzCkK+pJbSjIawGE+RY4+NIJqhbUDDQjvV0NUK84fMfwxvtFoCtEe70HfZjFcw==
 
+"@freakycoder/react-native-bounceable@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@freakycoder/react-native-bounceable/-/react-native-bounceable-1.0.3.tgz#79de6fa99fb8357a5e52cc095ecdb1786f4b1514"
+  integrity sha512-+iMq2tnqxCwFjitbPUz9nZ+VfJ8OU9waIlDJAAsoq1229QEwCmERCNy5zVtDsz75q3i4FLXX/n7fimdMzmP21A==
+
 "@google/generative-ai@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.3.1.tgz#327b7f6df0d456205d44ad4237d7278e673984d5"
@@ -6835,6 +6840,11 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-bounceable@0.2.4:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-bounceable/-/react-native-bounceable-0.2.1.tgz#1d033d8daf151390c11b085c57191e673afeba2c"
+  integrity sha512-3voGBf7e7z3i06PXSD8ahpzpuKVYURkFOvcxX3ZTBMsJN1hPjnj7B8J6P9PZlSojFMFvqUeGwE7/S2bOzCb1pg==
+
 react-native-calendar-picker@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/react-native-calendar-picker/-/react-native-calendar-picker-8.0.2.tgz#b8572a1b67ee0e4f0bd150892805e1366afbdaeb"
@@ -6850,6 +6860,11 @@ react-native-collapsible-tab-view@^6.2.1:
   integrity sha512-pgmpZYSg6TPYmhv3Dw/czFJHk4AzcYN2df3EMlKwFqbu1ifmlA866hBUVDX3mlbRaros75U5S1wpGCwlqqXLTQ==
   dependencies:
     use-deep-compare "^1.1.0"
+
+react-native-colorful-card@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-colorful-card/-/react-native-colorful-card-0.1.5.tgz#f34029f4bceabf88b232ef0c66c15cc1e0412b6b"
+  integrity sha512-hzaKKeTLMXI8IA1PU7OhW2hQTD1U8hndVHKzm6dXBFHpYMYEVD7MDVaXPdsJ8/i1nOtgOcb187mDoT8AqbgbGw==
 
 react-native-date-picker@^4.2.13:
   version "4.2.13"

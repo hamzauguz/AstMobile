@@ -24,6 +24,8 @@ import EditMyPassword from '../src/pages/edit-myPassword';
 import EditMyPhoto from '../src/pages/edit-myPhoto';
 import HoroscopeCompatibilityDetail from '../src/pages/horoscope-compatibility-detail';
 import ForgotPassword from '../src/pages/forgot-password';
+import AskQuestion from '../src/pages/ask-question';
+import DreamComment from '../src/pages/dream-comment';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -121,6 +123,8 @@ const Routes = () => {
             <Stack.Screen name="EditMyInfo" component={EditMyInfo} />
             <Stack.Screen name="EditMyPassword" component={EditMyPassword} />
             <Stack.Screen name="EditMyPhoto" component={EditMyPhoto} />
+            <Stack.Screen name="AskQuestion" component={AskQuestion} />
+            <Stack.Screen name="DreamComment" component={DreamComment} />
             <Stack.Screen name="UserInfo" component={UserInfo} />
             <Stack.Screen name="HoroscopeDetail" component={HoroscopeDetail} />
             <Stack.Screen

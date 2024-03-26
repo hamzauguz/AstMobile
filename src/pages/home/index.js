@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   Image,
   Platform,
   SafeAreaView,
@@ -16,6 +17,7 @@ import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
+import ColorfulCard from 'react-native-colorful-card';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -50,7 +52,49 @@ const Home = () => {
           <ActivityIndicator size={'large'} color={'white'} />
         ) : (
           <View style={{flex: 1}}>
-            <View style={{flex: 0.9}}></View>
+            <View
+              style={{
+                flex: 0.9,
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                marginTop: Platform.OS === 'ios' ? 0 : 30,
+              }}>
+              <ColorfulCard
+                title="Alahçın Hatun ile"
+                value="Ruya yorumu"
+                valueTextStyle={{bottom: 10}}
+                footerTextStyle={{fontSize: 15}}
+                footerValue="Geçici süreliğine bedava, Tıkla"
+                iconImageSource={require('../../../assets/ms-alahcin.png')}
+                iconImageStyle={{height: 50, width: 50}}
+                style={{
+                  backgroundColor: '#7954ff',
+                  height: 150,
+                  width: windowWidth - 20,
+                }}
+                onPress={() => {
+                  navigation.navigate('DreamComment');
+                }}
+              />
+              <ColorfulCard
+                title="Umay Hanıma"
+                value="Soru sor"
+                footerTextStyle={{fontSize: 15}}
+                footerValue="Geçici süreliğine bedava, Tıkla"
+                iconImageSource={require('../../../assets/ms-umay.png')}
+                iconImageStyle={{height: 50, width: 50}}
+                style={{
+                  backgroundColor: '#7954ff',
+                  height: 150,
+                  width: windowWidth - 20,
+                  marginTop: 20,
+                }}
+                onPress={() => {
+                  navigation.navigate('AskQuestion');
+                }}
+              />
+            </View>
             {horoscopesData === null ? (
               <View
                 style={{
