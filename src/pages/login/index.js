@@ -53,6 +53,13 @@ const Login = () => {
     handleSignIn(formData.email, formData.password);
   };
 
+  const googleAuthPress = () => {
+    setShowProgressBar(true);
+    SignInWithGoogle()
+      .then(res => setShowProgressBar(false))
+      .catch(err => setShowProgressBar(false));
+  };
+
   return (
     <Container>
       <SafeAreaView style={styles.safeAreaContainer}>
@@ -80,7 +87,7 @@ const Login = () => {
                     source={require('../../../assets/astrology3.png')}
                     style={styles.appIcon}
                   />
-                  <LoginWithGoogleButton onPress={SignInWithGoogle} />
+                  <LoginWithGoogleButton onPress={googleAuthPress} />
                 </View>
                 <View style={styles.inputWithLabelContainer}>
                   <InputWithLabel
