@@ -1,52 +1,100 @@
 import {
   Image,
+  Keyboard,
   Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/container';
-import {windowHeight, windowWidth} from '../../utils/helpers';
+import {windowWidth} from '../../utils/helpers';
 import {GoogleGenerativeAI_ID} from '@env';
 import * as GoogleGenerativeAI from '@google/generative-ai';
 import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Tabs} from 'react-native-collapsible-tab-view';
+import {Tabs, useAnimatedTabIndex} from 'react-native-collapsible-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import Textarea from 'react-native-textarea';
+import RNBounceable from '@freakycoder/react-native-bounceable';
+import {useInterstitialAd} from 'react-native-google-mobile-ads';
+import LottieLoading from '../../components/lottie-loading';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+// import {useTabsContext} from 'react-native-collapsible-tab-view/lib/typescript/src/hooks';
 
 const HEADER_HEIGHT = 250;
 
 const AskQuestion = () => {
-  const [text2, setText2] = useState('');
-  const [messages, setMessages] = useState([]);
+  const tabViewRef = useRef(null);
+  const [textAreaInput, setTextAreaInput] = useState('');
+  const [messages, setMessages] = useState();
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const HCPassedAdMob =
+    Platform.OS === 'ios'
+      ? 'ca-app-pub-9650548064732377/3261594097'
+      : 'ca-app-pub-9650548064732377/8378189400';
+  const {isLoaded, isClosed, load, show} = useInterstitialAd(HCPassedAdMob);
+
+  const scrollToTab = () => {
+    tabViewRef.current && tabViewRef.current.jumpToTab('Soru Sor');
+  };
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        scrollToTab();
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {},
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    load();
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      load();
+    });
+
+    return unsubscribe;
+  }, [load, navigation, messages]);
+
+  console.log('isLoaded: ', isLoaded);
 
   const sendMessage = async () => {
+    setLoading(true);
+    if (isLoaded) {
+      show();
+    }
     const userMessage = {
-      text: text2,
+      text: `( ${textAreaInput} ) mitolojik karakter olan Umay Ana duyguları ve yetenekleri ile birlikte bu soruyu nasıl cevaplar?`,
       user: true,
     };
-    setMessages([...messages, userMessage]);
 
     const genAI = new GoogleGenerativeAI.GoogleGenerativeAI(
       GoogleGenerativeAI_ID,
     );
     const model = genAI.getGenerativeModel({model: 'gemini-pro'});
-    const prompt = text2;
+    const prompt = userMessage.text;
     const result = await model.generateContent(prompt);
     const response = result.response;
     const text = response.text();
-    setMessages([...messages, {text}]);
+    setMessages(text);
+    setLoading(false);
   };
-  console.log('messages: ', messages);
   const Header = () => {
     return (
       <View style={styles.header}>
@@ -55,9 +103,6 @@ const AskQuestion = () => {
           start={{x: 0.5, y: 1}}
           end={{x: 0.5, y: 0}}>
           <Image
-            // width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
-            // height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
-            // source={{uri: selectedHoroscope?.image}}
             source={require('../../../assets/ms-umay2.jpg')}
             style={{
               height: 250,
@@ -73,18 +118,57 @@ const AskQuestion = () => {
   const ScrollContainerItem = ({item}) => {
     return (
       <View style={styles.tabContent}>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 18,
-            fontFamily: 'EBGaramond-Medium',
-          }}>
-          {item}
-        </Text>
+        <Text style={[styles.messageText, {color: 'white'}]}>{item}</Text>
       </View>
     );
   };
 
+  const CustomText = ({children}) => {
+    const renderText = text => {
+      const parts = text?.split(/\*\*/);
+      return parts?.map((part, index) => {
+        if (index % 2 === 0) {
+          return <View>{renderParagraph(part)}</View>;
+        } else {
+          return renderTitle(part);
+        }
+      });
+    };
+
+    const renderTitle = title => {
+      return (
+        <Text
+          key={title}
+          style={{
+            fontSize: Platform.OS === 'ios' ? 24 : 23,
+            fontFamily: 'EBGaramond-ExtraBold',
+            color: '#0EA766',
+          }}>
+          {title}
+        </Text>
+      );
+    };
+    const renderParagraph = paragraph => {
+      const parts = paragraph.split(/\*/);
+      return parts?.map((part, index) => {
+        return (
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 19,
+              fontFamily: 'EBGaramond-Medium',
+            }}
+            key={index}>
+            {part}
+          </Text>
+        );
+      });
+    };
+
+    return <View style={styles.messageContainer}>{renderText(children)}</View>;
+  };
+
+  console.log('tabViewRef: ', tabViewRef);
   return (
     <Container>
       <SafeAreaView
@@ -104,61 +188,63 @@ const AskQuestion = () => {
           }
           iconTitle={'Soru Sor'}
         />
-        <Tabs.Container
-          initialTabName="Umay Ana"
-          renderHeader={Header}
-          headerHeight={HEADER_HEIGHT}
-          minHeaderHeight={HEADER_HEIGHT}>
-          <Tabs.Tab name="Umay Ana">
-            <Tabs.ScrollView style={styles.tabScrollStyle}>
-              <ScrollContainerItem
-                item={
-                  'Umay Ana, derin bir hüzne ve incelikli bir zarafete sahip olan doğanın koruyucusu ve rehberidir. Gözleri, sonsuz bir bilgelik ve anlayışla parıldar, yüzünde hüzünle karışık bir tebessüm vardır. Doğanın ritmiyle uyumlu bir şekilde hareket eder ve insanların bu ritme zarar vermesinden dolayı içsel bir acı hisseder. Ancak bu hüzün, onun gücünü ve kararlılığını zayıflatmaz, aksine daha da güçlendirir. Yeteneğiyle insanlara mesajlar ileten bir rehberdir ve yorumları genellikle derin bir etki bırakır, insanların ruhlarını besler. Umay Ana, hem doğanın güzelliğine hem de insanlığın yaşadığı acılara karşı hassas bir kalbe sahiptir ve her zaman insanların iyiliği için çabalar.'
-                }
-              />
-            </Tabs.ScrollView>
-          </Tabs.Tab>
-          <Tabs.Tab name="Soru Sor">
-            <Tabs.ScrollView
-              contentContainerStyle={{alignItems: 'center'}}
-              style={styles.tabScrollStyle}>
-              {/* <TextInput
-                onChangeText={text => setText2(text)}
-                value={text2}
-                placeholder="Enter your name"
-                style={{
-                  width: windowWidth - 20,
-                  height: 30,
-                  backgroundColor: 'black',
-                  color: 'white',
-                  margin: 20,
-                }}
-              /> */}
-              <Textarea
-                containerStyle={styles.textareaContainer}
-                style={styles.textarea}
-                // onChangeText={this.onChange}
-                // defaultValue={this.state.text}
-                maxLength={120}
-                placeholder={'yaz'}
-                placeholderTextColor={'#c7c7c7'}
-                underlineColorAndroid={'transparent'}
-              />
-              <LinearGradient
-                colors={['#374c47', '#52726c']}
-                start={{x: 1, y: 0}}
-                end={{x: 0, y: 0}}
-                style={styles.linearGradientContainer}>
-                <TouchableOpacity
-                  onPress={() => sendMessage()}
-                  style={styles.button}>
-                  <Text style={styles.loginButonText}>Soru Sor</Text>
-                </TouchableOpacity>
-              </LinearGradient>
-              <Text style={{color: 'white'}}>{messages}</Text>
-            </Tabs.ScrollView>
-          </Tabs.Tab>
-        </Tabs.Container>
+        {loading && (
+          <LottieLoading
+            bgColor={'purple'}
+            lottieSource={require('../../../assets/lotties/loading-lottie.json')}
+          />
+        )}
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}>
+          <Tabs.Container
+            ref={tabViewRef}
+            initialTabName="Soru Sor"
+            renderHeader={Header}
+            allowHeaderOverscroll
+            headerHeight={HEADER_HEIGHT}>
+            <Tabs.Tab name="Umay Ana">
+              <Tabs.ScrollView
+                automaticallyAdjustKeyboardInsets
+                style={styles.tabScrollStyle}>
+                <ScrollContainerItem
+                  item={
+                    'Umay Ana, derin bir hüzne ve incelikli bir zarafete sahip olan doğanın koruyucusu ve rehberidir. Gözleri, sonsuz bir bilgelik ve anlayışla parıldar, yüzünde hüzünle karışık bir tebessüm vardır. Doğanın ritmiyle uyumlu bir şekilde hareket eder ve insanların bu ritme zarar vermesinden dolayı içsel bir acı hisseder. Ancak bu hüzün, onun gücünü ve kararlılığını zayıflatmaz, aksine daha da güçlendirir. Yeteneğiyle insanlara mesajlar ileten bir rehberdir ve yorumları genellikle derin bir etki bırakır, insanların ruhlarını besler. Umay Ana, hem doğanın güzelliğine hem de insanlığın yaşadığı acılara karşı hassas bir kalbe sahiptir ve her zaman insanların iyiliği için çabalar.'
+                  }
+                />
+              </Tabs.ScrollView>
+            </Tabs.Tab>
+            <Tabs.Tab name="Soru Sor">
+              <Tabs.ScrollView
+                keyboardDismissMode="interactive"
+                contentContainerStyle={{alignItems: 'center'}}
+                style={styles.tabScrollStyle}>
+                <Textarea
+                  containerStyle={styles.textareaContainer}
+                  style={styles.textarea}
+                  onChangeText={text => setTextAreaInput(text)}
+                  defaultValue={textAreaInput}
+                  maxLength={120}
+                  placeholder={'Haydi durma, yaz...'}
+                  placeholderTextColor={'#c7c7c7'}
+                />
+                <RNBounceable onPress={sendMessage}>
+                  <LinearGradient
+                    colors={['#374c47', '#52726c']}
+                    start={{x: 1, y: 0}}
+                    end={{x: 0, y: 0}}
+                    style={styles.linearGradientContainer}>
+                    <Text style={styles.loginButonText}>
+                      {loading ? 'Yükleniyor...' : 'Soru Sor'}
+                    </Text>
+                  </LinearGradient>
+                </RNBounceable>
+                <CustomText children={messages} />
+              </Tabs.ScrollView>
+            </Tabs.Tab>
+          </Tabs.Container>
+        </ScrollView>
       </SafeAreaView>
     </Container>
   );
@@ -227,8 +313,13 @@ const styles = StyleSheet.create({
   textarea: {
     textAlignVertical: 'top',
     height: 170,
-    fontSize: 16,
+    fontSize: 18,
     color: '#333',
+    fontFamily: 'EBGaramond-Medium',
+  },
+  messageContainer: {padding: 10, marginVertical: 5},
+  messageText: {
+    fontSize: Platform.OS === 'ios' ? 20 : 18,
     fontFamily: 'EBGaramond-Medium',
   },
 });
