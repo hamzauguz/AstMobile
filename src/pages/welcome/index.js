@@ -12,7 +12,7 @@ const Welcome = () => {
       <SafeAreaView style={styles.container}>
         <View style={styles.viewContainer}>
           <Image
-            source={require('../../../assets/astrology3.png')}
+            source={require('../../../assets/astrology3.jpg')}
             style={styles.appIconStyle}
           />
         </View>

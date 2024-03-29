@@ -14,7 +14,7 @@ const Container = ({children}) => {
         style={styles.linearGradient}>
         <ImageBackground
           resizeMode="cover"
-          source={require('../../../assets/background.jpeg')}
+          source={require('../../../assets/background.jpg')}
           style={styles.container}>
           <LottieView
             source={require('../../../assets/lotties/bg-lottie-container.json')}

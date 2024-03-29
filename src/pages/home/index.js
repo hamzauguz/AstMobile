@@ -66,7 +66,7 @@ const Home = () => {
                 valueTextStyle={{bottom: 10}}
                 footerTextStyle={{fontSize: 15}}
                 footerValue="Geçici süreliğine bedava, Tıkla"
-                iconImageSource={require('../../../assets/ms-alahcin.png')}
+                iconImageSource={require('../../../assets/ms-alahcin.jpg')}
                 iconImageStyle={{height: 50, width: 50}}
                 style={{
                   backgroundColor: '#7954ff',
@@ -82,7 +82,7 @@ const Home = () => {
                 value="Soru sor"
                 footerTextStyle={{fontSize: 15}}
                 footerValue="Geçici süreliğine bedava, Tıkla"
-                iconImageSource={require('../../../assets/ms-umay.png')}
+                iconImageSource={require('../../../assets/ms-umay.jpg')}
                 iconImageStyle={{height: 50, width: 50}}
                 style={{
                   backgroundColor: '#7954ff',
