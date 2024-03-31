@@ -15,7 +15,11 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
-import {windowHeight, windowWidth} from '../../utils/helpers';
+import {
+  analyticsButtonLog,
+  windowHeight,
+  windowWidth,
+} from '../../utils/helpers';
 import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
 import ColorfulCard from 'react-native-colorful-card';
 
@@ -75,7 +79,17 @@ const Home = () => {
                   height: 150,
                   width: windowWidth - 20,
                 }}
-                onPress={() => {
+                onPress={async () => {
+                  await analyticsButtonLog('NavigateDreamComment', {
+                    id: 3,
+                    item: {
+                      name: 'Alahçın Hatun',
+                      task: 'Dream comment with GoogleAI',
+                    },
+                    description: [
+                      'current Screen=Home, navigateScreen=DreamComment',
+                    ],
+                  });
                   navigation.navigate('DreamComment');
                 }}
               />
@@ -92,7 +106,17 @@ const Home = () => {
                   width: windowWidth - 20,
                   marginTop: 20,
                 }}
-                onPress={() => {
+                onPress={async () => {
+                  await analyticsButtonLog('NavigateAskQuestion', {
+                    id: 2,
+                    item: {
+                      name: 'Umay Ana',
+                      task: 'Ask Question with GoogleAI',
+                    },
+                    description: [
+                      'current Screen=Home, navigateScreen=AskQuestion',
+                    ],
+                  });
                   navigation.navigate('AskQuestion');
                 }}
               />
@@ -139,9 +163,16 @@ const Home = () => {
                 snapToAlignment={'start'}
                 renderItem={({item, index}) => (
                   <TouchableOpacity
-                    onPress={() => {
+                    onPress={async () => {
                       if (activeItem + 3 === index) {
                         navigation.navigate('HoroscopeDetail', {data: item});
+                        await analyticsButtonLog('NavigateHoroscopeDetail', {
+                          id: 1,
+                          item: item,
+                          description: [
+                            'current Screen=Home, navigateScreen=HoroscopeDetail',
+                          ],
+                        });
                       } else if (index === 2) {
                         carouselRef.current.snapToItem(
                           horoscopesData.length - 1,

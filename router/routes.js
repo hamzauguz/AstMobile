@@ -1,5 +1,5 @@
 import {Platform, StyleSheet, Text} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../src/pages/login';
@@ -26,11 +26,15 @@ import HoroscopeCompatibilityDetail from '../src/pages/horoscope-compatibility-d
 import ForgotPassword from '../src/pages/forgot-password';
 import AskQuestion from '../src/pages/ask-question';
 import DreamComment from '../src/pages/dream-comment';
+import analytics from '@react-native-firebase/analytics';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
   const {user} = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const routeNameRef = useRef();
+  const navigationRef = useRef();
+
   const stackOptions = {
     headerTransparent: true,
     headerShown: false,
@@ -59,10 +63,7 @@ const Routes = () => {
             backgroundColor: '#bfbafc',
             height: Platform.OS === 'ios' ? 90 : 70,
             opacity: 0.9,
-          }}
-          screenOptions={() => ({
-            tabBarLabelStyle: styles.tabBarLabelStyle,
-          })}>
+          }}>
           <Tab.Screen
             name="Home"
             component={Home}
@@ -117,7 +118,22 @@ const Routes = () => {
   };
 
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => {
+        routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+      }}
+      onStateChange={async () => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef.current.getCurrentRoute().name;
+        if (previousRouteName !== currentRouteName) {
+          await analytics().logScreenView({
+            screen_name: currentRouteName,
+            screen_class: currentRouteName,
+          });
+        }
+        routeNameRef.current = currentRouteName;
+      }}>
       <Stack.Navigator screenOptions={stackOptions}>
         {user && user.emailVerified ? (
           <>

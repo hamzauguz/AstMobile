@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/container';
-import {windowWidth} from '../../utils/helpers';
+import {analyticsButtonLog, windowWidth} from '../../utils/helpers';
 import {GoogleGenerativeAI_ID} from '@env';
 import * as GoogleGenerativeAI from '@google/generative-ai';
 import CustomHeader from '../../components/custom-header';
@@ -73,6 +73,13 @@ const DreamComment = () => {
   console.log('isLoaded: ', isLoaded);
 
   const sendMessage = async () => {
+    await analyticsButtonLog('DreamCommentAlahcinHatun', {
+      id: 6,
+      item: {
+        task: 'AlahcinHatun with GoogleAI',
+      },
+      description: ['current Screen=DreamComment, navigateScreen=DreamComment'],
+    });
     setLoading(true);
     if (isLoaded) {
       show();

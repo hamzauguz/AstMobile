@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/container';
-import {windowWidth} from '../../utils/helpers';
+import {analyticsButtonLog, windowWidth} from '../../utils/helpers';
 import {GoogleGenerativeAI_ID} from '@env';
 import * as GoogleGenerativeAI from '@google/generative-ai';
 import CustomHeader from '../../components/custom-header';
@@ -23,8 +23,6 @@ import Textarea from 'react-native-textarea';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {useInterstitialAd} from 'react-native-google-mobile-ads';
 import LottieLoading from '../../components/lottie-loading';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-// import {useTabsContext} from 'react-native-collapsible-tab-view/lib/typescript/src/hooks';
 
 const HEADER_HEIGHT = 250;
 
@@ -75,6 +73,13 @@ const AskQuestion = () => {
   console.log('isLoaded: ', isLoaded);
 
   const sendMessage = async () => {
+    await analyticsButtonLog('AskQuestionUmayAna', {
+      id: 5,
+      item: {
+        task: 'AskQuestionUmayAna with GoogleAI',
+      },
+      description: ['current Screen=AskQuestion, navigateScreen=AskQuestion'],
+    });
     setLoading(true);
     if (isLoaded) {
       show();

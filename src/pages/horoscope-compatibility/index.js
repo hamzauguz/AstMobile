@@ -10,7 +10,11 @@ import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/container';
 import {useSelector} from 'react-redux';
 import {getHoroscopesCollection} from '../../utils/utils';
-import {windowHeight, windowWidth} from '../../utils/helpers';
+import {
+  analyticsButtonLog,
+  windowHeight,
+  windowWidth,
+} from '../../utils/helpers';
 import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
@@ -61,6 +65,15 @@ const HoroscopeCompatibility = () => {
   });
 
   const sendMessage = async () => {
+    await analyticsButtonLog('NavigateHoroscopeCompatibility', {
+      id: 4,
+      item: {
+        task: 'HoroscopeCompatibility with GoogleAI',
+      },
+      description: [
+        'current Screen=HoroscopeCompatibility, navigateScreen=HoroscopeCompatibilityDetail',
+      ],
+    });
     setLoading(true);
     if (isLoaded) {
       show();

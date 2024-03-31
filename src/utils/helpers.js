@@ -1,4 +1,5 @@
 import {Dimensions} from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 
 const getBirthdateToHoroscopeDate = (day, month) => {
   if ((month == 1 && day >= 21) || (month == 2 && day <= 19)) {
@@ -40,9 +41,14 @@ const convertToISOTime = timeString => {
   return now;
 };
 
+const analyticsButtonLog = (name, params) => {
+  analytics().logEvent(name, params);
+};
+
 export {
   getBirthdateToHoroscopeDate,
   windowHeight,
   windowWidth,
   convertToISOTime,
+  analyticsButtonLog,
 };
