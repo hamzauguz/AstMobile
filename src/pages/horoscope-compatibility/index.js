@@ -159,14 +159,20 @@ const HoroscopeCompatibility = () => {
             }}>
             <View style={{flex: 0.7}}>
               <Carousel
-                disableIntervalMomentum={true}
                 ref={ref => (carouselFirstRef.current = ref)}
-                loop={true}
                 data={horoscopesData}
                 onSnapToItem={index => setFirstActiveItem(index)}
                 itemWidth={ITEM_WIDTH}
                 getItemLayout={getCarouselItemLayout}
                 containerCustomStyle={styles.containerCustomStyle}
+                snapToInterval={ITEM_WIDTH}
+                disableIntervalMomentum={true}
+                loop={true}
+                enableSnap={true}
+                enableMomentum={false}
+                useScrollView={false}
+                decelerationRate={0.5}
+                snapToAlignment={'start'}
                 renderItem={({item, index}) => (
                   <TouchableOpacity
                     onPress={() => {
@@ -190,14 +196,20 @@ const HoroscopeCompatibility = () => {
                 sliderWidth={windowWidth}
               />
               <Carousel
-                disableIntervalMomentum={true}
                 ref={ref => (carouselSecondRef.current = ref)}
-                loop={true}
                 data={horoscopesData}
                 onSnapToItem={index => setSecondActiveItem(index)}
                 itemWidth={ITEM_WIDTH}
                 getItemLayout={getCarouselItemLayout}
                 containerCustomStyle={[styles.containerCustomStyle]}
+                disableIntervalMomentum={true}
+                loop={true}
+                enableSnap={true}
+                enableMomentum={false}
+                useScrollView={false}
+                snapToInterval={ITEM_WIDTH}
+                decelerationRate={0.5}
+                snapToAlignment={'start'}
                 renderItem={({item, index}) => (
                   <TouchableOpacity
                     onPress={() => {

@@ -45,6 +45,8 @@ const Home = () => {
     index,
   });
 
+  console.log('carouselRef.current: ', activeItem);
+
   return (
     <Container>
       <SafeAreaView style={styles.safeAreaContainer}>
@@ -121,20 +123,31 @@ const Home = () => {
               </View>
             ) : (
               <Carousel
-                disableIntervalMomentum={true}
                 ref={ref => (carouselRef.current = ref)}
-                loop={true}
                 data={horoscopesData}
                 onSnapToItem={index => setActiveItem(index)}
                 itemWidth={ITEM_WIDTH}
                 getItemLayout={getCarouselItemLayout}
                 containerCustomStyle={styles.containerCustomStyle}
+                disableIntervalMomentum={true}
+                loop={true}
+                enableSnap={true}
+                enableMomentum={false}
+                useScrollView={false}
+                snapToInterval={ITEM_WIDTH}
+                decelerationRate={0.5}
+                snapToAlignment={'start'}
                 renderItem={({item, index}) => (
                   <TouchableOpacity
                     onPress={() => {
-                      carouselRef.current.snapToItem(index - 3);
                       if (activeItem + 3 === index) {
                         navigation.navigate('HoroscopeDetail', {data: item});
+                      } else if (index === 2) {
+                        carouselRef.current.snapToItem(
+                          horoscopesData.length - 1,
+                        );
+                      } else {
+                        carouselRef.current.snapToItem(index - 3);
                       }
                     }}
                     style={styles.toucableCardStyle}>
