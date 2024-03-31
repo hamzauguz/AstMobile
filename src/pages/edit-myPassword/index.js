@@ -108,6 +108,7 @@ const EditMyPassword = () => {
               )
             }
             secureTextEntry={showPasswordForm.currentPassword}
+            autoCapitalize="none"
           />
           <InputWithLabel
             containerStyle={styles.inputContainerStyle}
@@ -130,6 +131,7 @@ const EditMyPassword = () => {
               )
             }
             secureTextEntry={showPasswordForm.newPassword}
+            autoCapitalize="none"
           />
           <InputWithLabel
             containerStyle={styles.inputContainerStyle}
@@ -152,6 +154,7 @@ const EditMyPassword = () => {
               )
             }
             secureTextEntry={showPasswordForm.reNewPassword}
+            autoCapitalize="none"
           />
           <LinearGradient
             colors={['#b717d2', '#ce25ab']}

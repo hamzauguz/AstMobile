@@ -12,6 +12,7 @@ const InputWithLabel = ({
   inputRightIcon,
   secureTextEntry,
   inputRightClick,
+  autoCapitalize,
 }) => {
   return (
     <View style={[styles.container, containerStyle]}>
@@ -25,6 +26,7 @@ const InputWithLabel = ({
         inputRightIcon={inputRightIcon}
         secureTextEntry={secureTextEntry}
         inputRightClick={inputRightClick}
+        autoCapitalize={autoCapitalize}
       />
     </View>
   );

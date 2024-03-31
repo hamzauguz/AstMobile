@@ -118,6 +118,7 @@ const Login = () => {
                       )
                     }
                     secureTextEntry={showPassword}
+                    autoCapitalize="none"
                   />
                 </View>
                 <View style={styles.registerContainer}>

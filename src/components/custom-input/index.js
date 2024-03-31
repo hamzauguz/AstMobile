@@ -17,6 +17,7 @@ const CustomInput = ({
   inputRightIcon,
   secureTextEntry,
   inputRightClick,
+  autoCapitalize,
 }) => {
   return (
     <View
@@ -33,6 +34,7 @@ const CustomInput = ({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
+        autoCapitalize={autoCapitalize}
       />
       {inputRightContainer && (
         <InputRightIcon onPress={inputRightClick} icon={inputRightIcon} />

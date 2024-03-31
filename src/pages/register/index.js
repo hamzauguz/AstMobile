@@ -130,6 +130,7 @@ const Register = () => {
                     )
                   }
                   secureTextEntry={showPassword}
+                  autoCapitalize="none"
                 />
                 <InputWithLabel
                   containerStyle={styles.customInputStyle}
@@ -146,7 +147,8 @@ const Register = () => {
                       <FeatherIcon size={28} color={'white'} name={'eye-off'} />
                     )
                   }
-                  secureTextEntry={!showRePassword}
+                  secureTextEntry={showRePassword}
+                  autoCapitalize="none"
                 />
               </View>
             </View>
