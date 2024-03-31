@@ -35,6 +35,8 @@ const Routes = () => {
     headerTransparent: true,
     headerShown: false,
     backgroundColor: 'transparent',
+    animationEnabled: true,
+    animation: Platform?.OS === 'ios' ? 'simple_push' : 'slide_from_right',
   };
   const Tab = createMaterialBottomTabNavigator();
 
@@ -123,7 +125,16 @@ const Routes = () => {
             <Stack.Screen name="EditMyInfo" component={EditMyInfo} />
             <Stack.Screen name="EditMyPassword" component={EditMyPassword} />
             <Stack.Screen name="EditMyPhoto" component={EditMyPhoto} />
-            <Stack.Screen name="AskQuestion" component={AskQuestion} />
+            <Stack.Screen
+              name="AskQuestion"
+              options={{
+                presentation: 'modal',
+                animationTypeForReplace: 'push',
+
+                // animation: 'slide_from_right',
+              }}
+              component={AskQuestion}
+            />
             <Stack.Screen name="DreamComment" component={DreamComment} />
             <Stack.Screen name="UserInfo" component={UserInfo} />
             <Stack.Screen name="HoroscopeDetail" component={HoroscopeDetail} />

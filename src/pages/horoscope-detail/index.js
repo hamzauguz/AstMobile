@@ -1,13 +1,6 @@
-import {
-  Image,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, Platform, SafeAreaView, Text, View} from 'react-native';
 import {Tabs} from 'react-native-collapsible-tab-view';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Container from '../../components/container';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import CustomHeader from '../../components/custom-header';
@@ -46,16 +39,20 @@ const HoroscopeDetail = ({navigation, route}) => {
   };
 
   const ScrollContainerItem = ({item}) => {
+    const formattedItem = useMemo(() => {
+      if (!item) return '';
+
+      return item?.split('\\n').map((paragraph, index) => (
+        <React.Fragment key={index}>
+          <Text style={styles.describeText}>{paragraph}</Text>
+          {index !== item?.split('\\n').length - 1 && <Text>{'\n\n'}</Text>}
+        </React.Fragment>
+      ));
+    }, [item]);
+
     return (
       <View style={styles.tabContent}>
-        <Text style={styles.text}>
-          {item?.split('\\n').map((paragraph, index) => (
-            <React.Fragment key={index}>
-              <Text style={styles.describeText}>{paragraph}</Text>
-              {index !== item?.split('\\n').length - 1 && <Text>{'\n\n'}</Text>}
-            </React.Fragment>
-          ))}
-        </Text>
+        <Text style={styles.text}>{formattedItem}</Text>
         <BannerAd
           size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
           unitId={
@@ -83,9 +80,12 @@ const HoroscopeDetail = ({navigation, route}) => {
           iconTitle={'Burç Yorumu'}
         />
         <Tabs.Container
+          lazy
+          cancelLazyFadeIn
           initialTabName="Haftalık"
           renderHeader={Header}
-          headerHeight={HEADER_HEIGHT}>
+          headerHeight={HEADER_HEIGHT}
+          pagerProps={{hitSlop: {left: -50}}}>
           <Tabs.Tab name="Günlük">
             <Tabs.ScrollView style={styles.tabScrollStyle}>
               <ScrollContainerItem item={selectedHoroscope?.status?.daily} />

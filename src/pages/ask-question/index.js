@@ -200,6 +200,7 @@ const AskQuestion = () => {
           }}>
           <Tabs.Container
             ref={tabViewRef}
+            lazy
             initialTabName="Soru Sor"
             renderHeader={Header}
             allowHeaderOverscroll

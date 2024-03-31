@@ -17,14 +17,12 @@ import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Tabs, useAnimatedTabIndex} from 'react-native-collapsible-tab-view';
+import {Tabs} from 'react-native-collapsible-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import Textarea from 'react-native-textarea';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {useInterstitialAd} from 'react-native-google-mobile-ads';
 import LottieLoading from '../../components/lottie-loading';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-// import {useTabsContext} from 'react-native-collapsible-tab-view/lib/typescript/src/hooks';
 
 const HEADER_HEIGHT = 250;
 
@@ -200,6 +198,7 @@ const DreamComment = () => {
           }}>
           <Tabs.Container
             ref={tabViewRef}
+            lazy
             initialTabName="Ruya Yorumu"
             renderHeader={Header}
             allowHeaderOverscroll
