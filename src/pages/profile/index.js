@@ -73,7 +73,6 @@ const Profile = () => {
             ) : (
               <Image
                 style={styles.avatarImageStyle}
-                // src={user.photoURL}
                 source={require('../../../assets/misis-lady.jpg')}
                 resizeMode="cover"
               />

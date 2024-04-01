@@ -70,8 +70,6 @@ const AskQuestion = () => {
     return unsubscribe;
   }, [load, navigation, messages]);
 
-  console.log('isLoaded: ', isLoaded);
-
   const sendMessage = async () => {
     await analyticsButtonLog('AskQuestionUmayAna', {
       id: 5,
@@ -173,7 +171,6 @@ const AskQuestion = () => {
     return <View style={styles.messageContainer}>{renderText(children)}</View>;
   };
 
-  console.log('tabViewRef: ', tabViewRef);
   return (
     <Container>
       <SafeAreaView

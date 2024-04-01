@@ -49,8 +49,6 @@ const Home = () => {
     index,
   });
 
-  console.log('carouselRef.current: ', activeItem);
-
   return (
     <Container>
       <SafeAreaView style={styles.safeAreaContainer}>

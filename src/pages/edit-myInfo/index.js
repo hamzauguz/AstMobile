@@ -26,7 +26,11 @@ import {getUserInfoByEmail} from '../../utils/utils';
 import HoroscopesModal from '../../components/horoscopes-modal';
 import {doc, updateDoc} from 'firebase/firestore';
 import {db} from '../../utils/firebase';
-import {convertToISOTime, windowHeight} from '../../utils/helpers';
+import {
+  convertToISOTime,
+  formatWithoutSecondTime,
+  windowHeight,
+} from '../../utils/helpers';
 
 const EditMyInfo = () => {
   const navigation = useNavigation();
@@ -220,7 +224,7 @@ const EditMyInfo = () => {
                     fontSize: 16,
                     fontFamily: 'EBGaramond-SemiBold',
                   }}>
-                  {userForm.birthTime.toLocaleTimeString()}
+                  {formatWithoutSecondTime(userForm.birthTime)}
                 </Text>
               </TouchableOpacity>
             </View>

@@ -70,8 +70,6 @@ const DreamComment = () => {
     return unsubscribe;
   }, [load, navigation, messages]);
 
-  console.log('isLoaded: ', isLoaded);
-
   const sendMessage = async () => {
     await analyticsButtonLog('DreamCommentAlahcinHatun', {
       id: 6,
@@ -173,7 +171,6 @@ const DreamComment = () => {
     return <View style={styles.messageContainer}>{renderText(children)}</View>;
   };
 
-  console.log('tabViewRef: ', tabViewRef);
   return (
     <Container>
       <SafeAreaView

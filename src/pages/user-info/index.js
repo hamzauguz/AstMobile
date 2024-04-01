@@ -25,7 +25,10 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {addDoc, collection, db} from '../../utils/firebase';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {getBirthdateToHoroscopeDate} from '../../utils/helpers';
+import {
+  formatWithoutSecondTime,
+  getBirthdateToHoroscopeDate,
+} from '../../utils/helpers';
 import styles from './styles';
 
 moment.locale('tr');
@@ -79,10 +82,10 @@ const UserInfo = () => {
         phone: userForm.phone,
         country: userForm.city,
         birthdate: moment(date).year(),
-        birthtime: birthTime.toLocaleTimeString('tr-TR'),
+        birthtime: formatWithoutSecondTime(birthTime),
         horoscope: getBirthdateToHoroscopeDate(
-          moment(date).dayOfYear(),
-          moment(date).month(),
+          moment(date).date(),
+          moment(date).month() + 1,
         ),
         email: user.email,
       }).then(() => {
@@ -115,9 +118,6 @@ const UserInfo = () => {
           extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
           resetScrollToCoords={{x: 0, y: 0}}
           style={{width: '100%', flexGrow: 1}}>
-          <TouchableOpacity onPress={() => SignOut()}>
-            <Text style={{backgroundColor: 'red'}}>Home</Text>
-          </TouchableOpacity>
           <InputWithLabel
             label={'Ad & Soyad'}
             placeholder={'Adınızı ve soyadınızı giriniz.'}
@@ -176,7 +176,7 @@ const UserInfo = () => {
               style={styles.customButton}
               onPress={() => setOpenBirthTimePicker(true)}>
               <Text style={styles.dateSelectStyle}>
-                {birthTime.toLocaleTimeString('tr-TR')}
+                {formatWithoutSecondTime(birthTime)}
               </Text>
             </TouchableOpacity>
           </View>
@@ -198,7 +198,7 @@ const UserInfo = () => {
 
           <DatePicker
             modal
-            mode="date"
+            mode="time"
             open={openBirthTimePicker}
             date={birthTime}
             androidVariant="iosClone"
