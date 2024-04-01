@@ -189,7 +189,13 @@ const HoroscopeCompatibility = () => {
                 renderItem={({item, index}) => (
                   <TouchableOpacity
                     onPress={() => {
-                      carouselFirstRef.current.snapToItem(index - 3);
+                      if (index === 2) {
+                        carouselFirstRef.current.snapToItem(
+                          horoscopesData.length - 1,
+                        );
+                      } else {
+                        carouselFirstRef.current.snapToItem(index - 3);
+                      }
                     }}
                     style={styles.toucableCardStyle}>
                     <View style={styles.toucableCardImage}>
@@ -226,7 +232,13 @@ const HoroscopeCompatibility = () => {
                 renderItem={({item, index}) => (
                   <TouchableOpacity
                     onPress={() => {
-                      carouselSecondRef.current.snapToItem(index - 3);
+                      if (index === 2) {
+                        carouselSecondRef.current.snapToItem(
+                          horoscopesData.length - 1,
+                        );
+                      } else {
+                        carouselSecondRef.current.snapToItem(index - 3);
+                      }
                     }}
                     style={styles.toucableCardStyle}>
                     <View style={styles.toucableCardImage}>
