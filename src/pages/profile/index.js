@@ -73,7 +73,9 @@ const Profile = () => {
             ) : (
               <Image
                 style={styles.avatarImageStyle}
-                source={require('../../../assets/misis-lady.jpg')}
+                source={{
+                  uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fmisis-lady.jpg?alt=media&token=ac97c720-d935-4120-9441-5d39127da786',
+                }}
                 resizeMode="cover"
               />
             )}

@@ -106,7 +106,9 @@ const AskQuestion = () => {
           start={{x: 0.5, y: 1}}
           end={{x: 0.5, y: 0}}>
           <Image
-            source={require('../../../assets/ms-umay2.jpg')}
+            source={{
+              uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fms-umay2.jpg?alt=media&token=bcf43c65-1346-459e-8a61-2b9ce0256b05',
+            }}
             style={{
               height: 250,
               width: windowWidth,

@@ -70,7 +70,9 @@ const Home = () => {
                 valueTextStyle={{bottom: 10}}
                 footerTextStyle={{fontSize: 15}}
                 footerValue="Geçici süreliğine bedava, Tıkla"
-                iconImageSource={require('../../../assets/ms-alahcin.jpg')}
+                iconImageSource={{
+                  uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fms-alahcin.jpg?alt=media&token=b049a4db-b4e6-4e6e-80cd-8d7000f0454c',
+                }}
                 iconImageStyle={{height: 50, width: 50}}
                 style={{
                   backgroundColor: '#7954ff',
@@ -96,7 +98,9 @@ const Home = () => {
                 value="Soru sor"
                 footerTextStyle={{fontSize: 15}}
                 footerValue="Geçici süreliğine bedava, Tıkla"
-                iconImageSource={require('../../../assets/ms-umay.jpg')}
+                iconImageSource={{
+                  uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fms-umay.jpg?alt=media&token=5c4a9f7a-1019-439b-905e-9c659d418787',
+                }}
                 iconImageStyle={{height: 50, width: 50}}
                 style={{
                   backgroundColor: '#7954ff',

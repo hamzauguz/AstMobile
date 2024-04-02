@@ -106,7 +106,9 @@ const DreamComment = () => {
           start={{x: 0.5, y: 1}}
           end={{x: 0.5, y: 0}}>
           <Image
-            source={require('../../../assets/ms-alahcin2.jpg')}
+            source={{
+              uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fms-alahcin2.jpg?alt=media&token=372b4297-b287-44d3-985b-9481e4a4289f',
+            }}
             style={{
               height: 250,
               width: windowWidth,

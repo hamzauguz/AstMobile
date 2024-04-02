@@ -84,7 +84,9 @@ const Login = () => {
               <View style={styles.formView}>
                 <View style={styles.topContainer}>
                   <Image
-                    source={require('../../../assets/astrology3.jpg')}
+                    source={{
+                      uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fastrology3.jpg?alt=media&token=17f4d927-a427-49de-8dd4-12d13e0e65f6',
+                    }}
                     style={styles.appIcon}
                   />
                   <LoginWithGoogleButton onPress={googleAuthPress} />
