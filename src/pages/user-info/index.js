@@ -4,13 +4,13 @@ import {
   Button,
   Image,
   ImageBackground,
+  Platform,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
-import {SignOut} from '../../utils/utils';
+import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/container';
 import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
@@ -30,7 +30,6 @@ import {useSelector} from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import storage from '@react-native-firebase/storage';
-import RNPickerSelect from 'react-native-picker-select';
 
 import {
   formatWithoutSecondTime,
@@ -38,7 +37,6 @@ import {
 } from '../../utils/helpers';
 
 import styles from './styles';
-import {utils} from '@react-native-firebase/app';
 
 moment.locale('tr');
 
@@ -82,21 +80,40 @@ const UserInfo = () => {
   const [imageProgressBar, setImageProgressBar] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [validateSelectPhoto, setValidateSelectPhoto] = useState(false);
   const refRBSheet = useRef();
   const refRBSheetGender = useRef();
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState({
+    path: '',
+  });
   const [userProfilePhotoURL, setUserProfilePhotoURL] = useState('');
-  const reference = storage().ref(
-    `userProfilePhotos/${selectedImage?.filename}`,
-  );
-
   const {user} = useSelector(state => state.user);
+  console.log('user: ', user);
   const [userForm, setUserForm] = useState({
     fullName: '',
     phone: '',
     city: '',
     gender: '',
   });
+
+  useEffect(() => {
+    userForm.gender === 'Male'
+      ? setSelectedImage({
+          path: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Favatar-male.jpg?alt=media&token=a596ffea-487e-425c-ae1b-616569f08934',
+        })
+      : setSelectedImage({
+          path: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Favatar-photo.jpg?alt=media&token=c6dc6eef-a68f-467f-8aac-1efc786fb08b',
+        });
+  }, [userForm.gender]);
+
+  const reference = storage().ref(
+    `userProfilePhotos/${
+      Platform.OS === 'ios'
+        ? `${selectedImage?.modificationDate}-${user?.uid}`
+        : selectedImage?.modificationDate
+    }-${user?.uid}`,
+  );
+  console.log('selectedImage: ', selectedImage);
 
   const handleCitySelect = city => {
     setUserForm(prevState => ({
@@ -162,13 +179,19 @@ const UserInfo = () => {
       (userForm.fullName === '' || userForm.gender === '')
     ) {
       Alert.alert('Uyarı', 'Lütfen bilgilerinizi eksiksiz giriniz.');
-    } else if (currentPosition === 1 && selectedImage === null) {
+    } else if (currentPosition === 1 && validateSelectPhoto === false) {
       Alert.alert('Uyarı', 'Lütfen profil fotoğrafınızı seçiniz');
     } else if (currentPosition === 1) {
       setImageProgressBar(true);
-      const pathToFile = `${selectedImage?.path}`;
+      const pathToFile = selectedImage?.path;
       await reference.putFile(pathToFile).then(res => {
-        const encodedName = encodeURIComponent(res.metadata.name);
+        console.log('res:: ', res);
+        console.log('selectedImage?.path: ', selectedImage);
+        const encodedName = encodeURIComponent(
+          Platform.OS === 'ios'
+            ? res.metadata.name
+            : `userProfilePhotos/${res.metadata.name}`,
+        );
         setUserProfilePhotoURL(
           `https://firebasestorage.googleapis.com/v0/b/${res.metadata.bucket}/o/${encodedName}?alt=media`,
         );
@@ -199,6 +222,7 @@ const UserInfo = () => {
       compressImageQuality: 0.7,
     }).then(image => {
       console.log(image);
+      setValidateSelectPhoto(true);
       setSelectedImage(image);
       refRBSheet.current.close();
     });
@@ -211,6 +235,8 @@ const UserInfo = () => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then(image => {
+      console.log('image: ', image);
+      setValidateSelectPhoto(true);
       setSelectedImage(image);
       refRBSheet.current.close();
     });
@@ -417,12 +443,7 @@ const UserInfo = () => {
                       }}>
                       <ImageBackground
                         source={{
-                          uri:
-                            userProfilePhotoURL === ''
-                              ? userForm.gender === 'Male'
-                                ? 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Favatar-male.jpg?alt=media&token=a596ffea-487e-425c-ae1b-616569f08934'
-                                : 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Favatar-photo.jpg?alt=media&token=c6dc6eef-a68f-467f-8aac-1efc786fb08b'
-                              : userProfilePhotoURL,
+                          uri: selectedImage?.path,
                         }}
                         style={{
                           height: 200,
