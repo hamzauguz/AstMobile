@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, ImageBackground, StatusBar} from 'react-native';
+import {StyleSheet, ImageBackground, StatusBar} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import LottieView from 'lottie-react-native';

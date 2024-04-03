@@ -22,6 +22,7 @@ import {
 } from '../../utils/helpers';
 import HoroscopeSkenetonCard from '../../components/skeneton-cards/horoscope-skeneton-card';
 import ColorfulCard from 'react-native-colorful-card';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -123,6 +124,19 @@ const Home = () => {
                 }}
               />
             </View>
+            <TouchableOpacity
+              onPress={() => {
+                ImagePicker.openCamera({
+                  width: 300,
+                  height: 400,
+                  cropping: true,
+                }).then(image => {
+                  console.log(image);
+                });
+              }}
+              style={{backgroundColor: 'red'}}>
+              <Text>Deneme</Text>
+            </TouchableOpacity>
             {horoscopesData === null ? (
               <View
                 style={{

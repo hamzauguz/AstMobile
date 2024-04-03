@@ -1,13 +1,15 @@
 import {
   ActivityIndicator,
   Alert,
+  Button,
+  Image,
+  ImageBackground,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {SignOut} from '../../utils/utils';
 import Container from '../../components/container';
 import CustomHeader from '../../components/custom-header';
@@ -25,16 +27,27 @@ import StepIndicator from 'react-native-step-indicator';
 import {addDoc, collection, db} from '../../utils/firebase';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import ImagePicker from 'react-native-image-crop-picker';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import storage from '@react-native-firebase/storage';
+import RNPickerSelect from 'react-native-picker-select';
+
 import {
   formatWithoutSecondTime,
   getBirthdateToHoroscopeDate,
-  windowWidth,
 } from '../../utils/helpers';
+
 import styles from './styles';
+import {utils} from '@react-native-firebase/app';
 
 moment.locale('tr');
 
-const labels = ['Ad & Soyad', 'Tel & Şehir', 'Doğum Tarihi & Saati'];
+const labels = [
+  'Ad & Soyad',
+  'Profil Fotoğraf',
+  'Tel & Şehir',
+  'Doğum Tarihi & Saati',
+];
 const customStyles = {
   stepIndicatorSize: 25,
   currentStepIndicatorSize: 32,
@@ -66,13 +79,23 @@ const UserInfo = () => {
   const [birthTime, setBirthTime] = useState(new Date());
   const [openBirthTimePicker, setOpenBirthTimePicker] = useState(false);
   const [progressBar, setProgressBar] = useState(false);
+  const [imageProgressBar, setImageProgressBar] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
+  const refRBSheet = useRef();
+  const refRBSheetGender = useRef();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [userProfilePhotoURL, setUserProfilePhotoURL] = useState('');
+  const reference = storage().ref(
+    `userProfilePhotos/${selectedImage?.filename}`,
+  );
+
   const {user} = useSelector(state => state.user);
   const [userForm, setUserForm] = useState({
     fullName: '',
     phone: '',
     city: '',
+    gender: '',
   });
 
   const handleCitySelect = city => {
@@ -108,6 +131,8 @@ const UserInfo = () => {
         fullName: userForm.fullName,
         phone: userForm.phone,
         country: userForm.city,
+        gender: userForm.gender,
+        profilePhoto: userProfilePhotoURL,
         birthdate: moment(date).year(),
         birthtime: formatWithoutSecondTime(birthTime),
         horoscope: getBirthdateToHoroscopeDate(
@@ -130,11 +155,28 @@ const UserInfo = () => {
       setCurrentPosition(prev => prev - 1);
     }
   };
-  const nextStepPosition = () => {
-    if (currentPosition === 0 && userForm.fullName === '') {
-      Alert.alert('Uyarı', 'Lütfen isminizi giriniz.');
+  console.log('userProfilePhotoURL: ', userProfilePhotoURL);
+  const nextStepPosition = async () => {
+    if (
+      currentPosition === 0 &&
+      (userForm.fullName === '' || userForm.gender === '')
+    ) {
+      Alert.alert('Uyarı', 'Lütfen bilgilerinizi eksiksiz giriniz.');
+    } else if (currentPosition === 1 && selectedImage === null) {
+      Alert.alert('Uyarı', 'Lütfen profil fotoğrafınızı seçiniz');
+    } else if (currentPosition === 1) {
+      setImageProgressBar(true);
+      const pathToFile = `${selectedImage?.path}`;
+      await reference.putFile(pathToFile).then(res => {
+        const encodedName = encodeURIComponent(res.metadata.name);
+        setUserProfilePhotoURL(
+          `https://firebasestorage.googleapis.com/v0/b/${res.metadata.bucket}/o/${encodedName}?alt=media`,
+        );
+        setImageProgressBar(false);
+        setCurrentPosition(2);
+      });
     } else if (
-      currentPosition === 1 &&
+      currentPosition === 2 &&
       (userForm.phone === '' ||
         userForm.phone.length !== 10 ||
         userForm.city === '')
@@ -144,6 +186,59 @@ const UserInfo = () => {
       setCurrentPosition(prev => prev + 1);
     }
   };
+
+  const onPressGender = () => {
+    refRBSheetGender.current.open();
+  };
+
+  const takePhotoFromCamera = () => {
+    ImagePicker.openCamera({
+      compressImageMaxWidth: 300,
+      compressImageMaxHeight: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then(image => {
+      console.log(image);
+      setSelectedImage(image);
+      refRBSheet.current.close();
+    });
+  };
+
+  const choosePhotoFromLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then(image => {
+      setSelectedImage(image);
+      refRBSheet.current.close();
+    });
+  };
+
+  const RenderInner = () => (
+    <View style={styles.panel}>
+      <View style={{alignItems: 'center'}}>
+        <Text style={styles.panelTitle}>Upload Photo</Text>
+        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+      </View>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={takePhotoFromCamera}>
+        <Text style={styles.panelButtonTitle}>Take Photo</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={choosePhotoFromLibrary}>
+        <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => refRBSheet.current.close()}>
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <Container>
@@ -157,6 +252,95 @@ const UserInfo = () => {
           }
           iconTitle={'Bilgilerim'}
         />
+
+        <RBSheet
+          height={400}
+          ref={refRBSheet}
+          draggable
+          dragOnContent
+          useNativeDriver={false}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            draggableIcon: {
+              backgroundColor: '#000',
+            },
+          }}
+          customModalProps={{
+            animationType: 'slide',
+            statusBarTranslucent: true,
+          }}
+          customAvoidingViewProps={{
+            enabled: false,
+          }}>
+          <RenderInner />
+        </RBSheet>
+        <RBSheet
+          height={300}
+          ref={refRBSheetGender}
+          draggable
+          dragOnContent
+          useNativeDriver={false}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            draggableIcon: {
+              backgroundColor: '#000',
+            },
+          }}
+          customModalProps={{
+            animationType: 'slide',
+            statusBarTranslucent: true,
+          }}
+          customAvoidingViewProps={{
+            enabled: false,
+          }}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                handleInputChange('gender', 'Male');
+                refRBSheetGender.current.close();
+              }}
+              style={{
+                width: '40%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Image
+                style={{height: 140, width: 140}}
+                source={{
+                  uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Fmale-gender-symbol.png?alt=media&token=d9fb017e-b398-4d5f-ab94-36def0f1bfb2',
+                }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                handleInputChange('gender', 'Female');
+                refRBSheetGender.current.close();
+              }}
+              style={{
+                width: '40%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Image
+                style={{height: 200, width: 200}}
+                source={{
+                  uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Ffemale-gender-symbol.jpg?alt=media&token=a7c514ee-f074-46ac-b3e7-e3286c5a85f0',
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        </RBSheet>
+
         <KeyboardAwareScrollView
           enableOnAndroid={true}
           contentContainerStyle={{flexGrow: 1}}
@@ -168,7 +352,7 @@ const UserInfo = () => {
           <StepIndicator
             customStyles={customStyles}
             currentPosition={currentPosition}
-            stepCount={3}
+            stepCount={4}
             labels={labels}
           />
           <View style={{marginTop: 30}}>
@@ -180,6 +364,20 @@ const UserInfo = () => {
                   value={userForm.fullName}
                   onChangeText={value => handleInputChange('fullName', value)}
                 />
+                <View style={styles.itemwithLabel}>
+                  <Text style={styles.labelStyle}>Cinsiyet</Text>
+                  <TouchableOpacity
+                    onPress={onPressGender}
+                    style={styles.customButton}>
+                    <Text style={styles.citySelectTextStyle}>
+                      {userForm.gender === ''
+                        ? 'Cinsiyet Seçiniz'
+                        : userForm.gender === 'Male'
+                        ? 'Erkek'
+                        : 'Kadın'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 <View style={styles.stepButtonContainer}>
                   <TouchableOpacity
                     style={styles.backButtonStyle}
@@ -201,6 +399,89 @@ const UserInfo = () => {
               </>
             )}
             {currentPosition === 1 && (
+              <>
+                <View
+                  style={{
+                    alignItems: 'center',
+                  }}>
+                  <TouchableOpacity onPress={() => refRBSheet.current.open()}>
+                    <View
+                      style={{
+                        height: 200,
+                        width: 200,
+                        borderRadius: 15,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderWidth: 3,
+                        borderColor: 'purple',
+                      }}>
+                      <ImageBackground
+                        source={{
+                          uri:
+                            userProfilePhotoURL === ''
+                              ? userForm.gender === 'Male'
+                                ? 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Favatar-male.jpg?alt=media&token=a596ffea-487e-425c-ae1b-616569f08934'
+                                : 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Favatar-photo.jpg?alt=media&token=c6dc6eef-a68f-467f-8aac-1efc786fb08b'
+                              : userProfilePhotoURL,
+                        }}
+                        style={{
+                          height: 200,
+                          width: 200,
+                        }}
+                        imageStyle={{
+                          borderRadius: 15,
+                          borderWidth: 3,
+                          borderColor: 'purple',
+                        }}>
+                        <View
+                          style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <Icon
+                            name="camera"
+                            size={35}
+                            color="#fff"
+                            style={{
+                              opacity: 0.7,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              borderWidth: 1,
+                              borderColor: '#fff',
+                              borderRadius: 10,
+                            }}
+                          />
+                        </View>
+                      </ImageBackground>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.stepButtonContainer}>
+                  <TouchableOpacity
+                    style={styles.backButtonStyle}
+                    onPress={backStepPosition}>
+                    <Text style={{color: 'white'}}>Geri</Text>
+                  </TouchableOpacity>
+                  <LinearGradient
+                    colors={['#b717d2', '#ce25ab']}
+                    start={{x: 1, y: 0}}
+                    end={{x: 0, y: 0}}
+                    style={styles.nextButtonStyle}>
+                    <TouchableOpacity
+                      onPress={nextStepPosition}
+                      style={styles.button}>
+                      {imageProgressBar ? (
+                        <ActivityIndicator size={'large'} color={'white'} />
+                      ) : (
+                        <Text style={styles.saveInfoTextStyle}>Devam</Text>
+                      )}
+                    </TouchableOpacity>
+                  </LinearGradient>
+                </View>
+              </>
+            )}
+            {currentPosition === 2 && (
               <>
                 <View style={styles.itemwithLabel}>
                   <Text style={styles.labelStyle}>Tel No</Text>
@@ -244,7 +525,7 @@ const UserInfo = () => {
                 </View>
               </>
             )}
-            {currentPosition === 2 && (
+            {currentPosition === 3 && (
               <>
                 <View style={styles.itemwithLabel}>
                   <Text style={styles.labelStyle}>Doğum Tarihi</Text>
