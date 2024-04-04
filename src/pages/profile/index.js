@@ -1,4 +1,11 @@
-import {Image, SafeAreaView, Text, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  ImageBackground,
+  SafeAreaView,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
@@ -23,27 +30,32 @@ const Profile = () => {
   const {user} = useSelector(state => state.user);
   const [userInfo, setUserInfo] = useState(null);
   const [horoscopeInfo, setHoroscopeInfo] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const userInfoControl = async () => {
+      setLoading(true);
       await getUserInfoByEmail(user.email).then(res => {
         setUserInfo(res);
       });
       await getHoroscopesInfoCollection().then(res => {
         setHoroscopeInfo(res.label);
       });
+      setLoading(false);
     };
     userInfoControl();
     const unsubscribe = navigation.addListener('focus', () => {
+      setUserInfo(null);
       userInfoControl();
     });
 
     return unsubscribe;
-  }, [user]);
+  }, [user, navigation]);
 
   const EditMyInfoNavigate = () => navigation.navigate('EditMyInfo');
+  const EditMyPhoto = () => navigation.navigate('EditMyPhoto');
   const EditMyPasswordNavigate = () => navigation.navigate('EditMyPassword');
-
+  console.log('userInfo?.profilePhoto: ', userInfo?.profilePhoto);
   return (
     <Container>
       <SafeAreaView style={styles.safeAreaContainer}>
@@ -57,11 +69,17 @@ const Profile = () => {
               }
               options={[
                 'Bilgilerimi Düzenle',
+                'Fotoğrafımı Değiştir',
                 'Şifremi Değiştir',
                 'Çıkış Yap',
                 'İptal',
               ]}
-              actions={[EditMyInfoNavigate, EditMyPasswordNavigate, SignOut]}
+              actions={[
+                EditMyInfoNavigate,
+                EditMyPhoto,
+                EditMyPasswordNavigate,
+                SignOut,
+              ]}
             />
           }
         />
@@ -71,12 +89,11 @@ const Profile = () => {
             {userInfo === null ? (
               <AvatarSkeneton />
             ) : (
-              <Image
+              <ImageBackground
                 style={styles.avatarImageStyle}
                 source={{
-                  uri:
-                    userInfo?.profilePhoto ??
-                    'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fmisis-lady.jpg?alt=media&token=ac97c720-d935-4120-9441-5d39127da786',
+                  uri: userInfo?.profilePhoto,
+                  cache: 'reload',
                 }}
                 resizeMode="cover"
               />
