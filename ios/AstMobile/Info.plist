@@ -46,8 +46,14 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<key>NSCameraUsageDescription</key>
+	<string>Bu uygulama kamera erişimi gerektirir.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Bu uygulama mikrofon erişimine ihtiyaç duymaktadır.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Bu uygulama fotoğraf kütüphanesine kaydetme erişimi gerektirir.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bu uygulama fotoğraf kütüphanesine erişim gerektirir.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -74,12 +80,6 @@
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-<string>This app requires access to the photo library.</string>
-<key>NSMicrophoneUsageDescription</key>
-<string>This app does not require access to the microphone.</string>
-<key>NSCameraUsageDescription</key>
-<string>This app requires access to the camera.</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

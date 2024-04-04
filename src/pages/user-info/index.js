@@ -37,6 +37,7 @@ import {
 } from '../../utils/helpers';
 
 import styles from './styles';
+import {PERMISSIONS, request} from 'react-native-permissions';
 
 moment.locale('tr');
 
@@ -132,7 +133,7 @@ const UserInfo = () => {
       [field]: value,
     }));
   };
-
+  console.log('getfull year: ', new Date().getFullYear() - date.getFullYear());
   const navigation = useNavigation();
   const addUserInfo = async () => {
     try {
@@ -140,28 +141,32 @@ const UserInfo = () => {
         userForm.fullName == '' ||
         userForm.phone == '' ||
         userForm.city == ''
-      )
-        return Alert.alert('Bilgilendirme', 'Lütfen tüm alanları doldurunuz.');
-      setProgressBar(true);
+      ) {
+        Alert.alert('Bilgilendirme', 'Lütfen tüm alanları doldurunuz.');
+      } else if (new Date().getFullYear() - date.getFullYear() < 16) {
+        Alert.alert('Bilgilendirme', 'Yaş sınırı 16');
+      } else {
+        setProgressBar(true);
 
-      await addDoc(collection(db, 'UserInfo'), {
-        fullName: userForm.fullName,
-        phone: userForm.phone,
-        country: userForm.city,
-        gender: userForm.gender,
-        profilePhoto: userProfilePhotoURL,
-        birthdate: moment(date).year(),
-        birthtime: formatWithoutSecondTime(birthTime),
-        horoscope: getBirthdateToHoroscopeDate(
-          moment(date).date(),
-          moment(date).month() + 1,
-        ),
-        email: user.email,
-      }).then(() => {
-        Alert.alert('Tebrikler', 'Kaydınız tamamlanmıştır');
-        navigation.navigate('Dashboard');
-        setProgressBar(false);
-      });
+        await addDoc(collection(db, 'UserInfo'), {
+          fullName: userForm.fullName,
+          phone: userForm.phone,
+          country: userForm.city,
+          gender: userForm.gender,
+          profilePhoto: userProfilePhotoURL,
+          birthdate: moment(date).year(),
+          birthtime: formatWithoutSecondTime(birthTime),
+          horoscope: getBirthdateToHoroscopeDate(
+            moment(date).date(),
+            moment(date).month() + 1,
+          ),
+          email: user.email,
+        }).then(() => {
+          Alert.alert('Tebrikler', 'Kaydınız tamamlanmıştır');
+          navigation.navigate('Dashboard');
+          setProgressBar(false);
+        });
+      }
     } catch (e) {
       setProgressBar(false);
     }
@@ -215,11 +220,20 @@ const UserInfo = () => {
   };
 
   const takePhotoFromCamera = () => {
+    request(
+      Platform.OS === 'ios'
+        ? PERMISSIONS.IOS.CAMERA
+        : PERMISSIONS.ANDROID.CAMERA,
+    ).then(result => {
+      // setPermissionResult(result)
+      console.log(result);
+    });
     ImagePicker.openCamera({
       compressImageMaxWidth: 300,
       compressImageMaxHeight: 300,
       cropping: true,
       compressImageQuality: 0.7,
+      useFrontCamera: true,
     }).then(image => {
       console.log(image);
       setValidateSelectPhoto(true);
@@ -510,6 +524,7 @@ const UserInfo = () => {
                     style={[styles.customButton, {fontSize: 16, marginTop: 5}]}
                     placeholderTextColor={'white'}
                     value={userForm.phone}
+                    keyboardType="number-pad"
                     onChangeText={(masked, unmasked) =>
                       handleInputChange('phone', unmasked)
                     }

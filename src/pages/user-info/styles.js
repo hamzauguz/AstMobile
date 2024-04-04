@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   panelButton: {
     padding: 13,
     borderRadius: 10,
-    backgroundColor: '#FF6347',
+    backgroundColor: 'purple',
     alignItems: 'center',
     marginVertical: 7,
   },

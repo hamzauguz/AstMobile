@@ -1525,6 +1525,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
+  - RNPermissions (4.1.5):
+    - React-Core
   - RNReanimated (3.8.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -1601,6 +1603,7 @@ DEPENDENCIES:
   - RNGoogleMobileAds (from `../node_modules/react-native-google-mobile-ads`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -1753,6 +1756,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-google-signin/google-signin"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -1849,6 +1854,7 @@ SPEC CHECKSUMS:
   RNGoogleMobileAds: 17c530e75954f864c46624e25578d087e8d767a0
   RNGoogleSignin: ccaa4a81582cf713eea562c5dd9dc1961a715fd0
   RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
+  RNPermissions: 53e22b30c15832b43c55637312032a2006c4eb80
   RNReanimated: 87c5d25efb8f4b122e16e992b6f1bfbb2a9bbab3
   RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
@@ -1856,6 +1862,6 @@ SPEC CHECKSUMS:
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 1d6727ed193122f6adaf435c3de1a768326ff83b
 
-PODFILE CHECKSUM: 8e6a37478963de47560b9f24810ccdff89d7193f
+PODFILE CHECKSUM: 0cfdeb299a36f2508964dc08f85db16196710969
 
 COCOAPODS: 1.15.2
