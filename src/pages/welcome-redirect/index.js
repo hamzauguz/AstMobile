@@ -6,6 +6,7 @@ import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {setUser} from '../../store/features/user-slice';
 import {getUserInfoByEmail} from '../../utils/utils';
+import FastImage from 'react-native-fast-image';
 
 const WelcomeRedirect = () => {
   const {user} = useSelector(state => state.user);
@@ -55,12 +56,12 @@ const WelcomeRedirect = () => {
     <Container>
       <SafeAreaView
         style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Image
+        <FastImage
+          style={styles.appIconStyle}
           source={{
             uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fastrology3.jpg?alt=media&token=17f4d927-a427-49de-8dd4-12d13e0e65f6',
-            cache: 'force-cache',
+            priority: FastImage.priority.high,
           }}
-          style={styles.appIconStyle}
         />
       </SafeAreaView>
     </Container>

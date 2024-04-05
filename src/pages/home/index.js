@@ -13,6 +13,7 @@ import Container from '../../components/container';
 import {getHoroscopesCollection, getUserInfoByEmail} from '../../utils/utils';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import FastImage from 'react-native-fast-image';
 import Carousel from 'react-native-snap-carousel';
 import styles from './styles';
 import {
@@ -186,11 +187,16 @@ const Home = () => {
                     }}
                     style={styles.toucableCardStyle}>
                     <View style={styles.toucableCardImage}>
-                      <Image
-                        width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
-                        height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
-                        source={{uri: item.image}}
+                      <FastImage
+                        source={{
+                          uri: item.image,
+                          priority: FastImage.priority.high,
+                        }}
                         resizeMode="contain"
+                        style={{
+                          height: Platform.OS === 'ios' ? windowHeight / 8 : 80,
+                          width: Platform.OS === 'ios' ? windowWidth / 4 : 80,
+                        }}
                       />
                     </View>
                     <View style={styles.toucableTextContainer}>

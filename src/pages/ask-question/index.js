@@ -23,6 +23,7 @@ import Textarea from 'react-native-textarea';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {useInterstitialAd} from 'react-native-google-mobile-ads';
 import LottieLoading from '../../components/lottie-loading';
+import FastImage from 'react-native-fast-image';
 
 const HEADER_HEIGHT = 250;
 
@@ -105,15 +106,16 @@ const AskQuestion = () => {
           colors={['#374c47', '#4b655c', '#52726c']}
           start={{x: 0.5, y: 1}}
           end={{x: 0.5, y: 0}}>
-          <Image
+          <FastImage
             source={{
               uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fms-umay2.jpg?alt=media&token=bcf43c65-1346-459e-8a61-2b9ce0256b05',
+              priority: FastImage.priority.high,
             }}
+            resizeMode="contain"
             style={{
               height: 250,
               width: windowWidth,
             }}
-            resizeMode="contain"
           />
         </LinearGradient>
       </View>

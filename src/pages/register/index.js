@@ -12,7 +12,7 @@ import {
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Container from '../../components/container';
-
+import FastImage from 'react-native-fast-image';
 import CustomHeader from '../../components/custom-header';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -98,13 +98,13 @@ const Register = () => {
           <View style={styles.keyboardViewContainer}>
             <View style={styles.formView}>
               <View style={styles.topContainer}>
-                <Image
+                <FastImage
+                  style={styles.appIcon}
                   source={{
                     uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fastrology3.jpg?alt=media&token=17f4d927-a427-49de-8dd4-12d13e0e65f6',
+                    priority: FastImage.priority.high,
                   }}
-                  style={styles.appIcon}
                 />
-
                 <LoginWithGoogleButton onPress={googleAuthPress} />
               </View>
               <View style={styles.inputWithLabelContainer}>

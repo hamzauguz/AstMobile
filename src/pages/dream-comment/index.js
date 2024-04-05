@@ -23,6 +23,7 @@ import Textarea from 'react-native-textarea';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {useInterstitialAd} from 'react-native-google-mobile-ads';
 import LottieLoading from '../../components/lottie-loading';
+import FastImage from 'react-native-fast-image';
 
 const HEADER_HEIGHT = 250;
 
@@ -105,15 +106,16 @@ const DreamComment = () => {
           colors={['#150a09', '#272b31', '#546377']}
           start={{x: 0.5, y: 1}}
           end={{x: 0.5, y: 0}}>
-          <Image
+          <FastImage
             source={{
               uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fms-alahcin2.jpg?alt=media&token=372b4297-b287-44d3-985b-9481e4a4289f',
+              priority: FastImage.priority.high,
             }}
+            resizeMode="contain"
             style={{
               height: 250,
               width: windowWidth,
             }}
-            resizeMode="contain"
           />
         </LinearGradient>
       </View>

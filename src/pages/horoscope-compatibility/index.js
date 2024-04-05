@@ -24,6 +24,7 @@ import SkenetonButton from '../../components/skeneton-cards/skeneton-button';
 import LottieLoading from '../../components/lottie-loading';
 import {useInterstitialAd} from 'react-native-google-mobile-ads';
 import {GoogleGenerativeAI_ID} from '@env';
+import FastImage from 'react-native-fast-image';
 
 const HoroscopeCompatibility = () => {
   const navigation = useNavigation();
@@ -199,11 +200,23 @@ const HoroscopeCompatibility = () => {
                     }}
                     style={styles.toucableCardStyle}>
                     <View style={styles.toucableCardImage}>
-                      <Image
+                      {/* <Image
                         width={Platform.OS === 'ios' ? windowWidth / 5 : 80}
                         height={Platform.OS === 'ios' ? windowHeight / 10 : 80}
                         source={{uri: item.image}}
                         resizeMode="contain"
+                      /> */}
+                      <FastImage
+                        source={{
+                          uri: item.image,
+                          priority: FastImage.priority.high,
+                        }}
+                        resizeMode="contain"
+                        style={{
+                          height:
+                            Platform.OS === 'ios' ? windowHeight / 10 : 80,
+                          width: Platform.OS === 'ios' ? windowWidth / 5 : 80,
+                        }}
                       />
                     </View>
                     <View style={styles.toucableTextContainer}>
@@ -242,11 +255,17 @@ const HoroscopeCompatibility = () => {
                     }}
                     style={styles.toucableCardStyle}>
                     <View style={styles.toucableCardImage}>
-                      <Image
-                        width={Platform.OS === 'ios' ? windowWidth / 5 : 80}
-                        height={Platform.OS === 'ios' ? windowHeight / 10 : 80}
-                        source={{uri: item.image}}
+                      <FastImage
+                        source={{
+                          uri: item.image,
+                          priority: FastImage.priority.high,
+                        }}
                         resizeMode="contain"
+                        style={{
+                          height:
+                            Platform.OS === 'ios' ? windowHeight / 10 : 80,
+                          width: Platform.OS === 'ios' ? windowWidth / 5 : 80,
+                        }}
                       />
                     </View>
                     <View style={styles.toucableTextContainer}>

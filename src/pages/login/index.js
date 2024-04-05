@@ -11,12 +11,11 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import Container from '../../components/container';
 import CustomHeader from '../../components/custom-header';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import FastImage from 'react-native-fast-image';
 import InputWithLabel from '../../components/input-with-label';
 import HeaderButton from '../../components/header-button';
 import LinearGradient from 'react-native-linear-gradient';
@@ -24,8 +23,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {SignIn, SignInWithGoogle} from '../../utils/utils';
 import LoginWithGoogleButton from '../../components/login-with-google-button';
 import styles from './styles';
-import {windowHeight, windowWidth} from '../../utils/helpers';
-import {firebase} from '@react-native-firebase/auth';
+import {windowWidth} from '../../utils/helpers';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -83,11 +81,12 @@ const Login = () => {
             <View style={styles.keyboardViewContainer}>
               <View style={styles.formView}>
                 <View style={styles.topContainer}>
-                  <Image
+                  <FastImage
+                    style={styles.appIcon}
                     source={{
                       uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fastrology3.jpg?alt=media&token=17f4d927-a427-49de-8dd4-12d13e0e65f6',
+                      priority: FastImage.priority.high,
                     }}
-                    style={styles.appIcon}
                   />
                   <LoginWithGoogleButton onPress={googleAuthPress} />
                 </View>

@@ -38,6 +38,7 @@
     "react-native-collapsible-tab-view": "^6.2.1",
     "react-native-colorful-card": "^0.1.5",
     "react-native-date-picker": "^4.2.13",
+    "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.12.0",
     "react-native-google-mobile-ads": "^13.0.2",
     "react-native-image-crop-picker": "^0.40.3",

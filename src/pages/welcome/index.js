@@ -3,6 +3,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Container from '../../components/container';
 import LinearGradient from 'react-native-linear-gradient';
+import FastImage from 'react-native-fast-image';
 import styles from './styles';
 
 const Welcome = () => {
@@ -11,11 +12,12 @@ const Welcome = () => {
     <Container>
       <SafeAreaView style={styles.container}>
         <View style={styles.viewContainer}>
-          <Image
+          <FastImage
+            style={styles.appIconStyle}
             source={{
               uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fastrology3.jpg?alt=media&token=17f4d927-a427-49de-8dd4-12d13e0e65f6',
+              priority: FastImage.priority.high,
             }}
-            style={styles.appIconStyle}
           />
         </View>
         <View style={styles.bottomContainer}>

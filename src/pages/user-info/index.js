@@ -1,8 +1,6 @@
 import {
   ActivityIndicator,
   Alert,
-  Button,
-  Image,
   ImageBackground,
   Platform,
   SafeAreaView,
@@ -30,6 +28,7 @@ import {useSelector} from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import storage from '@react-native-firebase/storage';
+import FastImage from 'react-native-fast-image';
 
 import {
   formatWithoutSecondTime,
@@ -353,11 +352,12 @@ const UserInfo = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Image
-                style={{height: 140, width: 140}}
+              <FastImage
                 source={{
                   uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Fmale-gender-symbol.png?alt=media&token=d9fb017e-b398-4d5f-ab94-36def0f1bfb2',
+                  priority: FastImage.priority.high,
                 }}
+                style={{height: 140, width: 140}}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -370,11 +370,12 @@ const UserInfo = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Image
-                style={{height: 200, width: 200}}
+              <FastImage
                 source={{
                   uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userProfilePhotos%2Ffemale-gender-symbol.jpg?alt=media&token=a7c514ee-f074-46ac-b3e7-e3286c5a85f0',
+                  priority: FastImage.priority.high,
                 }}
+                style={{height: 200, width: 200}}
               />
             </TouchableOpacity>
           </View>

@@ -7,6 +7,7 @@ import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
+import FastImage from 'react-native-fast-image';
 import styles from './style';
 
 const HEADER_HEIGHT = 250;
@@ -22,11 +23,16 @@ const HoroscopeDetail = ({navigation, route}) => {
   const Header = () => {
     return (
       <View style={styles.header}>
-        <Image
-          width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
-          height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
-          source={{uri: selectedHoroscope?.image}}
+        <FastImage
+          source={{
+            uri: selectedHoroscope?.image,
+            priority: FastImage.priority.high,
+          }}
           resizeMode="contain"
+          style={{
+            height: Platform.OS === 'ios' ? windowHeight / 8 : 80,
+            width: Platform.OS === 'ios' ? windowWidth / 4 : 80,
+          }}
         />
         <Text style={styles.selectedHoroscopeText}>
           {selectedHoroscope?.horoscope}

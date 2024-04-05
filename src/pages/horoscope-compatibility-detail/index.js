@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Tabs} from 'react-native-collapsible-tab-view';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
+import FastImage from 'react-native-fast-image';
 import styles from './styles';
 
 const HEADER_HEIGHT = 250;
@@ -27,11 +28,16 @@ const HoroscopeCompatibilityDetail = ({route}) => {
     return (
       <View style={styles.header}>
         <View style={{alignItems: 'center'}}>
-          <Image
-            width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
-            height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
-            source={{uri: horoscopesCompatibility?.horoscope1?.image}}
+          <FastImage
+            source={{
+              uri: horoscopesCompatibility?.horoscope1?.image,
+              priority: FastImage.priority.high,
+            }}
             resizeMode="contain"
+            style={{
+              height: Platform.OS === 'ios' ? windowHeight / 8 : 80,
+              width: Platform.OS === 'ios' ? windowWidth / 4 : 80,
+            }}
           />
           <Text style={styles.horoscopeOneTextStyle}>
             {horoscopesCompatibility?.horoscope1?.horoscope}
@@ -41,11 +47,16 @@ const HoroscopeCompatibilityDetail = ({route}) => {
           </Text>
         </View>
         <View style={{alignItems: 'center'}}>
-          <Image
-            width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
-            height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
-            source={{uri: horoscopesCompatibility?.horoscope2?.image}}
+          <FastImage
+            source={{
+              uri: horoscopesCompatibility?.horoscope2?.image,
+              priority: FastImage.priority.high,
+            }}
             resizeMode="contain"
+            style={{
+              height: Platform.OS === 'ios' ? windowHeight / 8 : 80,
+              width: Platform.OS === 'ios' ? windowWidth / 4 : 80,
+            }}
           />
           <Text style={styles.horoscopeOneTextStyle}>
             {horoscopesCompatibility?.horoscope2?.horoscope}

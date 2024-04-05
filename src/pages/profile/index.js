@@ -23,6 +23,7 @@ import {useNavigation} from '@react-navigation/native';
 import AvatarSkeneton from '../../components/skeneton-cards/avatar-skeneton';
 import ProfileSkenetonCard from '../../components/skeneton-cards/profile-skeneton-card';
 import RandomInfoSkenetonCard from '../../components/skeneton-cards/random-info-skeneton-card';
+import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   moment.locale('tr');
@@ -89,13 +90,13 @@ const Profile = () => {
             {userInfo === null ? (
               <AvatarSkeneton />
             ) : (
-              <ImageBackground
-                style={styles.avatarImageStyle}
+              <FastImage
                 source={{
                   uri: userInfo?.profilePhoto,
-                  cache: 'reload',
+                  priority: FastImage.priority.high,
                 }}
                 resizeMode="cover"
+                style={styles.avatarImageStyle}
               />
             )}
           </View>
