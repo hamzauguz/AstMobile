@@ -27,6 +27,7 @@ import ForgotPassword from '../src/pages/forgot-password';
 import AskQuestion from '../src/pages/ask-question';
 import DreamComment from '../src/pages/dream-comment';
 import analytics from '@react-native-firebase/analytics';
+import WelcomeRedirect from '../src/pages/welcome-redirect';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -56,7 +57,6 @@ const Routes = () => {
     return (
       <Container>
         <Tab.Navigator
-          initialRouteName="Home"
           activeColor="#0c2337"
           inactiveColor="purple"
           barStyle={{
@@ -134,7 +134,11 @@ const Routes = () => {
         }
         routeNameRef.current = currentRouteName;
       }}>
-      <Stack.Navigator screenOptions={stackOptions}>
+      <Stack.Navigator
+        initialRouteName={'WelcomeRedirect'}
+        screenOptions={stackOptions}>
+        <Stack.Screen name="WelcomeRedirect" component={WelcomeRedirect} />
+
         {user && user.emailVerified ? (
           <>
             <Stack.Screen name="Dashboard" component={Dashboard} />
@@ -146,8 +150,6 @@ const Routes = () => {
               options={{
                 presentation: 'modal',
                 animationTypeForReplace: 'push',
-
-                // animation: 'slide_from_right',
               }}
               component={AskQuestion}
             />
