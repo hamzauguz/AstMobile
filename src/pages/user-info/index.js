@@ -225,7 +225,6 @@ const UserInfo = () => {
         ? PERMISSIONS.IOS.CAMERA
         : PERMISSIONS.ANDROID.CAMERA,
     ).then(result => {
-      // setPermissionResult(result)
       console.log(result);
     });
     ImagePicker.openCamera({
@@ -259,23 +258,23 @@ const UserInfo = () => {
   const RenderInner = () => (
     <View style={styles.panel}>
       <View style={{alignItems: 'center'}}>
-        <Text style={styles.panelTitle}>Upload Photo</Text>
-        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+        <Text style={styles.panelTitle}>Fotoğraf Yükle</Text>
+        <Text style={styles.panelSubtitle}>Profil Resminizi Seçin</Text>
       </View>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={takePhotoFromCamera}>
-        <Text style={styles.panelButtonTitle}>Take Photo</Text>
+        <Text style={styles.panelButtonTitle}>Fotoğraf Çekimi</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={choosePhotoFromLibrary}>
-        <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+        <Text style={styles.panelButtonTitle}>Galeriden Fotoğraf Seçimi</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={() => refRBSheet.current.close()}>
-        <Text style={styles.panelButtonTitle}>Cancel</Text>
+        <Text style={styles.panelButtonTitle}>İptal</Text>
       </TouchableOpacity>
     </View>
   );

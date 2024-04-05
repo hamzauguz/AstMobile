@@ -3,7 +3,6 @@ import {
   Alert,
   ImageBackground,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -21,7 +20,6 @@ import HeaderButton from '../../components/header-button';
 import {doc, updateDoc} from 'firebase/firestore';
 import {getUserInfoByEmail} from '../../utils/utils';
 import {useSelector} from 'react-redux';
-import {convertToISOTime} from '../../utils/helpers';
 import {useNavigation} from '@react-navigation/native';
 import storage from '@react-native-firebase/storage';
 import {db} from '../../utils/firebase';
@@ -36,15 +34,6 @@ const EditMyPhoto = () => {
   const [userProfilePhotoURL, setUserProfilePhotoURL] = useState('');
   const navigation = useNavigation();
 
-  const [userForm, setUserForm] = useState({
-    fullName: '',
-    phone: '',
-    city: '',
-    horoscope: '',
-    birthDate: new Date(),
-    birthTime: new Date(),
-    profilePhoto: '',
-  });
   const [selectedImage, setSelectedImage] = useState({
     path: '',
   });
@@ -54,16 +43,7 @@ const EditMyPhoto = () => {
       setPageLoading(true);
       await getUserInfoByEmail(user.email).then(res => {
         setUserInfo(res);
-        setUserForm(prevState => ({
-          ...prevState,
-          fullName: res.fullName,
-          phone: res.phone,
-          city: res.country,
-          horoscope: res.horoscope,
-          birthDate: new Date(res.birthdate, 0),
-          birthTime: convertToISOTime(res.birthtime),
-          profilePhoto: res.profilePhoto,
-        }));
+
         setPageLoading(false);
         setSelectedImage({path: res.profilePhoto});
       });
@@ -143,23 +123,23 @@ const EditMyPhoto = () => {
   const RenderInner = () => (
     <View style={styles.panel}>
       <View style={{alignItems: 'center'}}>
-        <Text style={styles.panelTitle}>Upload Photo</Text>
-        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+        <Text style={styles.panelTitle}>Fotoğraf Yükle</Text>
+        <Text style={styles.panelSubtitle}>Profil Resminizi Seçin</Text>
       </View>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={takePhotoFromCamera}>
-        <Text style={styles.panelButtonTitle}>Take Photo</Text>
+        <Text style={styles.panelButtonTitle}>Fotoğraf Çekimi</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={choosePhotoFromLibrary}>
-        <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+        <Text style={styles.panelButtonTitle}>Galeriden Fotoğraf Seçimi</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.panelButton}
         onPress={() => refRBSheet.current.close()}>
-        <Text style={styles.panelButtonTitle}>Cancel</Text>
+        <Text style={styles.panelButtonTitle}>İptal</Text>
       </TouchableOpacity>
     </View>
   );
@@ -257,7 +237,7 @@ const EditMyPhoto = () => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={styles.stepButtonContainer}>
+          <View style={styles.buttonContainer}>
             <LinearGradient
               colors={['#b717d2', '#ce25ab']}
               start={{x: 1, y: 0}}
