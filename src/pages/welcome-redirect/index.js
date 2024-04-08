@@ -1,4 +1,11 @@
-import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import Container from '../../components/container';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,8 +29,8 @@ const WelcomeRedirect = () => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      const userLoginValidate = async () => {
+    const userLoginValidate = async () => {
+      if (user) {
         await getUserInfoByEmail(user.email).then(res => {
           if (user && user.emailVerified) {
             if (res === null) {
@@ -33,24 +40,18 @@ const WelcomeRedirect = () => {
             }
           }
         });
-      };
+      } else {
+        navigation.navigate('Welcome');
+      }
+    };
 
+    userLoginValidate();
+    const unsubscribe = navigation.addListener('focus', () => {
       userLoginValidate();
-      const unsubscribe = navigation.addListener('focus', () => {
-        userLoginValidate();
-      });
+    });
 
-      return unsubscribe;
-    } else {
-      navigation.navigate('Welcome');
-    }
+    return unsubscribe;
   }, [user, navigation]);
-
-  useEffect(() => {
-    navigation.navigate('Welcome');
-  }, []);
-
-  console.log('user: ', user);
 
   return (
     <Container>
@@ -63,6 +64,11 @@ const WelcomeRedirect = () => {
             priority: FastImage.priority.high,
           }}
         />
+        {/* <TouchableOpacity
+          onPress={() => navigation.navigate('Welcome')}
+          style={{width: 50, height: 50, backgroundColor: 'red'}}>
+          <Text>hey</Text>
+        </TouchableOpacity> */}
       </SafeAreaView>
     </Container>
   );

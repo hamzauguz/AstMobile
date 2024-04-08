@@ -1,6 +1,6 @@
 {
-  "name": "AstMobile",
-  "version": "0.0.1",
+  "name": "AstroModern",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "start-iphone15": "react-native run-ios --simulator \"iPhone 15 Pro Max\""
+    "start-iphone15": "react-native run-ios --simulator \"iPhone 15 Pro Max\"",
+    "postversion": "react-native-version"
   },
   "dependencies": {
     "@freakycoder/react-native-bounceable": "^1.0.3",

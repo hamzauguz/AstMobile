@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>28271342960-c0i41k486gjf163hsmasdfsg7gvk3d5j.apps.googleusercontent.com</string>
+	<string>28271342960-5bpiekn8i4tafjcfv15ffedhtqnapkup.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.28271342960-c0i41k486gjf163hsmasdfsg7gvk3d5j</string>
+	<string>com.googleusercontent.apps.28271342960-5bpiekn8i4tafjcfv15ffedhtqnapkup</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>28271342960-5innmig57g3h1563ricbgocs2mm4vdtu.apps.googleusercontent.com</string>
+	<string>28271342960-06asponb832gjkver4anut9ej0cfgn9g.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBJklny3Rc0OdTtN_-HtkQC25bjpExSJk8</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.AstMobile</string>
+	<string>com.devHamza.AstroModern</string>
 	<key>PROJECT_ID</key>
 	<string>ast-app-9656b</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:28271342960:ios:c3ac7c11666d57e749cbb5</string>
+	<string>1:28271342960:ios:0f93eb86d7684f9249cbb5</string>
+	<key>DATABASE_URL</key>
+	<string>https://ast-app-9656b-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

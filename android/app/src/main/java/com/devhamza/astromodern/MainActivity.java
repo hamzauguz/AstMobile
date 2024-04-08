@@ -1,4 +1,4 @@
-package com.astmobile;
+package com.devhamza.astromodern;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "AstMobile";
+    return "AstroModern";
   }
 
 
