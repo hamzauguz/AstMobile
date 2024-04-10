@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   garamondFontStyle: {
     fontFamily: 'EBGaramond-Bold',
     fontSize: 17,
+    padding: 3,
   },
   avatarView: {
     flex: 1,

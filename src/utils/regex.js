@@ -1,4 +1,8 @@
 export const phoneNumberRegex = [
+  '+',
+  /\d/,
+  /\d/,
+  ' ',
   '(',
   /\d/,
   /\d/,

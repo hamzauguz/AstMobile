@@ -54,6 +54,13 @@
 	<string>Bu uygulama fotoğraf kütüphanesine kaydetme erişimi gerektirir.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Bu uygulama fotoğraf kütüphanesine erişim gerektirir.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Bu uygulama konumunuzu bulmak için konum ile ilgili kütüphaneye erişim gerektirir</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Bu uygulama konumunuzu bulmak için konum ile ilgili kütüphaneye erişim gerektirir</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Bu uygulama konumunuzu bulmak için konum ile ilgili kütüphaneye erişim gerektirir</string>
+	
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -18,7 +18,6 @@ import {phoneNumberRegex} from '../../utils/regex';
 import InputWithLabel from '../../components/input-with-label';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
-import CityModal from '../../components/city-modal';
 import LinearGradient from 'react-native-linear-gradient';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import StepIndicator from 'react-native-step-indicator';
@@ -29,6 +28,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import storage from '@react-native-firebase/storage';
 import FastImage from 'react-native-fast-image';
+import Geolocation from '@react-native-community/geolocation';
+import {GOOGLE_MAPS_URL, GOOGLE_PLACES_API_KEY} from '@env';
 
 import {
   formatWithoutSecondTime,
@@ -37,6 +38,7 @@ import {
 
 import styles from './styles';
 import {PERMISSIONS, request} from 'react-native-permissions';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 moment.locale('tr');
 
@@ -91,10 +93,16 @@ const UserInfo = () => {
   console.log('user: ', user);
   const [userForm, setUserForm] = useState({
     fullName: '',
-    phone: '',
-    city: '',
+    phone: '90',
+    location: null,
     gender: '',
   });
+
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    firstRender.current = false;
+  }, []);
 
   useEffect(() => {
     userForm.gender === 'Male'
@@ -113,14 +121,6 @@ const UserInfo = () => {
         : selectedImage?.modificationDate
     }-${user?.uid}`,
   );
-  console.log('selectedImage: ', selectedImage);
-
-  const handleCitySelect = city => {
-    setUserForm(prevState => ({
-      ...prevState,
-      city,
-    }));
-  };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -132,14 +132,13 @@ const UserInfo = () => {
       [field]: value,
     }));
   };
-  console.log('getfull year: ', new Date().getFullYear() - date.getFullYear());
   const navigation = useNavigation();
   const addUserInfo = async () => {
     try {
       if (
         userForm.fullName == '' ||
         userForm.phone == '' ||
-        userForm.city == ''
+        userForm.location == null
       ) {
         Alert.alert('Bilgilendirme', 'Lütfen tüm alanları doldurunuz.');
       } else if (new Date().getFullYear() - date.getFullYear() < 16) {
@@ -149,8 +148,8 @@ const UserInfo = () => {
 
         await addDoc(collection(db, 'UserInfo'), {
           fullName: userForm.fullName,
-          phone: userForm.phone,
-          country: userForm.city,
+          phone: {number: userForm.phone, verified: false},
+          location: userForm.location,
           gender: userForm.gender,
           role: 'user',
           profilePhoto: userProfilePhotoURL,
@@ -177,7 +176,6 @@ const UserInfo = () => {
       setCurrentPosition(prev => prev - 1);
     }
   };
-  console.log('userProfilePhotoURL: ', userProfilePhotoURL);
   const nextStepPosition = async () => {
     if (
       currentPosition === 0 &&
@@ -190,8 +188,6 @@ const UserInfo = () => {
       setImageProgressBar(true);
       const pathToFile = selectedImage?.path;
       await reference.putFile(pathToFile).then(res => {
-        console.log('res:: ', res);
-        console.log('selectedImage?.path: ', selectedImage);
         const encodedName = encodeURIComponent(
           Platform.OS === 'ios'
             ? res.metadata.name
@@ -206,10 +202,10 @@ const UserInfo = () => {
     } else if (
       currentPosition === 2 &&
       (userForm.phone === '' ||
-        userForm.phone.length !== 10 ||
-        userForm.city === '')
+        userForm.phone.length !== 12 ||
+        userForm.location === null)
     ) {
-      Alert.alert('Uyarı', 'Lütfen Tel & Şehir bilgilerinizi eksiksiz giriniz');
+      Alert.alert('Uyarı', 'Lütfen Tel & Konum bilgilerinizi eksiksiz giriniz');
     } else {
       setCurrentPosition(prev => prev + 1);
     }
@@ -224,9 +220,7 @@ const UserInfo = () => {
       Platform.OS === 'ios'
         ? PERMISSIONS.IOS.CAMERA
         : PERMISSIONS.ANDROID.CAMERA,
-    ).then(result => {
-      console.log(result);
-    });
+    ).then(result => {});
     ImagePicker.openCamera({
       compressImageMaxWidth: 300,
       compressImageMaxHeight: 300,
@@ -234,7 +228,6 @@ const UserInfo = () => {
       compressImageQuality: 0.7,
       useFrontCamera: true,
     }).then(image => {
-      console.log(image);
       setValidateSelectPhoto(true);
       setSelectedImage(image);
       refRBSheet.current.close();
@@ -248,7 +241,6 @@ const UserInfo = () => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then(image => {
-      console.log('image: ', image);
       setValidateSelectPhoto(true);
       setSelectedImage(image);
       refRBSheet.current.close();
@@ -278,6 +270,30 @@ const UserInfo = () => {
       </TouchableOpacity>
     </View>
   );
+
+  useEffect(() => {
+    Geolocation.requestAuthorization();
+    navigator.geolocation = require('@react-native-community/geolocation');
+  }, []);
+
+  const handlePlaceSelect = async (data, details) => {
+    try {
+      const placeId = data.place_id;
+
+      const response = await fetch(
+        `${GOOGLE_MAPS_URL}?place_id=${placeId}&key=${GOOGLE_PLACES_API_KEY}`,
+      );
+
+      const result = await response.json();
+
+      const location = result.result.geometry.location;
+      const latitude = location.lat;
+      const longitude = location.lng;
+      handleInputChange('location', {...data, latitude, longitude});
+    } catch (error) {
+      console.error('Hata:', error);
+    }
+  };
 
   return (
     <Container>
@@ -384,6 +400,7 @@ const UserInfo = () => {
 
         <KeyboardAwareScrollView
           enableOnAndroid={true}
+          keyboardShouldPersistTaps="handled"
           contentContainerStyle={{flexGrow: 1}}
           extraHeight={130}
           scrollEnabled
@@ -534,13 +551,32 @@ const UserInfo = () => {
                 </View>
                 <View style={styles.itemwithLabel}>
                   <Text style={styles.labelStyle}>Şehir</Text>
-                  <TouchableOpacity
-                    onPress={toggleModal}
-                    style={styles.customButton}>
-                    <Text style={styles.citySelectTextStyle}>
-                      {userForm.city === '' ? 'Şehir Seçiniz.' : userForm.city}
-                    </Text>
-                  </TouchableOpacity>
+                  <GooglePlacesAutocomplete
+                    styles={{
+                      container: {width: '90%'},
+                      textInput: styles.customButton,
+                    }}
+                    placeholder="Konum Seçiniz"
+                    onPress={handlePlaceSelect}
+                    query={{
+                      key: GOOGLE_PLACES_API_KEY,
+                      language: 'en',
+                    }}
+                    fetchDetails={true}
+                    textInputProps={{
+                      value:
+                        firstRender.current && userForm?.location?.description,
+                      onChangeText: newText => {
+                        if (firstRender.current) {
+                          handleInputChange('location', newText);
+                        }
+                      },
+                      defaultValue: userForm?.location?.description,
+                      placeholderTextColor: 'white',
+                    }}
+                    currentLocation={true}
+                    currentLocationLabel="Şuanki Konumunuz"
+                  />
                 </View>
                 <View style={styles.stepButtonContainer}>
                   <TouchableOpacity
@@ -641,12 +677,6 @@ const UserInfo = () => {
             }}
             locale="tr"
             format="DD/MM/YYY"
-          />
-
-          <CityModal
-            visible={isModalVisible}
-            onClose={toggleModal}
-            onSelectCity={handleCitySelect}
           />
         </KeyboardAwareScrollView>
       </SafeAreaView>

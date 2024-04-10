@@ -64,9 +64,17 @@ const Profile = () => {
           containerStyle={styles.headerStyle}
           iconRight={
             <OptionsMenu
-              destructiveIndex={2}
+              destructiveIndex={3}
               customButton={
-                <AntDesignIcon name="setting" size={30} color="black" />
+                <View
+                  style={{
+                    height: 40,
+                    width: 40,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <AntDesignIcon name="setting" size={30} color="black" />
+                </View>
               }
               options={[
                 'Bilgilerimi Düzenle',
@@ -132,7 +140,7 @@ const Profile = () => {
                 <>
                   <View style={styles.centerView}>
                     <Text style={styles.garamondFontStyle}>
-                      {userInfo?.country}
+                      {userInfo?.location?.description}
                     </Text>
                   </View>
                   <View style={styles.centerView}>
