@@ -175,7 +175,9 @@ const EditMyInfo = () => {
             iconTitle={'Bilgilerimi Düzenle'}
           />
 
-          <ScrollView style={{height: windowHeight}}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            style={{height: windowHeight}}>
             <InputWithLabel
               label={'Ad & Soyad'}
               placeholder={'Adınızı ve soyadınızı giriniz.'}
@@ -201,6 +203,7 @@ const EditMyInfo = () => {
                 styles={{
                   container: {width: '90%'},
                   textInput: styles.customButton,
+                  description: {color: 'black'},
                 }}
                 placeholder="Konum Seçiniz"
                 onPress={handlePlaceSelect}

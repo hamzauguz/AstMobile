@@ -555,6 +555,7 @@ const UserInfo = () => {
                     styles={{
                       container: {width: '90%'},
                       textInput: styles.customButton,
+                      description: {color: 'black'},
                     }}
                     placeholder="Konum Seçiniz"
                     onPress={handlePlaceSelect}
