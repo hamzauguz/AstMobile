@@ -12,6 +12,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import HoroscopeCompatibility from '../src/pages/horoscope-compatibility';
 import AstrologyDate from '../src/pages/astrology-date';
 import auth from '@react-native-firebase/auth';
@@ -28,7 +29,8 @@ import AskQuestion from '../src/pages/ask-question';
 import DreamComment from '../src/pages/dream-comment';
 import analytics from '@react-native-firebase/analytics';
 import WelcomeRedirect from '../src/pages/welcome-redirect';
-import {useRoute} from '@react-navigation/native';
+import PublicPosts from '../src/pages/public-posts';
+//switcher
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -78,6 +80,8 @@ const Routes = () => {
                     ? 'Burç Uyumu'
                     : route.name === 'AstrologyDate'
                     ? 'Önemli Tarihler'
+                    : route.name === 'PublicPosts'
+                    ? 'Gönderiler'
                     : route.name}
                 </Text>
               ) : null,
@@ -98,6 +102,15 @@ const Routes = () => {
             })}
           />
           <Tab.Screen
+            name="PublicPosts"
+            component={PublicPosts}
+            options={({route}) => ({
+              tabBarIcon: ({color}) => (
+                <AntDesignIcons name="switcher" color={'purple'} size={26} />
+              ),
+            })}
+          />
+          <Tab.Screen
             name="HoroscopeCompatibility"
             component={HoroscopeCompatibility}
             options={({route}) => ({
@@ -110,6 +123,7 @@ const Routes = () => {
               ),
             })}
           />
+
           <Tab.Screen
             name="AstrologyDate"
             component={AstrologyDate}
@@ -123,7 +137,6 @@ const Routes = () => {
             name="Profile"
             component={Profile}
             options={{
-              // tabBarLabel: <Text style={styles.tabBarLabel}>Profil</Text>,
               tabBarIcon: ({color}) => (
                 <AntDesignIcon name="user" color={'purple'} size={26} />
               ),
