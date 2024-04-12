@@ -151,7 +151,7 @@ const UserInfo = () => {
           phone: {number: userForm.phone, verified: false},
           location: userForm.location,
           gender: userForm.gender,
-          role: 'user',
+          role: {id: 1, title: 'user'},
           profilePhoto: userProfilePhotoURL,
           birthdate: moment(date).year(),
           birthtime: formatWithoutSecondTime(birthTime),
