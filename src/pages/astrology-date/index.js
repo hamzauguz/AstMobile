@@ -182,14 +182,6 @@ const AstrologyDate = () => {
               </Text>
             </View>
           </ScrollView>
-          <BannerAd
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-            unitId={
-              Platform.OS === 'ios'
-                ? 'ca-app-pub-9650548064732377/8281028625'
-                : 'ca-app-pub-9650548064732377/4680694965'
-            }
-          />
         </View>
       </SafeAreaView>
     </Container>
