@@ -66,35 +66,6 @@ const Home = () => {
                 marginTop: Platform.OS === 'ios' ? 0 : 30,
               }}>
               <ColorfulCard
-                title="🌟 Alahçın Hatun ile"
-                value="Ruya yorumu"
-                valueTextStyle={{bottom: 10}}
-                footerTextStyle={{fontSize: 15}}
-                footerValue="Geçici süreliğine bedava, Tıkla"
-                iconImageSource={{
-                  uri: 'https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/astrology-images%2Fms-alahcin.jpg?alt=media&token=b049a4db-b4e6-4e6e-80cd-8d7000f0454c',
-                }}
-                iconImageStyle={{height: 50, width: 50}}
-                style={{
-                  backgroundColor: '#7954ff',
-                  height: 150,
-                  width: windowWidth - 20,
-                }}
-                onPress={async () => {
-                  await analyticsButtonLog('NavigateDreamComment', {
-                    id: 3,
-                    item: {
-                      name: 'Alahçın Hatun',
-                      task: 'Dream comment with GoogleAI',
-                    },
-                    description: [
-                      'current Screen=Home, navigateScreen=DreamComment',
-                    ],
-                  });
-                  navigation.navigate('DreamComment');
-                }}
-              />
-              <ColorfulCard
                 title="🌟 Umay Ana'ya"
                 value="Soru sor"
                 footerTextStyle={{fontSize: 15}}
