@@ -1,5 +1,5 @@
 import {Platform, StyleSheet, Text} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../src/pages/login';
@@ -28,6 +28,7 @@ import AskQuestion from '../src/pages/ask-question';
 import DreamComment from '../src/pages/dream-comment';
 import analytics from '@react-native-firebase/analytics';
 import WelcomeRedirect from '../src/pages/welcome-redirect';
+import {useRoute} from '@react-navigation/native';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -53,12 +54,35 @@ const Routes = () => {
     return subscriber;
   }, [user]);
 
+  console.log('routeNameRef: ', routeNameRef);
+
   const Dashboard = () => {
+    // const route = useRoute();
+    // console.log('route name: ', route);
+    const [activeTabTitle, setActiveTabTitle] = useState('');
+    console.log('active tab: ', activeTabTitle);
     return (
       <Container>
         <Tab.Navigator
           activeColor="#0c2337"
           inactiveColor="purple"
+          screenOptions={({route, navigation}) => {
+            return {
+              tabBarLabel: navigation.isFocused() ? (
+                <Text style={styles.tabBarLabel}>
+                  {route.name === 'Home'
+                    ? 'Ana Sayfa'
+                    : route.name === 'Profile'
+                    ? 'Profil'
+                    : route.name === 'HoroscopeCompatibility'
+                    ? 'Burç Uyumu'
+                    : route.name === 'AstrologyDate'
+                    ? 'Önemli Tarihler'
+                    : route.name}
+                </Text>
+              ) : null,
+            };
+          }}
           barStyle={{
             backgroundColor: '#bfbafc',
             height: Platform.OS === 'ios' ? 90 : 70,
@@ -67,18 +91,16 @@ const Routes = () => {
           <Tab.Screen
             name="Home"
             component={Home}
-            options={{
-              tabBarLabel: <Text style={styles.tabBarLabel}>Anasayfa</Text>,
+            options={({route}) => ({
               tabBarIcon: ({color}) => (
                 <AntDesignIcon name="home" color={'purple'} size={26} />
               ),
-            }}
+            })}
           />
           <Tab.Screen
             name="HoroscopeCompatibility"
             component={HoroscopeCompatibility}
-            options={{
-              tabBarLabel: <Text style={styles.tabBarLabel}>Burç Uyumu</Text>,
+            options={({route}) => ({
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons
                   name="cards-playing-heart-multiple-outline"
@@ -86,17 +108,12 @@ const Routes = () => {
                   size={26}
                 />
               ),
-            }}
+            })}
           />
           <Tab.Screen
             name="AstrologyDate"
             component={AstrologyDate}
             options={{
-              tabBarLabel: (
-                <Text style={styles.tabBarLabel} numberOfLines={1}>
-                  Önemli Tarihler
-                </Text>
-              ),
               tabBarIcon: ({color}) => (
                 <MaterialIcons name="date-range" color={'purple'} size={26} />
               ),
@@ -106,7 +123,7 @@ const Routes = () => {
             name="Profile"
             component={Profile}
             options={{
-              tabBarLabel: <Text style={styles.tabBarLabel}>Profil</Text>,
+              // tabBarLabel: <Text style={styles.tabBarLabel}>Profil</Text>,
               tabBarIcon: ({color}) => (
                 <AntDesignIcon name="user" color={'purple'} size={26} />
               ),
