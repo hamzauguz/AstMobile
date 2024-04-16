@@ -147,6 +147,7 @@ const UserInfo = () => {
         setProgressBar(true);
 
         await addDoc(collection(db, 'UserInfo'), {
+          uid: user?.uid,
           fullName: userForm.fullName,
           phone: {number: userForm.phone, verified: false},
           location: userForm.location,
@@ -220,17 +221,18 @@ const UserInfo = () => {
       Platform.OS === 'ios'
         ? PERMISSIONS.IOS.CAMERA
         : PERMISSIONS.ANDROID.CAMERA,
-    ).then(result => {});
-    ImagePicker.openCamera({
-      compressImageMaxWidth: 300,
-      compressImageMaxHeight: 300,
-      cropping: true,
-      compressImageQuality: 0.7,
-      useFrontCamera: true,
-    }).then(image => {
-      setValidateSelectPhoto(true);
-      setSelectedImage(image);
-      refRBSheet.current.close();
+    ).then(result => {
+      ImagePicker.openCamera({
+        compressImageMaxWidth: 300,
+        compressImageMaxHeight: 300,
+        cropping: true,
+        compressImageQuality: 0.7,
+        useFrontCamera: true,
+      }).then(image => {
+        setValidateSelectPhoto(true);
+        setSelectedImage(image);
+        refRBSheet.current.close();
+      });
     });
   };
 

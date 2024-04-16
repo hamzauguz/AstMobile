@@ -30,7 +30,7 @@ import DreamComment from '../src/pages/dream-comment';
 import analytics from '@react-native-firebase/analytics';
 import WelcomeRedirect from '../src/pages/welcome-redirect';
 import PublicPosts from '../src/pages/public-posts';
-//switcher
+import UserPostTransaction from '../src/pages/user-post-transaction';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -186,6 +186,10 @@ const Routes = () => {
             <Stack.Screen name="DreamComment" component={DreamComment} />
             <Stack.Screen name="UserInfo" component={UserInfo} />
             <Stack.Screen name="HoroscopeDetail" component={HoroscopeDetail} />
+            <Stack.Screen
+              name="UserPostTransaction"
+              component={UserPostTransaction}
+            />
             <Stack.Screen
               name="HoroscopeCompatibilityDetail"
               component={HoroscopeCompatibilityDetail}

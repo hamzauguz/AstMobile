@@ -182,6 +182,24 @@ export const getUserInfoByEmail = async email => {
   }
 };
 
+export const getUserInfosCollection = async () => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('UserInfo')
+      // .orderBy('id', 'asc')
+      .get();
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    console.log(objectsArray);
+    return objectsArray;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
 export const getHoroscopesCollection = async () => {
   try {
     const querySnapshot = await firestore()

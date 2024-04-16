@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   Alert,
   ImageBackground,
+  Platform,
   SafeAreaView,
   Text,
   TouchableOpacity,

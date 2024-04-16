@@ -1,40 +1,152 @@
 import {
+  FlatList,
   Platform,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
 import {
   Card,
   CardTitle,
-  CardContent,
   CardAction,
   CardButton,
   CardImage,
 } from 'react-native-material-cards';
-import {windowHeight, windowWidth} from '../../utils/helpers';
+import {windowWidth} from '../../utils/helpers';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useNavigation} from '@react-navigation/native';
+import {getUserInfosCollection} from '../../utils/utils';
+import {useSelector} from 'react-redux';
+import {doc, getDoc, updateDoc} from 'firebase/firestore';
+import {db} from '../../utils/firebase';
 
 const PublicPosts = () => {
+  const navigation = useNavigation();
+  const [userInfos, setUserInfos] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [currentPostLikes, setCurrentPostLikes] = useState([]);
+  console.log('userinfos: ', userInfos);
+  const {user} = useSelector(state => state.user);
+
+  useEffect(() => {
+    const userInfoFromFirestore = async () => {
+      await getUserInfosCollection().then(res => {
+        const users = res;
+
+        let combinedPosts = [];
+        users.forEach(user => {
+          combinedPosts = combinedPosts.concat(user.socialPost);
+        });
+
+        combinedPosts.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+
+        combinedPosts.forEach(post => {
+          const user = users.find(user => user.uid === post.uid);
+          post.profilePhoto = user.profilePhoto;
+          post.fullName = user.fullName;
+          post.horoscope = user.horoscope;
+        });
+
+        setUserInfos(combinedPosts);
+      });
+    };
+    userInfoFromFirestore();
+  }, []);
+
+  const handleLoadMore = () => {
+    if (!loading) {
+      setPage(page + 1);
+      // Burada yeni verileri getir ve setUserInfos ile mevcut verilere ekleyin
+    }
+  };
+
+  const handleLikePost = async ({collectionId, postId}) => {
+    try {
+      const docRef = doc(db, 'UserInfo', String(collectionId));
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const userInfo = docSnap.data();
+        const socialPostIndex = userInfo.socialPost.findIndex(
+          post => post.id === postId,
+        );
+
+        if (socialPostIndex !== -1) {
+          userInfo.socialPost[socialPostIndex].like++; // Beğeni sayısını 1 artırın
+          await updateDoc(docRef, {socialPost: userInfo.socialPost});
+          console.log('Post liked successfully!');
+        } else {
+          console.log('Post not found in socialPost array!');
+        }
+      } else {
+        console.log('Document not found!');
+      }
+    } catch (error) {
+      console.error('Error liking post:', error);
+    }
+  };
+
+  const renderItem = ({item}) => {
+    const currentLike = currentPostLikes[item?.id] ?? item.like;
+    return (
+      <Card style={styles.materialCardStyle}>
+        <CardImage
+          style={styles.materialCardImageStyle}
+          source={{uri: item.imageURL}}
+        />
+        <CardTitle
+          title={`${item.fullName}, ${item.horoscope}`}
+          subtitle={item.description}
+          style={styles.materialCardTitleStyle}
+          subtitleStyle={styles.materialSubtitleStyle}
+        />
+
+        <CardAction
+          style={styles.materialCardActionStyle}
+          separator={true}
+          inColumn={false}>
+          <CardButton
+            onPress={() => {
+              setCurrentPostLikes(prev => ({
+                ...prev,
+                [item.id]: currentLike + 1,
+              }));
+              handleLikePost({
+                collectionId: item.collectionId,
+                postId: item.id,
+              });
+            }}
+            title="Beğen"
+            color="blue"
+          />
+          <Text style={{color: 'red', fontSize: 18, fontWeight: 'bold'}}>
+            ({currentLike})
+          </Text>
+        </CardAction>
+      </Card>
+    );
+  };
+
   return (
     <Container>
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+        }}>
         <TouchableOpacity
+          onPress={() => navigation.navigate('UserPostTransaction')}
           activeOpacity={0.7}
           style={{
-            // backgroundColor: 'red',
-
             width: windowWidth - 50,
             height: Platform.OS === 'ios' ? 50 : 50,
             position: 'absolute',
             bottom: 20,
             zIndex: 9,
-            backgroundColor: 'black',
+            backgroundColor: '#b717d2',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 2,
@@ -43,53 +155,15 @@ const PublicPosts = () => {
             alignSelf: 'center',
             borderRadius: 20,
           }}>
-          <MaterialIcons name="add-box" color={'purple'} size={40} />
+          <MaterialIcons name="add-box" color={'black'} size={40} />
         </TouchableOpacity>
-        <ScrollView>
-          <Card style={styles.materialCardStyle}>
-            <CardImage
-              style={styles.materialCardImageStyle}
-              source={{uri: 'http://placehold.it/480x270'}}
-            />
-            <CardTitle
-              title="This is a title"
-              subtitle="This is subtitle dsfdfsdfsThis is subtitle dsfdfsdfsThis is subtitle dsfdfsdfsThis is subtitle dsfdfsdfsThis is subtitle dsfdfsdfsThis is subtitle dsfdfsdfsThis is subtitle dsfdfsdfsThis is subtitle dsfdfsdfs"
-              style={styles.materialCardTitleStyle}
-              subtitleStyle={styles.materialSubtitleStyle}
-            />
-            {/* <CardContent
-            style={styles.materialCardContent}
-            text="Your device will reboot in few seconds once successful, be patient meanwhile"
-          /> */}
-            <CardAction
-              style={styles.materialCardActionStyle}
-              separator={true}
-              inColumn={false}>
-              <CardButton onPress={() => {}} title="Push" color="blue" />
-              <CardButton onPress={() => {}} title="Later" color="blue" />
-            </CardAction>
-          </Card>
-          <Card style={styles.materialCardStyle}>
-            <CardImage
-              style={styles.materialCardImageStyle}
-              source={{uri: 'http://placehold.it/480x270'}}
-            />
-            <CardTitle
-              title="This is a title"
-              subtitle="This is subtitle dsfdfsdfsThis is is subsThis is subtitle dsfdfsdfsThis is subtitle dsfdfsdfsThis is is subsThis is subtitle dsfdfsdfsThis is subtitle dsfdfsdfsThis is is subsThis is subtitle This is subtitle dsfdfsdfsThis is is subsThiThis is subtitle dsfdfsdfsThis is is subsThis is subtitle dsfdfsdfss is subtitle dsfdfsdfsdsfdfsdfs"
-              style={styles.materialCardTitleStyle}
-              subtitleStyle={styles.materialSubtitleStyle}
-            />
-
-            <CardAction
-              style={styles.materialCardActionStyle}
-              separator={true}
-              inColumn={false}>
-              <CardButton onPress={() => {}} title="Push" color="blue" />
-              <CardButton onPress={() => {}} title="Later" color="blue" />
-            </CardAction>
-          </Card>
-        </ScrollView>
+        <FlatList
+          data={userInfos}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.1}
+        />
       </SafeAreaView>
     </Container>
   );
@@ -97,24 +171,23 @@ const PublicPosts = () => {
 
 const styles = StyleSheet.create({
   materialCardStyle: {
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     display: 'flex',
     flex: Platform.OS === 'ios' ? 0.63 : 0.7,
   },
   materialCardImageStyle: {minHeight: 300, maxHeight: 300},
   materialCardContent: {backgroundColor: 'blue'},
   materialCardTitleStyle: {
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     maxHeight: 200,
   },
   materialSubtitleStyle: {
-    backgroundColor: 'purple',
+    // backgroundColor: 'purple',
   },
   materialCardActionStyle: {
     maxHeight: 40,
     alignItems: 'center',
     display: 'flex',
-    backgroundColor: 'purple',
   },
 });
 
