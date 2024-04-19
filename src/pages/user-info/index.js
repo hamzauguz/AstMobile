@@ -90,7 +90,6 @@ const UserInfo = () => {
   });
   const [userProfilePhotoURL, setUserProfilePhotoURL] = useState('');
   const {user} = useSelector(state => state.user);
-  console.log('user: ', user);
   const [userForm, setUserForm] = useState({
     fullName: '',
     phone: '90',

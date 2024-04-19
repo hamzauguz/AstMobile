@@ -186,14 +186,38 @@ export const getUserInfosCollection = async () => {
   try {
     const querySnapshot = await firestore()
       .collection('UserInfo')
-      // .orderBy('id', 'asc')
+      // .limit(postsPerLoad)
       .get();
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    return {objectsArray, lastVisible};
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getMoreUserInfosCollection = async () => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('UserInfo')
+      // .startAfter(startAfter)
+      // .limit(postsPerLoad)
+      .get();
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
     const objectsArray = [];
     querySnapshot.forEach(user => {
       objectsArray.push(user.data());
     });
     console.log(objectsArray);
-    return objectsArray;
+    return {objectsArray, lastVisible};
   } catch (error) {
     console.error('Error getting documents: ', error);
     return null;

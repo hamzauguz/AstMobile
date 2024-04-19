@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Platform,
   SafeAreaView,
@@ -18,28 +19,34 @@ import {
 import {windowWidth} from '../../utils/helpers';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-import {getUserInfosCollection} from '../../utils/utils';
+import {
+  getMoreUserInfosCollection,
+  getUserInfosCollection,
+} from '../../utils/utils';
 import {useSelector} from 'react-redux';
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {db} from '../../utils/firebase';
 
 const PublicPosts = () => {
   const navigation = useNavigation();
-  const [userInfos, setUserInfos] = useState(null);
+  const [userInfos, setUserInfos] = useState(new Array());
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
   const [currentPostLikes, setCurrentPostLikes] = useState([]);
-  console.log('userinfos: ', userInfos);
   const {user} = useSelector(state => state.user);
+
+  const [postsPerLoad, setPostsPerLoad] = useState(2);
+  const [postLength, setPostLength] = useState(null);
 
   useEffect(() => {
     const userInfoFromFirestore = async () => {
       await getUserInfosCollection().then(res => {
-        const users = res;
-
+        const users = res.objectsArray;
         let combinedPosts = [];
         users.forEach(user => {
-          combinedPosts = combinedPosts.concat(user.socialPost);
+          combinedPosts = combinedPosts
+            .concat(user.socialPost)
+            .slice(0, postsPerLoad);
         });
 
         combinedPosts.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
@@ -51,17 +58,35 @@ const PublicPosts = () => {
           post.horoscope = user.horoscope;
         });
 
-        setUserInfos(combinedPosts);
+        setUserInfos([...combinedPosts]);
       });
     };
     userInfoFromFirestore();
   }, []);
 
-  const handleLoadMore = () => {
-    if (!loading) {
-      setPage(page + 1);
-      // Burada yeni verileri getir ve setUserInfos ile mevcut verilere ekleyin
-    }
+  const handleLoadMore = async () => {
+    setPostsPerLoad(prev => prev + 2);
+    await getMoreUserInfosCollection().then(res => {
+      const users = res.objectsArray;
+
+      let combinedPosts = [];
+      users.forEach(user => {
+        combinedPosts = combinedPosts
+          .concat(user.socialPost)
+          .slice(postsPerLoad, postsPerLoad + 2);
+      });
+
+      combinedPosts.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+
+      combinedPosts.forEach(post => {
+        const user = users.find(user => user.uid === post.uid);
+        post.profilePhoto = user.profilePhoto;
+        post.fullName = user.fullName;
+        post.horoscope = user.horoscope;
+      });
+
+      setUserInfos(prev => [...prev, ...combinedPosts]);
+    });
   };
 
   const handleLikePost = async ({collectionId, postId}) => {
@@ -78,12 +103,7 @@ const PublicPosts = () => {
         if (socialPostIndex !== -1) {
           userInfo.socialPost[socialPostIndex].like++; // Beğeni sayısını 1 artırın
           await updateDoc(docRef, {socialPost: userInfo.socialPost});
-          console.log('Post liked successfully!');
-        } else {
-          console.log('Post not found in socialPost array!');
         }
-      } else {
-        console.log('Document not found!');
       }
     } catch (error) {
       console.error('Error liking post:', error);
@@ -150,19 +170,26 @@ const PublicPosts = () => {
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 2,
-            borderColor: 'purple',
+            borderColor: 'white',
             alignContent: 'center',
             alignSelf: 'center',
             borderRadius: 20,
           }}>
-          <MaterialIcons name="add-box" color={'black'} size={40} />
+          <MaterialIcons name="add-box" color={'white'} size={40} />
         </TouchableOpacity>
         <FlatList
           data={userInfos}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.1}
+          showsVerticalScrollIndicator={false}
+          onEndReachedThreshold={0.01}
+          scrollEventThrottle={150}
+          ListFooterComponent={() =>
+            postLength !== postsPerLoad.length && (
+              <ActivityIndicator size={'large'} color={'white'} />
+            )
+          }
         />
       </SafeAreaView>
     </Container>

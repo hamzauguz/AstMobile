@@ -59,10 +59,6 @@ const Routes = () => {
   console.log('routeNameRef: ', routeNameRef);
 
   const Dashboard = () => {
-    // const route = useRoute();
-    // console.log('route name: ', route);
-    const [activeTabTitle, setActiveTabTitle] = useState('');
-    console.log('active tab: ', activeTabTitle);
     return (
       <Container>
         <Tab.Navigator

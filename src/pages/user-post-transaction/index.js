@@ -55,8 +55,6 @@ const UserPostTransaction = () => {
     userInfoFromFireStore();
   }, [user]);
 
-  console.log('userInfo: ', userInfo?.socialPost);
-
   useEffect(() => {
     if (postImageURL !== '') {
       const uploadImageFromFireStore = async () => {
@@ -83,7 +81,6 @@ const UserPostTransaction = () => {
     setProgressBar(true);
     const pathToFile = selectedImage?.path;
     await reference.putFile(pathToFile).then(res => {
-      console.log('res: ', res);
       const encodedName = encodeURIComponent(
         Platform.OS === 'ios'
           ? res.metadata.name
@@ -92,7 +89,6 @@ const UserPostTransaction = () => {
       setPostImageURL(
         `https://firebasestorage.googleapis.com/v0/b/${res.metadata.bucket}/o/${encodedName}?alt=media`,
       );
-      //https://firebasestorage.googleapis.com/v0/b/ast-app-9656b.appspot.com/o/userPostsImage%2F1713110551114-1wvOyUjpHQUJCXdSN9mVGlz6WWr2?alt=media&token=1aebdc0e-f01b-4824-b5fa-20da15a797e8
 
       setProgressBar(false);
     });
@@ -136,7 +132,7 @@ const UserPostTransaction = () => {
               source={{
                 uri:
                   selectedImage.path === ''
-                    ? 'https://www.shutterstock.com/image-vector/thin-line-upgrade-icon-suitable-600nw-1859782744.jpg'
+                    ? 'https://i.pinimg.com/736x/64/49/ce/6449ce4a9bb1d2eb23475cd849f16114.jpg'
                     : selectedImage.path,
               }}
             />
@@ -148,6 +144,7 @@ const UserPostTransaction = () => {
             value={postDescription}
             onChangeText={text => setPostDescription(text)}
             defaultValue={postDescription}
+            maxLength={250}
           />
         </Card>
         <LinearGradient
