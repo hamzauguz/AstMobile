@@ -13,33 +13,22 @@ import {
   CardTitle,
   CardAction,
   CardButton,
-  CardImage,
 } from 'react-native-material-cards';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {
   getMorePostsCollection,
-  getMoreUserInfosCollection,
   getPostsCollection,
   getUserInfosCollection,
 } from '../../utils/utils';
 import {useSelector} from 'react-redux';
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from 'firebase/firestore';
+import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {db} from '../../utils/firebase';
 import styles from './styles';
 import FastImage from 'react-native-fast-image';
 
 const PublicPosts = route => {
   const navigation = useNavigation();
-  const [userInfos, setUserInfos] = useState(new Array());
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentPostLikes, setCurrentPostLikes] = useState([]);
@@ -49,8 +38,7 @@ const PublicPosts = route => {
   const [startAfter, setStartAfter] = useState(Object);
   const [lastPost, setLastPost] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const {prev} = route?.params || {};
-  console.log('prev: ', prev);
+
   useEffect(() => {
     if (user && !userLoading) {
       const usersFromFirestore = async () => {
@@ -91,9 +79,6 @@ const PublicPosts = route => {
       return unsubscribe;
     }
   }, [users]);
-  console.log('start after: ', startAfter);
-
-  console.log('posts: ', posts);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -153,7 +138,6 @@ const PublicPosts = route => {
     }
   };
 
-  console.log('posts: ', posts);
   const renderItem = ({item}) => {
     const currentLike = currentPostLikes[item?.collectionId] ?? item.like;
     return (
