@@ -232,7 +232,7 @@ export const getPostsCollection = async postsPerLoad => {
 
     const posts = [];
     querySnapshot.forEach(user => {
-      posts.push(user.data());
+      posts.push({...user.data(), collectionId: user.id});
     });
     return {posts, lastVisible};
   } catch (error) {
@@ -254,7 +254,7 @@ export const getMorePostsCollection = async (startAfter, postsPerLoad) => {
 
     const posts = [];
     querySnapshot.forEach(user => {
-      posts.push(user.data());
+      posts.push({...user.data(), collectionId: user.id});
     });
     return {posts, lastVisible};
   } catch (error) {

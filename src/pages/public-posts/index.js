@@ -134,24 +134,27 @@ const PublicPosts = route => {
     }
   };
 
-  const handleLikePost = async ({userId}) => {
+  const handleLikePost = async ({collectionId}) => {
     try {
-      const q = query(collection(db, 'Posts'), where('userId', '==', userId));
+      const docRef = doc(db, 'Posts', collectionId);
 
-      const querySnapshot = await getDocs(q);
+      const docSnapshot = await getDoc(docRef);
 
-      querySnapshot.forEach(doc => {
-        const postData = doc.data();
+      if (docSnapshot.exists()) {
+        const postData = docSnapshot.data();
         const updatedLikeCount = postData.like + 1;
-        updateDoc(doc.ref, {like: updatedLikeCount});
-      });
+
+        await updateDoc(docRef, {like: updatedLikeCount});
+      } else {
+      }
     } catch (error) {
       return error;
     }
   };
 
+  console.log('posts: ', posts);
   const renderItem = ({item}) => {
-    const currentLike = currentPostLikes[item?.id] ?? item.like;
+    const currentLike = currentPostLikes[item?.collectionId] ?? item.like;
     return (
       <Card style={styles.materialCardStyle}>
         <CardImage
@@ -172,10 +175,10 @@ const PublicPosts = route => {
             onPress={() => {
               setCurrentPostLikes(prev => ({
                 ...prev,
-                [item.id]: currentLike + 1,
+                [item.collectionId]: currentLike + 1,
               }));
               handleLikePost({
-                userId: item.userId,
+                collectionId: item.collectionId,
               });
             }}
             title="Beğen"
