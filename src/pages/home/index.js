@@ -29,11 +29,13 @@ const Home = () => {
   const {user, userLoading} = useSelector(state => state.user);
   const carouselRef = useRef(null);
   const [activeItem, setActiveItem] = useState(0);
+  const [userInfo, setUserInfo] = useState(null);
   const [horoscopesData, setHoroscopesData] = useState(null);
   useEffect(() => {
     getHoroscopesCollection().then(res => setHoroscopesData(res));
     const userInfoControl = async () => {
       await getUserInfoByEmail(user.email).then(res => {
+        setUserInfo(res);
         if (res === null) {
           navigation.navigate('UserInfo');
         }
@@ -65,6 +67,32 @@ const Home = () => {
                 alignItems: 'center',
                 marginTop: Platform.OS === 'ios' ? 0 : 30,
               }}>
+              <ColorfulCard
+                title="ℹ️ Profil"
+                value="Gönderilerim"
+                footerTextStyle={{fontSize: 15}}
+                footerValue="Tıkla"
+                iconImageSource={{
+                  uri: userInfo?.profilePhoto,
+                }}
+                iconImageStyle={{height: 50, width: 50, borderRadius: 25}}
+                style={{
+                  backgroundColor: '#7954ff',
+                  height: 150,
+                  width: windowWidth - 20,
+                  marginTop: 20,
+                }}
+                onPress={async () => {
+                  await analyticsButtonLog('NavigateMyPosts', {
+                    id: 2,
+
+                    description: [
+                      'current Screen=Home, navigateScreen=MyPosts',
+                    ],
+                  });
+                  navigation.navigate('MyPosts');
+                }}
+              />
               <ColorfulCard
                 title="🌟 Umay Ana'ya"
                 value="Soru sor"

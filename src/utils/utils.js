@@ -182,20 +182,81 @@ export const getUserInfoByEmail = async email => {
   }
 };
 
-export const getUserInfosCollection = async () => {
+export const getUserPostsByEmail = async userId => {
   try {
     const querySnapshot = await firestore()
-      .collection('UserInfo')
-      // .limit(postsPerLoad)
+      .collection('Posts')
+      .where('userId', '==', userId)
       .get();
 
-    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    if (querySnapshot.empty) {
+      return null;
+    }
+
+    const posts = querySnapshot.docs.map(doc => ({
+      ...doc.data(),
+      collectionId: doc.id,
+    }));
+    console.log('posts: ', posts);
+    return posts;
+  } catch (error) {
+    console.log('error: ', error);
+    return null;
+  }
+};
+
+export const getUserInfosCollection = async () => {
+  try {
+    const querySnapshot = await firestore().collection('UserInfo').get();
 
     const objectsArray = [];
     querySnapshot.forEach(user => {
       objectsArray.push(user.data());
     });
-    return {objectsArray, lastVisible};
+    return objectsArray;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getPostsCollection = async postsPerLoad => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Posts')
+      .orderBy('createdAt', 'desc')
+      .limit(postsPerLoad)
+      .get();
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const posts = [];
+    querySnapshot.forEach(user => {
+      posts.push(user.data());
+    });
+    return {posts, lastVisible};
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getMorePostsCollection = async (startAfter, postsPerLoad) => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Posts')
+      .orderBy('createdAt', 'desc')
+      .startAfter(startAfter)
+      .limit(postsPerLoad)
+      .get();
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const posts = [];
+    querySnapshot.forEach(user => {
+      posts.push(user.data());
+    });
+    return {posts, lastVisible};
   } catch (error) {
     console.error('Error getting documents: ', error);
     return null;

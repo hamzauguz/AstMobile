@@ -1,11 +1,10 @@
 import {
   ActivityIndicator,
   FlatList,
-  Platform,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
@@ -16,97 +15,138 @@ import {
   CardButton,
   CardImage,
 } from 'react-native-material-cards';
-import {windowWidth} from '../../utils/helpers';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {
+  getMorePostsCollection,
   getMoreUserInfosCollection,
+  getPostsCollection,
   getUserInfosCollection,
 } from '../../utils/utils';
 import {useSelector} from 'react-redux';
-import {doc, getDoc, updateDoc} from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import {db} from '../../utils/firebase';
+import styles from './styles';
 
-const PublicPosts = () => {
+const PublicPosts = route => {
   const navigation = useNavigation();
   const [userInfos, setUserInfos] = useState(new Array());
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(2);
+  const [users, setUsers] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [currentPostLikes, setCurrentPostLikes] = useState([]);
-  const {user} = useSelector(state => state.user);
+  const {user, userLoading} = useSelector(state => state.user);
 
   const [postsPerLoad, setPostsPerLoad] = useState(2);
-  const [postLength, setPostLength] = useState(null);
+  const [startAfter, setStartAfter] = useState(Object);
+  const [lastPost, setLastPost] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const {prev} = route?.params || {};
+  console.log('prev: ', prev);
+  useEffect(() => {
+    if (user && !userLoading) {
+      const usersFromFirestore = async () => {
+        await getUserInfosCollection().then(res => {
+          setUsers(res);
+        });
+      };
+      usersFromFirestore();
+    }
+  }, [user]);
 
   useEffect(() => {
-    const userInfoFromFirestore = async () => {
-      await getUserInfosCollection().then(res => {
-        const users = res.objectsArray;
-        let combinedPosts = [];
-        users.forEach(user => {
-          combinedPosts = combinedPosts
-            .concat(user.socialPost)
-            .slice(0, postsPerLoad);
+    if (users.length !== 0 && user) {
+      const postsFromFirestore = async () => {
+        await getPostsCollection(postsPerLoad).then(res => {
+          let mergedPosts = res.posts;
+
+          mergedPosts.forEach(post => {
+            const findPostUser =
+              users.find(user => user.uid === post.userId) ?? null;
+            if (findPostUser !== null) {
+              post.userProfilePhoto = findPostUser?.profilePhoto;
+              post.userFullName = findPostUser?.fullName;
+              post.userHoroscope = findPostUser?.horoscope;
+            }
+          });
+          setPosts([...mergedPosts]);
+          setStartAfter(res.lastVisible);
         });
+      };
 
-        combinedPosts.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
-
-        combinedPosts.forEach(post => {
-          const user = users.find(user => user.uid === post.uid);
-          post.profilePhoto = user.profilePhoto;
-          post.fullName = user.fullName;
-          post.horoscope = user.horoscope;
-        });
-
-        setUserInfos([...combinedPosts]);
-      });
-    };
-    userInfoFromFirestore();
-  }, []);
-
-  const handleLoadMore = async () => {
-    setPostsPerLoad(prev => prev + 2);
-    await getMoreUserInfosCollection().then(res => {
-      const users = res.objectsArray;
-
-      let combinedPosts = [];
-      users.forEach(user => {
-        combinedPosts = combinedPosts
-          .concat(user.socialPost)
-          .slice(postsPerLoad, postsPerLoad + 2);
+      postsFromFirestore();
+      const unsubscribe = navigation.addListener('focus', () => {
+        setLastPost(false);
+        postsFromFirestore();
       });
 
-      combinedPosts.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+      return unsubscribe;
+    }
+  }, [users]);
+  console.log('start after: ', startAfter);
 
-      combinedPosts.forEach(post => {
-        const user = users.find(user => user.uid === post.uid);
-        post.profilePhoto = user.profilePhoto;
-        post.fullName = user.fullName;
-        post.horoscope = user.horoscope;
+  console.log('posts: ', posts);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await getPostsCollection(postsPerLoad).then(res => {
+      let mergedPosts = res.posts;
+
+      mergedPosts.forEach(post => {
+        const findPostUser =
+          users.find(user => user.uid === post.userId) ?? null;
+        if (findPostUser !== null) {
+          post.userProfilePhoto = findPostUser?.profilePhoto;
+          post.userFullName = findPostUser?.fullName;
+          post.userHoroscope = findPostUser?.horoscope;
+        }
       });
-
-      setUserInfos(prev => [...prev, ...combinedPosts]);
+      setPosts([...posts, ...mergedPosts]);
+      setStartAfter(res.lastVisible);
+      setRefreshing(false);
     });
   };
 
-  const handleLikePost = async ({collectionId, postId}) => {
+  const handleLoadMore = async () => {
+    if (!lastPost) {
+      await getMorePostsCollection(startAfter, postsPerLoad).then(res => {
+        let mergedPosts = res.posts;
+
+        mergedPosts.forEach(post => {
+          const findPostUser = users.find(user => user.uid === post.userId);
+          if (findPostUser) {
+            post.userProfilePhoto = findPostUser.profilePhoto;
+            post.userFullName = findPostUser.fullName;
+            post.userHoroscope = findPostUser.horoscope;
+          }
+        });
+        setPosts([...posts, ...mergedPosts]);
+        setStartAfter(res.lastVisible);
+        mergedPosts.length === 0 ? setLastPost(true) : setLastPost(false);
+      });
+    }
+  };
+
+  const handleLikePost = async ({userId}) => {
     try {
-      const docRef = doc(db, 'UserInfo', String(collectionId));
-      const docSnap = await getDoc(docRef);
+      const q = query(collection(db, 'Posts'), where('userId', '==', userId));
 
-      if (docSnap.exists()) {
-        const userInfo = docSnap.data();
-        const socialPostIndex = userInfo.socialPost.findIndex(
-          post => post.id === postId,
-        );
+      const querySnapshot = await getDocs(q);
 
-        if (socialPostIndex !== -1) {
-          userInfo.socialPost[socialPostIndex].like++; // Beğeni sayısını 1 artırın
-          await updateDoc(docRef, {socialPost: userInfo.socialPost});
-        }
-      }
+      querySnapshot.forEach(doc => {
+        const postData = doc.data();
+        const updatedLikeCount = postData.like + 1;
+        updateDoc(doc.ref, {like: updatedLikeCount});
+      });
     } catch (error) {
-      console.error('Error liking post:', error);
+      return error;
     }
   };
 
@@ -119,10 +159,9 @@ const PublicPosts = () => {
           source={{uri: item.imageURL}}
         />
         <CardTitle
-          title={`${item.fullName}, ${item.horoscope}`}
+          title={`${item.userFullName}, ${item.userHoroscope}`}
           subtitle={item.description}
           style={styles.materialCardTitleStyle}
-          subtitleStyle={styles.materialSubtitleStyle}
         />
 
         <CardAction
@@ -136,16 +175,13 @@ const PublicPosts = () => {
                 [item.id]: currentLike + 1,
               }));
               handleLikePost({
-                collectionId: item.collectionId,
-                postId: item.id,
+                userId: item.userId,
               });
             }}
             title="Beğen"
             color="blue"
           />
-          <Text style={{color: 'red', fontSize: 18, fontWeight: 'bold'}}>
-            ({currentLike})
-          </Text>
+          <Text style={styles.currentLikeStyle}>({currentLike})</Text>
         </CardAction>
       </Card>
     );
@@ -153,69 +189,40 @@ const PublicPosts = () => {
 
   return (
     <Container>
-      <SafeAreaView
-        style={{
-          flex: 1,
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('UserPostTransaction')}
-          activeOpacity={0.7}
-          style={{
-            width: windowWidth - 50,
-            height: Platform.OS === 'ios' ? 50 : 50,
-            position: 'absolute',
-            bottom: 20,
-            zIndex: 9,
-            backgroundColor: '#b717d2',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 2,
-            borderColor: 'white',
-            alignContent: 'center',
-            alignSelf: 'center',
-            borderRadius: 20,
-          }}>
-          <MaterialIcons name="add-box" color={'white'} size={40} />
-        </TouchableOpacity>
-        <FlatList
-          data={userInfos}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          onEndReached={handleLoadMore}
-          showsVerticalScrollIndicator={false}
-          onEndReachedThreshold={0.01}
-          scrollEventThrottle={150}
-          ListFooterComponent={() =>
-            postLength !== postsPerLoad.length && (
-              <ActivityIndicator size={'large'} color={'white'} />
-            )
-          }
-        />
+      <SafeAreaView style={styles.safeAreaContainer}>
+        {userLoading ? (
+          <ActivityIndicator size={'large'} color={'white'} />
+        ) : (
+          <>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('UserPostTransaction')}
+              activeOpacity={0.7}
+              style={styles.addPostTransitionStyle}>
+              <MaterialIcons name="add-box" color={'white'} size={40} />
+            </TouchableOpacity>
+            <FlatList
+              data={posts}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              onEndReached={handleLoadMore}
+              showsVerticalScrollIndicator={false}
+              onEndReachedThreshold={0.01}
+              scrollEventThrottle={150}
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              ListFooterComponent={() =>
+                !lastPost ? (
+                  <ActivityIndicator size={'large'} color={'white'} />
+                ) : (
+                  <View style={{height: 100}} />
+                )
+              }
+            />
+          </>
+        )}
       </SafeAreaView>
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  materialCardStyle: {
-    // backgroundColor: 'red',
-    display: 'flex',
-    flex: Platform.OS === 'ios' ? 0.63 : 0.7,
-  },
-  materialCardImageStyle: {minHeight: 300, maxHeight: 300},
-  materialCardContent: {backgroundColor: 'blue'},
-  materialCardTitleStyle: {
-    // backgroundColor: 'blue',
-    maxHeight: 200,
-  },
-  materialSubtitleStyle: {
-    // backgroundColor: 'purple',
-  },
-  materialCardActionStyle: {
-    maxHeight: 40,
-    alignItems: 'center',
-    display: 'flex',
-  },
-});
 
 export default PublicPosts;

@@ -3,6 +3,7 @@ import {
   Alert,
   Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,7 +17,17 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import {useSelector} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import {arrayUnion, doc, Timestamp, updateDoc} from 'firebase/firestore';
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  FieldValue,
+  Firestore,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from 'firebase/firestore';
 import {db} from '../../utils/firebase';
 import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
@@ -38,6 +49,8 @@ const UserPostTransaction = () => {
   const {user} = useSelector(state => state.user);
   const navigation = useNavigation();
 
+  console.log('selected image : ', selectedImage);
+
   const reference = storage().ref(
     `userPostsImage/${
       Platform.OS === 'ios'
@@ -55,23 +68,21 @@ const UserPostTransaction = () => {
     userInfoFromFireStore();
   }, [user]);
 
+  console.log('post image url: ', postImageURL);
+
   useEffect(() => {
     if (postImageURL !== '') {
       const uploadImageFromFireStore = async () => {
-        const docRef = await doc(db, 'UserInfo', String(userInfo.collectionId));
-        await updateDoc(docRef, {
-          socialPost: arrayUnion({
-            id: uuid.v4(),
-            imageURL: postImageURL,
-            description: postDescription,
-            like: 0,
-            createdAt: new Date(),
-            collectionId: userInfo.collectionId,
-          }),
+        await addDoc(collection(db, 'Posts'), {
+          imageURL: postImageURL,
+          description: postDescription,
+          like: 0,
+          userId: user.uid,
+          createdAt: new Date(),
         });
 
         Alert.alert('Bilgilendirme', 'Gönderi başarılı ile yüklendi.');
-        navigation.goBack();
+        navigation.navigate('PublicPosts', {prev: 'PublicPosts'});
       };
       uploadImageFromFireStore();
     }
@@ -118,54 +129,56 @@ const UserPostTransaction = () => {
         }
         iconTitle={'Gönderi Paylaşımı'}
       />
-      <SafeAreaView
-        style={{
-          flex: 1,
-          alignItems: 'center',
-        }}>
-        <Card style={styles.materialCardStyle}>
-          <TouchableOpacity
-            onPress={choosePhotoFromLibrary}
-            style={{backgroundColor: 'red', width: '100%', height: 300}}>
-            <CardImage
-              style={styles.materialCardImageStyle}
-              source={{
-                uri:
-                  selectedImage.path === ''
-                    ? 'https://i.pinimg.com/736x/64/49/ce/6449ce4a9bb1d2eb23475cd849f16114.jpg'
-                    : selectedImage.path,
-              }}
-            />
-          </TouchableOpacity>
-          <Textarea
-            placeholder={'Gönderi ile ilgili açıklama yaz...'}
-            placeholderTextColor={'black'}
-            style={styles.textAreaStyle}
-            value={postDescription}
-            onChangeText={text => setPostDescription(text)}
-            defaultValue={postDescription}
-            maxLength={250}
-          />
-        </Card>
-        <LinearGradient
-          colors={['#b717d2', '#ce25ab']}
-          start={{x: 1, y: 0}}
-          end={{x: 0, y: 0}}
+      <ScrollView style={{flexGrow: 1}}>
+        <SafeAreaView
           style={{
-            borderRadius: 10,
+            flex: 1,
             alignItems: 'center',
-            alignSelf: 'center',
-            width: windowWidth - 50,
           }}>
-          <TouchableOpacity onPress={onPostUpload} style={styles.button}>
-            {progressBar ? (
-              <ActivityIndicator size={'large'} color={'white'} />
-            ) : (
-              <Text style={styles.saveInfoTextStyle}>Paylaş</Text>
-            )}
-          </TouchableOpacity>
-        </LinearGradient>
-      </SafeAreaView>
+          <Card style={styles.materialCardStyle}>
+            <TouchableOpacity
+              onPress={choosePhotoFromLibrary}
+              style={{backgroundColor: 'red', width: '100%', height: 300}}>
+              <CardImage
+                style={styles.materialCardImageStyle}
+                source={{
+                  uri:
+                    selectedImage.path === ''
+                      ? 'https://i.pinimg.com/736x/64/49/ce/6449ce4a9bb1d2eb23475cd849f16114.jpg'
+                      : selectedImage.path,
+                }}
+              />
+            </TouchableOpacity>
+            <Textarea
+              placeholder={'Gönderi ile ilgili açıklama yaz...'}
+              placeholderTextColor={'black'}
+              style={styles.textAreaStyle}
+              value={postDescription}
+              onChangeText={text => setPostDescription(text)}
+              defaultValue={postDescription}
+              maxLength={250}
+            />
+          </Card>
+          <LinearGradient
+            colors={['#b717d2', '#ce25ab']}
+            start={{x: 1, y: 0}}
+            end={{x: 0, y: 0}}
+            style={{
+              borderRadius: 10,
+              alignItems: 'center',
+              alignSelf: 'center',
+              width: windowWidth - 50,
+            }}>
+            <TouchableOpacity onPress={onPostUpload} style={styles.button}>
+              {progressBar ? (
+                <ActivityIndicator size={'large'} color={'white'} />
+              ) : (
+                <Text style={styles.saveInfoTextStyle}>Paylaş</Text>
+              )}
+            </TouchableOpacity>
+          </LinearGradient>
+        </SafeAreaView>
+      </ScrollView>
     </Container>
   );
 };

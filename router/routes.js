@@ -31,6 +31,8 @@ import analytics from '@react-native-firebase/analytics';
 import WelcomeRedirect from '../src/pages/welcome-redirect';
 import PublicPosts from '../src/pages/public-posts';
 import UserPostTransaction from '../src/pages/user-post-transaction';
+import MyPosts from '../src/pages/my-posts';
+import EditMyPost from '../src/pages/edit-myPost';
 
 const Routes = () => {
   const Stack = createNativeStackNavigator();
@@ -168,6 +170,8 @@ const Routes = () => {
         {user && user.emailVerified ? (
           <>
             <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen name="MyPosts" component={MyPosts} />
+            <Stack.Screen name="EditMyPost" component={EditMyPost} />
             <Stack.Screen name="EditMyInfo" component={EditMyInfo} />
             <Stack.Screen name="EditMyPassword" component={EditMyPassword} />
             <Stack.Screen name="EditMyPhoto" component={EditMyPhoto} />
