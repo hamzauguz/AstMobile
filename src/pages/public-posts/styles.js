@@ -9,7 +9,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: Platform.OS === 'ios' ? 0.63 : 0.7,
   },
-  materialCardImageStyle: {minHeight: 300, maxHeight: 300},
+  materialCardImageStyle: {
+    minHeight: 300,
+    maxHeight: 300,
+    width: windowWidth,
+  },
   materialCardContent: {backgroundColor: 'blue'},
   materialCardTitleStyle: {
     maxHeight: 200,

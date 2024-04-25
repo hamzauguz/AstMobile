@@ -35,6 +35,7 @@ import {
 } from 'firebase/firestore';
 import {db} from '../../utils/firebase';
 import styles from './styles';
+import FastImage from 'react-native-fast-image';
 
 const PublicPosts = route => {
   const navigation = useNavigation();
@@ -157,9 +158,12 @@ const PublicPosts = route => {
     const currentLike = currentPostLikes[item?.collectionId] ?? item.like;
     return (
       <Card style={styles.materialCardStyle}>
-        <CardImage
+        <FastImage
+          source={{
+            uri: item?.imageURL,
+            priority: FastImage.priority.high,
+          }}
           style={styles.materialCardImageStyle}
-          source={{uri: item.imageURL}}
         />
         <CardTitle
           title={`${item.userFullName}, ${item.userHoroscope}`}
