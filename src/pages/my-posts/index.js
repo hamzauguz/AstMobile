@@ -31,6 +31,7 @@ import styles from './styles';
 import {windowHeight, windowWidth} from '../../utils/helpers';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {ConfirmDialog} from 'react-native-simple-dialogs';
 
 const MyPosts = () => {
   const navigation = useNavigation();
@@ -43,7 +44,8 @@ const MyPosts = () => {
   const [lastPost, setLastPost] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  const [deletePostDialogVisible, setDeletePostDialogVisible] = useState(false);
+  const [deletePostId, setDeletePostId] = useState(null);
   useEffect(() => {
     const usersFromFirestore = async () => {
       await getUserInfoByEmail(user.email).then(res => {
@@ -120,6 +122,8 @@ const MyPosts = () => {
       );
 
       setCurrentUserPosts(updatedPosts);
+      setDeletePostId(null);
+      setDeletePostDialogVisible(false);
     } catch (error) {
       return error;
     }
@@ -149,9 +153,8 @@ const MyPosts = () => {
           />
           <CardButton
             onPress={() => {
-              handleDeletePost({
-                collectionId: item.collectionId,
-              });
+              setDeletePostId(item.collectionId);
+              setDeletePostDialogVisible(true);
             }}
             title="SİL"
             color="red"
@@ -231,6 +234,23 @@ const MyPosts = () => {
           />
         )}
       </SafeAreaView>
+      <ConfirmDialog
+        title="Sil"
+        message="Gönderiyi silmek istiyor musunuz?"
+        visible={deletePostDialogVisible}
+        onTouchOutside={() => setDeletePostDialogVisible(false)}
+        positiveButton={{
+          title: 'EVET, SİL',
+          onPress: () =>
+            handleDeletePost({
+              collectionId: deletePostId,
+            }),
+        }}
+        negativeButton={{
+          title: 'HAYIR',
+          onPress: () => setDeletePostDialogVisible(false),
+        }}
+      />
     </Container>
   );
 };
