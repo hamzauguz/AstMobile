@@ -11,45 +11,28 @@ import {
 import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
 import {Card, CardImage} from 'react-native-material-cards';
-import {windowHeight, windowWidth} from '../../utils/helpers';
+import {windowWidth} from '../../utils/helpers';
 import Textarea from 'react-native-textarea';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import {useSelector} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  addDoc,
-  arrayUnion,
-  collection,
-  doc,
-  FieldValue,
-  Firestore,
-  serverTimestamp,
-  Timestamp,
-  updateDoc,
-} from 'firebase/firestore';
+import {addDoc, collection} from 'firebase/firestore';
 import {db} from '../../utils/firebase';
 import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
-import {getUserInfoByEmail} from '../../utils/utils';
-import uuid from 'react-native-uuid';
-import {firebase} from '@react-native-firebase/auth';
 
 const UserPostTransaction = () => {
   const [selectedImage, setSelectedImage] = useState({
     path: '',
   });
-  const [validateSelectPhoto, setValidateSelectPhoto] = useState(false);
   const [progressBar, setProgressBar] = useState(false);
   const [postImageURL, setPostImageURL] = useState('');
   const [postDescription, setPostDescription] = useState('');
-  const [userInfo, setUserInfo] = useState(null);
   const {user} = useSelector(state => state.user);
   const navigation = useNavigation();
-
-  console.log('selected image : ', selectedImage);
 
   const reference = storage().ref(
     `userPostsImage/${
@@ -58,17 +41,6 @@ const UserPostTransaction = () => {
         : selectedImage?.modificationDate
     }-${user?.uid}`,
   );
-
-  useEffect(() => {
-    const userInfoFromFireStore = async () => {
-      await getUserInfoByEmail(user.email).then(res => {
-        setUserInfo(res);
-      });
-    };
-    userInfoFromFireStore();
-  }, [user]);
-
-  console.log('post image url: ', postImageURL);
 
   useEffect(() => {
     if (postImageURL !== '') {
@@ -113,7 +85,6 @@ const UserPostTransaction = () => {
       compressImageQuality: 1,
       compressImageMaxHeight: 1000,
     }).then(image => {
-      setValidateSelectPhoto(true);
       setSelectedImage(image);
     });
   };
