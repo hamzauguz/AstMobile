@@ -264,6 +264,21 @@ export const getPostsCollection = async postsPerLoad => {
   }
 };
 
+export const getUserPostToCollection = async collectionId => {
+  try {
+    const docRef = firestore().collection('Posts').doc(collectionId);
+    const docSnapshot = await docRef.get();
+
+    const postData = docSnapshot.data();
+    const post = {...postData, collectionId: docSnapshot.id};
+    console.log('post: ', post);
+    return post;
+  } catch (error) {
+    console.error('Error getting document:', error);
+    return null;
+  }
+};
+
 export const getMorePostsCollection = async (startAfter, postsPerLoad) => {
   try {
     const querySnapshot = await firestore()

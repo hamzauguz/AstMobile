@@ -71,6 +71,12 @@ const MyPosts = () => {
       });
     };
     postsFromFirestore();
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      postsFromFirestore();
+    });
+
+    return unsubscribe;
   }, [currentUser]);
 
   const handleRefresh = async () => {
@@ -147,7 +153,11 @@ const MyPosts = () => {
           separator={true}
           inColumn={false}>
           <CardButton
-            onPress={() => navigation.navigate('EditMyPost')}
+            onPress={() =>
+              navigation.navigate('EditMyPost', {
+                collectionId: item.collectionId,
+              })
+            }
             title="Düzenle"
             color="blue"
           />

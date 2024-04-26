@@ -33,6 +33,8 @@ const EditMyPhoto = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [pageLoading, setPageLoading] = useState(false);
   const [userProfilePhotoURL, setUserProfilePhotoURL] = useState('');
+  const [checkSelectPhoto, setCheckSelectPhoto] = useState(false);
+
   const navigation = useNavigation();
 
   const [selectedImage, setSelectedImage] = useState({
@@ -76,19 +78,23 @@ const EditMyPhoto = () => {
   );
 
   const uploadImage = async () => {
-    setImageProgressBar(true);
-    const pathToFile = selectedImage?.path;
-    await reference.putFile(pathToFile).then(res => {
-      const encodedName = encodeURIComponent(
-        Platform.OS === 'ios'
-          ? res.metadata.name
-          : `userProfilePhotos/${res.metadata.name}`,
-      );
-      setUserProfilePhotoURL(
-        `https://firebasestorage.googleapis.com/v0/b/${res.metadata.bucket}/o/${encodedName}?alt=media`,
-      );
-      setImageProgressBar(false);
-    });
+    if (checkSelectPhoto) {
+      setImageProgressBar(true);
+      const pathToFile = selectedImage?.path;
+      await reference.putFile(pathToFile).then(res => {
+        const encodedName = encodeURIComponent(
+          Platform.OS === 'ios'
+            ? res.metadata.name
+            : `userProfilePhotos/${res.metadata.name}`,
+        );
+        setUserProfilePhotoURL(
+          `https://firebasestorage.googleapis.com/v0/b/${res.metadata.bucket}/o/${encodedName}?alt=media`,
+        );
+        setImageProgressBar(false);
+      });
+    } else {
+      navigation.navigate('Profile');
+    }
   };
 
   const takePhotoFromCamera = () => {
@@ -105,6 +111,7 @@ const EditMyPhoto = () => {
       useFrontCamera: true,
     }).then(image => {
       setSelectedImage(image);
+      setCheckSelectPhoto(true);
       refRBSheet.current.close();
     });
   };
@@ -117,6 +124,7 @@ const EditMyPhoto = () => {
       compressImageQuality: 0.7,
     }).then(image => {
       setSelectedImage(image);
+      setCheckSelectPhoto(true);
       refRBSheet.current.close();
     });
   };
