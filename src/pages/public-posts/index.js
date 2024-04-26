@@ -94,7 +94,7 @@ const PublicPosts = route => {
           post.userHoroscope = findPostUser?.horoscope;
         }
       });
-      setPosts([...posts, ...mergedPosts]);
+      setPosts([...mergedPosts]);
       setStartAfter(res.lastVisible);
       setRefreshing(false);
     });

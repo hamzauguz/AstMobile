@@ -1,4 +1,11 @@
-import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
 import {
@@ -21,6 +28,9 @@ import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
+import {windowHeight, windowWidth} from '../../utils/helpers';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const MyPosts = () => {
   const navigation = useNavigation();
@@ -32,6 +42,7 @@ const MyPosts = () => {
   const [startAfter, setStartAfter] = useState(Object);
   const [lastPost, setLastPost] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const usersFromFirestore = async () => {
@@ -44,6 +55,7 @@ const MyPosts = () => {
 
   useEffect(() => {
     const postsFromFirestore = async () => {
+      setLoading(true);
       await getUserPostsByEmail(user?.uid, postsPerLoad).then(res => {
         let mergedPosts = res.posts;
         mergedPosts.forEach(post => {
@@ -53,15 +65,10 @@ const MyPosts = () => {
 
         setCurrentUserPosts([...mergedPosts]);
         setStartAfter(res.lastVisible);
+        setLoading(false);
       });
     };
     postsFromFirestore();
-    const unsubscribe = navigation.addListener('focus', () => {
-      setLastPost(false);
-      postsFromFirestore();
-    });
-
-    return unsubscribe;
   }, [currentUser]);
 
   const handleRefresh = async () => {
@@ -74,9 +81,10 @@ const MyPosts = () => {
         post.userFullName = currentUser?.fullName;
         post.userHoroscope = currentUser?.horoscope;
       });
-      setCurrentUserPosts([...currentUserPosts, ...mergedPosts]);
+      setCurrentUserPosts([...mergedPosts]);
       setStartAfter(res.lastVisible);
       setRefreshing(false);
+      setLastPost(false);
     });
   };
 
@@ -93,7 +101,9 @@ const MyPosts = () => {
           });
           setCurrentUserPosts([...currentUserPosts, ...mergedPosts]);
           setStartAfter(res.lastVisible);
-          mergedPosts.length === 0 ? setLastPost(true) : setLastPost(false);
+          currentUserPosts?.length === 0
+            ? setLastPost(true)
+            : setLastPost(false);
         },
       );
     }
@@ -164,7 +174,7 @@ const MyPosts = () => {
         iconTitle={'Gönderilerim'}
       />
       <SafeAreaView style={styles.safeAreaContainer}>
-        {userLoading ? (
+        {loading ? (
           <ActivityIndicator size={'large'} color={'white'} />
         ) : (
           <FlatList
@@ -177,8 +187,42 @@ const MyPosts = () => {
             scrollEventThrottle={150}
             refreshing={refreshing}
             onRefresh={handleRefresh}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  alignItems: 'center',
+                  height: windowHeight,
+                  justifyContent: 'center',
+                }}>
+                <FontAwesome5Icon
+                  name="comment-slash"
+                  color="#b717d2"
+                  size={80}
+                  style={{bottom: 30}}
+                />
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('UserPostTransaction')}
+                  activeOpacity={0.5}
+                  style={{
+                    width: windowWidth - 120,
+                    height: 60,
+                    backgroundColor: '#b717d2',
+                    alignItems: 'center',
+                    justifyContent: 'space-evenly',
+                    borderRadius: 20,
+                    flexDirection: 'row',
+                  }}>
+                  <MaterialIcons name="add-box" color={'white'} size={40} />
+
+                  <Text style={{color: 'white', fontSize: 22}}>
+                    Gönderi Oluştur
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
             ListFooterComponent={() =>
-              !lastPost ? (
+              lastPost ? (
                 <ActivityIndicator size={'large'} color={'white'} />
               ) : (
                 <View style={{height: 100}} />
