@@ -182,26 +182,49 @@ export const getUserInfoByEmail = async email => {
   }
 };
 
-export const getUserPostsByEmail = async userId => {
+export const getUserPostsByEmail = async (userId, postsPerLoad) => {
   try {
     const querySnapshot = await firestore()
       .collection('Posts')
-      .where('userId', '==', userId)
+      .where('userId', '==', String(userId))
+      .orderBy('createdAt', 'desc')
+      .limit(postsPerLoad)
       .get();
 
-    if (querySnapshot.empty) {
-      return null;
-    }
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    const posts = [];
 
-    const posts = querySnapshot.docs.map(doc => ({
-      ...doc.data(),
-      collectionId: doc.id,
-    }));
-    console.log('posts: ', posts);
-    return posts;
+    querySnapshot.forEach(docs => {
+      posts.push({...docs.data(), collectionId: docs.id});
+    });
+    return {posts, lastVisible};
   } catch (error) {
-    console.log('error: ', error);
-    return null;
+    return error;
+  }
+};
+
+export const getMoreUserPostsByEmail = async (
+  userId,
+  startAfter,
+  postsPerLoad,
+) => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Posts')
+      .orderBy('createdAt', 'desc')
+      .where('userId', '==', userId)
+      .startAfter(startAfter)
+      .limit(postsPerLoad)
+      .get();
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const posts = [];
+    querySnapshot.forEach(user => {
+      posts.push({...user.data(), collectionId: user.id});
+    });
+    return {posts, lastVisible};
+  } catch (error) {
+    return error;
   }
 };
 
@@ -265,11 +288,7 @@ export const getMorePostsCollection = async (startAfter, postsPerLoad) => {
 
 export const getMoreUserInfosCollection = async () => {
   try {
-    const querySnapshot = await firestore()
-      .collection('UserInfo')
-      // .startAfter(startAfter)
-      // .limit(postsPerLoad)
-      .get();
+    const querySnapshot = await firestore().collection('UserInfo').get();
 
     const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
 

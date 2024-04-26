@@ -1,4 +1,4 @@
-import {ActivityIndicator, FlatList, SafeAreaView} from 'react-native';
+import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
 import {
@@ -10,26 +10,12 @@ import {
 } from 'react-native-material-cards';
 import {useNavigation} from '@react-navigation/native';
 import {
-  getPostsCollection,
+  getMoreUserPostsByEmail,
   getUserInfoByEmail,
   getUserPostsByEmail,
 } from '../../utils/utils';
 import {useSelector} from 'react-redux';
-import {
-  arrayRemove,
-  arrayUnion,
-  collection,
-  deleteDoc,
-  doc,
-  Firestore,
-  getDoc,
-  getDocs,
-  query,
-  Timestamp,
-  updateDoc,
-  where,
-  writeBatch,
-} from 'firebase/firestore';
+import {deleteDoc, doc} from 'firebase/firestore';
 import {db} from '../../utils/firebase';
 import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
@@ -38,14 +24,14 @@ import styles from './styles';
 
 const MyPosts = () => {
   const navigation = useNavigation();
-  const [userInfos, setUserInfos] = useState(new Array());
   const {user, userLoading} = useSelector(state => state.user);
   const [currentUserPosts, setCurrentUserPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
-  const [postsPerLoad, setPostsPerLoad] = useState(2);
-  const [userInfoWithoutPost, setUserInfoWithoutPost] = useState(null);
-  console.log('user uid: ', user.uid);
+  const [postsPerLoad, setPostsPerLoad] = useState(4);
+  const [startAfter, setStartAfter] = useState(Object);
+  const [lastPost, setLastPost] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const usersFromFirestore = async () => {
@@ -54,43 +40,63 @@ const MyPosts = () => {
       });
     };
     usersFromFirestore();
-  }, []);
-  console.log('currentuser: ', currentUser);
+  }, [user]);
 
   useEffect(() => {
     const postsFromFirestore = async () => {
-      await getUserPostsByEmail(user.uid).then(res => {
-        let mergedPosts = res;
+      await getUserPostsByEmail(user?.uid, postsPerLoad).then(res => {
+        let mergedPosts = res.posts;
         mergedPosts.forEach(post => {
           post.userFullName = currentUser.fullName;
           post.userHoroscope = currentUser.horoscope;
         });
 
-        setCurrentUserPosts(mergedPosts);
+        setCurrentUserPosts([...mergedPosts]);
+        setStartAfter(res.lastVisible);
       });
     };
     postsFromFirestore();
+    const unsubscribe = navigation.addListener('focus', () => {
+      setLastPost(false);
+      postsFromFirestore();
+    });
+
+    return unsubscribe;
   }, [currentUser]);
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await getUserPostsByEmail(user.uid, postsPerLoad).then(res => {
+      let mergedPosts = res.posts;
+
+      mergedPosts.forEach(post => {
+        post.userProfilePhoto = currentUser?.profilePhoto;
+        post.userFullName = currentUser?.fullName;
+        post.userHoroscope = currentUser?.horoscope;
+      });
+      setCurrentUserPosts([...currentUserPosts, ...mergedPosts]);
+      setStartAfter(res.lastVisible);
+      setRefreshing(false);
+    });
+  };
+
   const handleLoadMore = async () => {
-    // setPostsPerLoad(prev => prev + 2);
-    // await getUserInfoByEmail(user.email).then(res => {
-    //   let combinedPosts = res.socialPost;
-    //   combinedPosts.sort(
-    //     (a, b) =>
-    //       new Date(a.uploadDate).getSeconds() -
-    //       new Date(b.uploadDate).getSeconds(),
-    //   );
-    //   combinedPosts.forEach(post => {
-    //     post.profilePhoto = res.profilePhoto;
-    //     post.fullName = res.fullName;
-    //     post.horoscope = res.horoscope;
-    //   });
-    //   setUserInfos(prev => [
-    //     ...prev,
-    //     ...combinedPosts.slice(postsPerLoad, postsPerLoad + 2),
-    //   ]);
-    // });
+    if (!lastPost) {
+      await getMoreUserPostsByEmail(user.uid, startAfter, postsPerLoad).then(
+        res => {
+          let mergedPosts = res.posts;
+
+          mergedPosts.forEach(post => {
+            post.userProfilePhoto = currentUser.profilePhoto;
+            post.userFullName = currentUser.fullName;
+            post.userHoroscope = currentUser.horoscope;
+          });
+          setCurrentUserPosts([...currentUserPosts, ...mergedPosts]);
+          setStartAfter(res.lastVisible);
+          mergedPosts.length === 0 ? setLastPost(true) : setLastPost(false);
+        },
+      );
+    }
   };
 
   const handleDeletePost = async ({collectionId}) => {
@@ -103,10 +109,9 @@ const MyPosts = () => {
         post => post.collectionId !== collectionId,
       );
 
-      // Güncellenmiş gönderileri ayarla
       setCurrentUserPosts(updatedPosts);
     } catch (error) {
-      console.error('Error deleting posts:', error);
+      return error;
     }
   };
 
@@ -170,9 +175,13 @@ const MyPosts = () => {
             showsVerticalScrollIndicator={false}
             onEndReachedThreshold={0.01}
             scrollEventThrottle={150}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
             ListFooterComponent={() =>
-              postsPerLoad.length && (
+              !lastPost ? (
                 <ActivityIndicator size={'large'} color={'white'} />
+              ) : (
+                <View style={{height: 100}} />
               )
             }
           />

@@ -34,7 +34,7 @@ const PublicPosts = route => {
   const [currentPostLikes, setCurrentPostLikes] = useState([]);
   const {user, userLoading} = useSelector(state => state.user);
 
-  const [postsPerLoad, setPostsPerLoad] = useState(2);
+  const [postsPerLoad, setPostsPerLoad] = useState(4);
   const [startAfter, setStartAfter] = useState(Object);
   const [lastPost, setLastPost] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
