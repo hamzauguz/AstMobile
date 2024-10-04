@@ -65,6 +65,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'EBGaramond-ExtraBold',
   },
+  linkText: {
+    fontSize: 16,
+    fontFamily: 'EBGaramond-Bold',
+    padding: 10,
+    color: 'white',
+  },
+  linkUnderline: {
+    color: 'cyan',
+    textDecorationLine: 'underline',
+    fontSize: 16,
+  },
 });
 
 export default styles;

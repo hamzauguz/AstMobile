@@ -9,6 +9,7 @@
     "start": "react-native start",
     "test": "jest",
     "start-iphone15": "react-native run-ios --simulator \"iPhone 15 Pro Max\"",
+    "start-iphone16": "react-native run-ios --simulator \"iPhone 16 Pro Max\"",
     "postversion": "react-native-version"
   },
   "dependencies": {

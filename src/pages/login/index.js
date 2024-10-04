@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   Image,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -24,6 +25,7 @@ import {SignIn, SignInWithGoogle} from '../../utils/utils';
 import LoginWithGoogleButton from '../../components/login-with-google-button';
 import styles from './styles';
 import {windowWidth} from '../../utils/helpers';
+import PrivacyPolicyText from '../../components/privacy-policy-text';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -151,6 +153,7 @@ const Login = () => {
                   )}
                 </TouchableOpacity>
               </LinearGradient>
+              <PrivacyPolicyText />
             </View>
           </KeyboardAvoidingView>
         </ScrollView>

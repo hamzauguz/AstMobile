@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     width: '90%',
     flexDirection: 'column',
     position: 'absolute',
-    bottom: 100,
+    bottom: 50,
   },
   button: {
     height: 60,
