@@ -5,6 +5,7 @@ import Container from '../../components/container';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import styles from './styles';
+import PrivacyPolicyText from '../../components/privacy-policy-text';
 
 const Welcome = () => {
   const navigation = useNavigation();
@@ -43,6 +44,7 @@ const Welcome = () => {
               <Text style={styles.fontStyle}>KAYIT OL</Text>
             </TouchableOpacity>
           </LinearGradient>
+          <PrivacyPolicyText />
         </View>
       </SafeAreaView>
     </Container>

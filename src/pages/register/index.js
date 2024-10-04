@@ -28,6 +28,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import LoginWithGoogleButton from '../../components/login-with-google-button';
 import styles from './styles';
+import PrivacyPolicyText from '../../components/privacy-policy-text';
 
 const Register = () => {
   const navigation = useNavigation();
@@ -61,8 +62,9 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    if (formData.password !== formData.rePassword)
+    if (formData.password !== formData.rePassword) {
       return Alert.alert('Uyarı', 'Şifreler eşleşmiyor!');
+    }
     setShowProgressBar(true);
     handleSignIn(formData.email, formData.password);
   };
@@ -167,6 +169,7 @@ const Register = () => {
                 )}
               </TouchableOpacity>
             </LinearGradient>
+            <PrivacyPolicyText />
           </View>
         </KeyboardAwareScrollView>
       </SafeAreaView>
