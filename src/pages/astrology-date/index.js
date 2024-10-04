@@ -12,6 +12,8 @@ import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
 import {getImportantDates} from '../../utils/utils';
+import CalendarSkeneton from '../../components/skeneton-cards/calendar-skeneton';
+import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 
 const AstrologyDate = () => {
   const [selectedDate, setSelectedDate] = useState(moment());
@@ -64,9 +66,20 @@ const AstrologyDate = () => {
     return (
       <View style={styles.importantDateContainer}>
         <View style={[styles.importantDateButton, importantDateButtonStyle]}>
-          <Text style={[importantDateButtonTextStyle]}>X</Text>
+          <Text
+            style={[
+              {fontFamily: 'EBGaramond-SemiBold'},
+              importantDateButtonTextStyle,
+            ]}>
+            X
+          </Text>
         </View>
-        <Text style={{color: 'white', opacity: 0.8, fontWeight: '600'}}>
+        <Text
+          style={{
+            color: 'white',
+            opacity: 0.8,
+            fontFamily: 'EBGaramond-ExtraBold',
+          }}>
           {' '}
           : {title}
         </Text>
@@ -78,35 +91,40 @@ const AstrologyDate = () => {
     <Container>
       <SafeAreaView style={styles.container}>
         <View style={{backgroundColor: '#BFBAFC'}}>
-          <CalendarPicker
-            startFromMonday={true}
-            selectedDayTextColor={'white'}
-            selectedDayStyle={{backgroundColor: 'purple'}}
-            todayBackgroundColor={'black'}
-            selectedDayTextStyle={{color: '#fff'}}
-            onDateChange={onDateChange}
-            customDatesStyles={customDatesStyles}
-            dayShape={{borderRadius: 0}}
-            selectMonthTitle="Aylar "
-            selectYearTitle="Yıl"
-            weekdays={['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']}
-            months={[
-              'Ocak',
-              'Şubat',
-              'Mart',
-              'Nisan',
-              'Mayıs',
-              'Haziran',
-              'Temmuz',
-              'Ağustos',
-              'Eylül',
-              'Ekim',
-              'Kasım',
-              'Aralık',
-            ]}
-            previousTitle="Önceki"
-            nextTitle="Sonraki"
-          />
+          {importantDates.length > 0 ? (
+            <CalendarPicker
+              startFromMonday={true}
+              selectedDayTextColor={'white'}
+              selectedDayStyle={{backgroundColor: 'purple'}}
+              todayBackgroundColor={'black'}
+              selectedDayTextStyle={{color: '#fff'}}
+              onDateChange={onDateChange}
+              customDatesStyles={customDatesStyles}
+              dayShape={{borderRadius: 0}}
+              textStyle={styles.textStyle}
+              selectMonthTitle="Aylar "
+              selectYearTitle="Yıl"
+              weekdays={['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']}
+              months={[
+                'Ocak',
+                'Şubat',
+                'Mart',
+                'Nisan',
+                'Mayıs',
+                'Haziran',
+                'Temmuz',
+                'Ağustos',
+                'Eylül',
+                'Ekim',
+                'Kasım',
+                'Aralık',
+              ]}
+              previousTitle="Önceki"
+              nextTitle="Sonraki"
+            />
+          ) : (
+            <CalendarSkeneton />
+          )}
         </View>
         <View style={{flex: 1}}>
           <View
@@ -123,7 +141,6 @@ const AstrologyDate = () => {
             <ImportantDateInfo
               importantDateButtonTextStyle={{
                 color: 'black',
-                fontWeight: 'bold',
               }}
               importantDateButtonStyle={{
                 borderWidth: 2,
@@ -134,7 +151,6 @@ const AstrologyDate = () => {
             <ImportantDateInfo
               importantDateButtonTextStyle={{
                 color: 'white',
-                fontWeight: '600',
               }}
               importantDateButtonStyle={{
                 backgroundColor: 'purple',
@@ -143,7 +159,7 @@ const AstrologyDate = () => {
             />
 
             <ImportantDateInfo
-              importantDateButtonTextStyle={{color: 'white', fontWeight: '600'}}
+              importantDateButtonTextStyle={{color: 'white'}}
               importantDateButtonStyle={{
                 backgroundColor: 'black',
               }}
@@ -156,7 +172,12 @@ const AstrologyDate = () => {
               style={{
                 padding: 10,
               }}>
-              <Text style={{fontSize: 15, color: 'white'}}>
+              <Text
+                style={{
+                  fontSize: Platform.OS === 'ios' ? 17 : 15,
+                  color: 'white',
+                  fontFamily: 'EBGaramond-SemiBold',
+                }}>
                 {selectedDateDescription}
               </Text>
             </View>
@@ -185,7 +206,6 @@ const styles = StyleSheet.create({
   },
   importantTextStyle: {
     color: 'black',
-    fontWeight: 'bold',
   },
   importantDateContainer: {
     display: 'flex',
@@ -199,5 +219,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textStyle: {
+    fontSize: 18,
+    fontFamily: 'EBGaramond-Bold',
   },
 });

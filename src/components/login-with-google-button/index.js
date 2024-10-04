@@ -11,7 +11,13 @@ const LoginWithGoogleButton = ({onPress}) => {
         name={'google'}
         color={'white'}
       />
-      <Text style={{color: 'white', width: '60%', fontSize: 18}}>
+      <Text
+        style={{
+          color: 'white',
+          width: '60%',
+          fontSize: 18,
+          fontFamily: 'EBGaramond-Bold',
+        }}>
         Google ile Giriş Yap
       </Text>
     </TouchableOpacity>

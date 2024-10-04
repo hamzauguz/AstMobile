@@ -1,4 +1,5 @@
 import {Dimensions} from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 
 const getBirthdateToHoroscopeDate = (day, month) => {
   if ((month == 1 && day >= 21) || (month == 2 && day <= 19)) {
@@ -33,11 +34,23 @@ const windowHeight = Dimensions.get('window').height;
 
 const convertToISOTime = timeString => {
   const now = new Date();
-  const [hour, minute, second] = timeString.split(':').map(Number);
+  const [hour, minute] = timeString.split(':').map(Number);
   now.setHours(hour);
   now.setMinutes(minute);
-  now.setSeconds(second);
+  // now.setSeconds(second);
   return now;
+};
+
+const analyticsButtonLog = (name, params) => {
+  analytics().logEvent(name, params);
+};
+
+const formatWithoutSecondTime = time => {
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
+  return `${hours.toString().padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}`;
 };
 
 export {
@@ -45,4 +58,6 @@ export {
   windowHeight,
   windowWidth,
   convertToISOTime,
+  analyticsButtonLog,
+  formatWithoutSecondTime,
 };

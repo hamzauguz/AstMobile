@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>AstMobile</string>
+	<string>AstroModern</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>1.2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -27,12 +27,12 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.28271342960-c0i41k486gjf163hsmasdfsg7gvk3d5j</string>
+				<string>com.googleusercontent.apps.28271342960-5bpiekn8i4tafjcfv15ffedhtqnapkup</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -46,8 +46,20 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Bu uygulama kamera erişimi gerektirir.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Bu uygulama mikrofon erişimine ihtiyaç duymaktadır.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Bu uygulama fotoğraf kütüphanesine kaydetme erişimi gerektirir.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bu uygulama fotoğraf kütüphanesine erişim gerektirir.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Bu uygulama konumunuzu bulmak için konum ile ilgili kütüphaneye erişim gerektirir</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Bu uygulama konumunuzu bulmak için konum ile ilgili kütüphaneye erişim gerektirir</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Bu uygulama konumunuzu bulmak için konum ile ilgili kütüphaneye erişim gerektirir</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -66,8 +78,11 @@
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Fontisto.ttf</string>
-		<string>Dorian-Gray.ttf</string>
-		<string>CormorantGaramond-Italic.ttf</string>
+		<string>EBGaramond-Bold.ttf</string>
+		<string>EBGaramond-ExtraBold.ttf</string>
+		<string>EBGaramond-ExtraBoldItalic.ttf</string>
+		<string>EBGaramond-Medium.ttf</string>
+		<string>EBGaramond-SemiBold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

@@ -3,6 +3,7 @@ import {
   Alert,
   Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -20,6 +21,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {firebase} from '@react-native-firebase/auth';
 // import auth from '@react-native-firebase/auth';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import {windowHeight} from '../../utils/helpers';
 
 const EditMyPassword = () => {
   const navigation = useNavigation();
@@ -84,14 +86,7 @@ const EditMyPassword = () => {
           iconTitle={'Şifremi Değiştir'}
         />
 
-        <KeyboardAwareScrollView
-          enableOnAndroid={true}
-          contentContainerStyle={{flexGrow: 1}}
-          extraHeight={130}
-          scrollEnabled
-          extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
-          resetScrollToCoords={{x: 0, y: 0}}
-          style={{width: '100%', flexGrow: 1}}>
+        <ScrollView style={{height: windowHeight}}>
           <InputWithLabel
             containerStyle={styles.inputContainerStyle}
             label={'Eski Şifre'}
@@ -113,6 +108,7 @@ const EditMyPassword = () => {
               )
             }
             secureTextEntry={showPasswordForm.currentPassword}
+            autoCapitalize="none"
           />
           <InputWithLabel
             containerStyle={styles.inputContainerStyle}
@@ -135,6 +131,7 @@ const EditMyPassword = () => {
               )
             }
             secureTextEntry={showPasswordForm.newPassword}
+            autoCapitalize="none"
           />
           <InputWithLabel
             containerStyle={styles.inputContainerStyle}
@@ -157,6 +154,7 @@ const EditMyPassword = () => {
               )
             }
             secureTextEntry={showPasswordForm.reNewPassword}
+            autoCapitalize="none"
           />
           <LinearGradient
             colors={['#b717d2', '#ce25ab']}
@@ -175,13 +173,18 @@ const EditMyPassword = () => {
               {progressBar ? (
                 <ActivityIndicator size={'large'} color={'white'} />
               ) : (
-                <Text style={{color: 'white', fontWeight: '600', fontSize: 18}}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 20,
+                    fontFamily: 'EBGaramond-ExtraBold',
+                  }}>
                   Şifremi Değiştir
                 </Text>
               )}
             </TouchableOpacity>
           </LinearGradient>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </SafeAreaView>
     </Container>
   );

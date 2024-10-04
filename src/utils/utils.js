@@ -2,15 +2,13 @@ import auth from '@react-native-firebase/auth';
 import {Alert, Platform} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import firestore from '@react-native-firebase/firestore';
-import {collection, onSnapshot, query} from 'firebase/firestore';
-import {db} from './firebase';
+import {IOS_GOOGLE_WEB_CLIENT_ID, ANDROID_GOOGLE_WEB_CLIENT_ID} from '@env';
 import seedrandom from 'seedrandom';
 
 GoogleSignin.configure({
   webClientId: Platform.select({
-    ios: '28271342960-c0i41k486gjf163hsmasdfsg7gvk3d5j.apps.googleusercontent.com',
-    android:
-      '28271342960-gkacljivqssjd6tg1ende3s4av82be9b.apps.googleusercontent.com',
+    ios: IOS_GOOGLE_WEB_CLIENT_ID,
+    android: ANDROID_GOOGLE_WEB_CLIENT_ID,
   }),
   scopes: ['email'],
   offlineAccess: true,
@@ -180,6 +178,143 @@ export const getUserInfoByEmail = async email => {
 
     return {...userInfo, collectionId: querySnapshot.docs[0].id};
   } catch (error) {
+    return null;
+  }
+};
+
+export const getUserPostsByEmail = async (userId, postsPerLoad) => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Posts')
+      .where('userId', '==', String(userId))
+      .orderBy('createdAt', 'desc')
+      .limit(postsPerLoad)
+      .get();
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    const posts = [];
+
+    querySnapshot.forEach(docs => {
+      posts.push({...docs.data(), collectionId: docs.id});
+    });
+    return {posts, lastVisible};
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getMoreUserPostsByEmail = async (
+  userId,
+  startAfter,
+  postsPerLoad,
+) => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Posts')
+      .orderBy('createdAt', 'desc')
+      .where('userId', '==', userId)
+      .startAfter(startAfter)
+      .limit(postsPerLoad)
+      .get();
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const posts = [];
+    querySnapshot.forEach(user => {
+      posts.push({...user.data(), collectionId: user.id});
+    });
+    return {posts, lastVisible};
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getUserInfosCollection = async () => {
+  try {
+    const querySnapshot = await firestore().collection('UserInfo').get();
+
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    return objectsArray;
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getPostsCollection = async postsPerLoad => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Posts')
+      .orderBy('createdAt', 'desc')
+      .limit(postsPerLoad)
+      .get();
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const posts = [];
+    querySnapshot.forEach(user => {
+      posts.push({...user.data(), collectionId: user.id});
+    });
+    return {posts, lastVisible};
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getUserPostToCollection = async collectionId => {
+  try {
+    const docRef = firestore().collection('Posts').doc(collectionId);
+    const docSnapshot = await docRef.get();
+
+    const postData = docSnapshot.data();
+    const post = {...postData, collectionId: docSnapshot.id};
+    console.log('post: ', post);
+    return post;
+  } catch (error) {
+    console.error('Error getting document:', error);
+    return null;
+  }
+};
+
+export const getMorePostsCollection = async (startAfter, postsPerLoad) => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('Posts')
+      .orderBy('createdAt', 'desc')
+      .startAfter(startAfter)
+      .limit(postsPerLoad)
+      .get();
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const posts = [];
+    querySnapshot.forEach(user => {
+      posts.push({...user.data(), collectionId: user.id});
+    });
+    return {posts, lastVisible};
+  } catch (error) {
+    console.error('Error getting documents: ', error);
+    return null;
+  }
+};
+
+export const getMoreUserInfosCollection = async () => {
+  try {
+    const querySnapshot = await firestore().collection('UserInfo').get();
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const objectsArray = [];
+    querySnapshot.forEach(user => {
+      objectsArray.push(user.data());
+    });
+    console.log(objectsArray);
+    return {objectsArray, lastVisible};
+  } catch (error) {
+    console.error('Error getting documents: ', error);
     return null;
   }
 };

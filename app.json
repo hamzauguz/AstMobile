@@ -1,4 +1,8 @@
 {
-  "name": "AstMobile",
-  "displayName": "AstMobile"
+  "name": "AstroModern",
+  "displayName": "AstroModern",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-9650548064732377~4011676785",
+    "ios_app_id": "ca-app-pub-9650548064732377~7220294055"
+  }
 }

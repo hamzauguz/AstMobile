@@ -17,6 +17,7 @@ const CustomInput = ({
   inputRightIcon,
   secureTextEntry,
   inputRightClick,
+  autoCapitalize,
 }) => {
   return (
     <View
@@ -33,6 +34,7 @@ const CustomInput = ({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
+        autoCapitalize={autoCapitalize}
       />
       {inputRightContainer && (
         <InputRightIcon onPress={inputRightClick} icon={inputRightIcon} />
@@ -53,7 +55,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     color: 'white',
     fontSize: 16,
-    fontWeight: '500',
+    // fontWeight: '500',
     width: '100%',
+    fontFamily: 'EBGaramond-SemiBold',
   },
 });

@@ -12,6 +12,7 @@ const InputWithLabel = ({
   inputRightIcon,
   secureTextEntry,
   inputRightClick,
+  autoCapitalize,
 }) => {
   return (
     <View style={[styles.container, containerStyle]}>
@@ -25,6 +26,7 @@ const InputWithLabel = ({
         inputRightIcon={inputRightIcon}
         secureTextEntry={secureTextEntry}
         inputRightClick={inputRightClick}
+        autoCapitalize={autoCapitalize}
       />
     </View>
   );
@@ -39,10 +41,12 @@ const styles = StyleSheet.create({
   },
   customInputStyle: {
     marginTop: 5,
+    fontFamily: 'EBGaramond-Bold',
   },
   labelStyle: {
     color: 'white',
     fontSize: 18,
     width: '90%',
+    fontFamily: 'EBGaramond-Bold',
   },
 });

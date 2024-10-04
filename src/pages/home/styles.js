@@ -1,7 +1,6 @@
-import {Dimensions, Platform, StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {windowHeight, windowWidth} from '../../utils/helpers';
-console.log('windowheight: ', windowHeight);
-console.log('windowwidth: ', windowWidth);
+
 const styles = StyleSheet.create({
   safeAreaContainer: {flexGrow: 1},
   containerCustomStyle: {
@@ -29,12 +28,14 @@ const styles = StyleSheet.create({
     resizeMode: 'center',
   },
   toucableTextContainer: {alignItems: 'center', marginTop: 5},
-  toucableText: {color: 'white', fontSize: 22},
+  toucableText: {color: 'white', fontSize: 26, fontFamily: 'EBGaramond-Bold'},
   toucableTextDate: {
     color: 'white',
     width: 'auto',
     textAlign: 'left',
     alignItems: 'center',
+    fontFamily: 'EBGaramond-Medium',
+    fontSize: 14,
   },
   container: {flexDirection: 'row', alignItems: 'center', marginBottom: 16},
   avatar: {height: 40, width: 40, borderRadius: 0},
@@ -42,6 +43,18 @@ const styles = StyleSheet.create({
   title: {width: '90%', height: 14, borderRadius: 7, marginBottom: 5},
   subtitle: {width: '70%', height: 14, borderRadius: 7},
   icon: {height: 16, width: 16, borderRadius: 4},
+  secondSkenetonCard: {
+    width: Platform.OS === 'ios' ? 100 : 150,
+    height: Platform.OS === 'ios' ? 200 : windowHeight / 4.7,
+  },
+  firstSkenetonCard: {
+    width: Platform.OS === 'ios' ? 200 : 180,
+    height: Platform.OS === 'ios' ? 250 : windowHeight / 4,
+  },
+  secondSkenetonRightCard: {
+    width: Platform.OS === 'ios' ? 160 : 150,
+    height: Platform.OS === 'ios' ? 200 : windowHeight / 4.7,
+  },
 });
 
 export default styles;

@@ -26,6 +26,7 @@ const CustomHeader = ({
           alignItems: 'center',
           justifyContent: 'space-around',
           height: 50,
+          left: 10,
         }}>
         <View>{iconLeft}</View>
         <Text
@@ -33,9 +34,9 @@ const CustomHeader = ({
             titleStyle,
             {
               color: 'white',
-              fontSize: 24,
-              fontWeight: 'bold',
-              left: 10,
+              fontSize: 28,
+              fontFamily: 'EBGaramond-ExtraBold',
+              left: 30,
             },
           ]}>
           {iconTitle}

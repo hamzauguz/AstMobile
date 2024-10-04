@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "28271342960",
+    "firebase_url": "https://ast-app-9656b-default-rtdb.firebaseio.com",
     "project_id": "ast-app-9656b",
     "storage_bucket": "ast-app-9656b.appspot.com"
   },
@@ -14,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "28271342960-06asponb832gjkver4anut9ej0cfgn9g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.astmobile",
+            "certificate_hash": "c7d9f49179aa2e498460f33e7ee63130f99ada56"
+          }
+        },
+        {
           "client_id": "28271342960-5innmig57g3h1563ricbgocs2mm4vdtu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -22,7 +31,7 @@
           }
         },
         {
-          "client_id": "28271342960-gkacljivqssjd6tg1ende3s4av82be9b.apps.googleusercontent.com",
+          "client_id": "28271342960-f56u36ifboejd40gvoshdafjkj0cbe1m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,8 +44,51 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "28271342960-gkacljivqssjd6tg1ende3s4av82be9b.apps.googleusercontent.com",
+              "client_id": "28271342960-f56u36ifboejd40gvoshdafjkj0cbe1m.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "28271342960-5bpiekn8i4tafjcfv15ffedhtqnapkup.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.devHamza.AstroModern"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28271342960:android:9289862cffa3afc849cbb5",
+        "android_client_info": {
+          "package_name": "com.devhamza.astromodern"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28271342960-f56u36ifboejd40gvoshdafjkj0cbe1m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD14Fd1AQL_xIblpm1kKDEuxJV47-lVRQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28271342960-f56u36ifboejd40gvoshdafjkj0cbe1m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "28271342960-5bpiekn8i4tafjcfv15ffedhtqnapkup.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.devHamza.AstroModern"
+              }
             }
           ]
         }

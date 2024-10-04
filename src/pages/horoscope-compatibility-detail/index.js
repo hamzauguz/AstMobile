@@ -1,11 +1,4 @@
-import {
-  Image,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, Platform, SafeAreaView, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../components/container';
 import {useNavigation} from '@react-navigation/native';
@@ -14,6 +7,9 @@ import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Tabs} from 'react-native-collapsible-tab-view';
 import {windowHeight, windowWidth} from '../../utils/helpers';
+import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
+import FastImage from 'react-native-fast-image';
+import styles from './styles';
 
 const HEADER_HEIGHT = 250;
 
@@ -32,42 +28,40 @@ const HoroscopeCompatibilityDetail = ({route}) => {
     return (
       <View style={styles.header}>
         <View style={{alignItems: 'center'}}>
-          <Image
-            width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
-            height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
-            source={{uri: horoscopesCompatibility?.horoscope1?.image}}
+          <FastImage
+            source={{
+              uri: horoscopesCompatibility?.horoscope1?.image,
+              priority: FastImage.priority.high,
+            }}
             resizeMode="contain"
-          />
-          <Text
             style={{
-              fontSize: 26,
-              marginTop: 10,
-              color: 'white',
-              fontWeight: 'bold',
-            }}>
+              height: Platform.OS === 'ios' ? windowHeight / 8 : 80,
+              width: Platform.OS === 'ios' ? windowWidth / 4 : 80,
+            }}
+          />
+          <Text style={styles.horoscopeOneTextStyle}>
             {horoscopesCompatibility?.horoscope1?.horoscope}
           </Text>
-          <Text style={{top: 10, color: 'white'}}>
+          <Text style={styles.horoscopeOneTextReplaceStyle}>
             {horoscopesCompatibility?.horoscope1?.date.replace(/\n/g, '')}
           </Text>
         </View>
         <View style={{alignItems: 'center'}}>
-          <Image
-            width={Platform.OS === 'ios' ? windowWidth / 4 : 80}
-            height={Platform.OS === 'ios' ? windowHeight / 8 : 80}
-            source={{uri: horoscopesCompatibility?.horoscope2?.image}}
+          <FastImage
+            source={{
+              uri: horoscopesCompatibility?.horoscope2?.image,
+              priority: FastImage.priority.high,
+            }}
             resizeMode="contain"
-          />
-          <Text
             style={{
-              fontSize: 26,
-              marginTop: 10,
-              color: 'white',
-              fontWeight: 'bold',
-            }}>
+              height: Platform.OS === 'ios' ? windowHeight / 8 : 80,
+              width: Platform.OS === 'ios' ? windowWidth / 4 : 80,
+            }}
+          />
+          <Text style={styles.horoscopeOneTextStyle}>
             {horoscopesCompatibility?.horoscope2?.horoscope}
           </Text>
-          <Text style={{top: 10, color: 'white'}}>
+          <Text style={styles.horoscopeOneTextReplaceStyle}>
             {horoscopesCompatibility?.horoscope2?.date.replace(/\n/g, '')}
           </Text>
         </View>
@@ -79,7 +73,7 @@ const HoroscopeCompatibilityDetail = ({route}) => {
     <View style={styles.messageContainer}>
       <Text style={[styles.messageText, item.user && styles.userMessage]}>
         {item?.text?.includes('**') ? (
-          <Text style={{fontWeight: 'bold', color: 'white'}}>
+          <Text style={{color: 'white'}}>
             {item?.text?.replace(/\*\*/g, '')}
           </Text>
         ) : (
@@ -101,7 +95,7 @@ const HoroscopeCompatibilityDetail = ({route}) => {
               children={<Icon size={24} name="chevron-left" color={'white'} />}
             />
           }
-          iconTitle={'Bilgilerimi Düzenle'}
+          iconTitle={'Burç Uyumu'}
         />
 
         <Tabs.Container renderHeader={Header} headerHeight={HEADER_HEIGHT}>
@@ -117,56 +111,3 @@ const HoroscopeCompatibilityDetail = ({route}) => {
 };
 
 export default HoroscopeCompatibilityDetail;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: Platform.OS === 'ios' ? 50 : 0,
-    backgroundColor: 'rgba(139, 93, 182, 0.4)',
-  },
-  messageContainer: {padding: 10, marginVertical: 5},
-  messageText: {fontSize: 16},
-  inputContainer: {flexDirection: 'row', alignItems: 'center', padding: 10},
-  input: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#B7C9F2',
-    borderRadius: 10,
-    height: 50,
-  },
-  micIcon: {
-    padding: 10,
-    backgroundColor: '#B7C9F2',
-    borderRadius: 25,
-    height: 50,
-    width: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 5,
-  },
-  headerContainerStyle: {
-    marginTop: Platform.OS === 'ios' ? 0 : 30,
-    backgroundColor: 'transparent',
-    borderBottomWidth: 2,
-    borderBottomColor: 'white',
-  },
-
-  headerTitleStyle: {
-    marginRight: -50,
-  },
-
-  customHeaderStyle: {
-    marginTop: Platform.OS === 'ios' ? 0 : 50,
-    zIndex: 999,
-  },
-  tabScrollStyle: {flexGrow: 1},
-  header: {
-    height: HEADER_HEIGHT,
-    width: '100%',
-    backgroundColor: '#6768B3',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-    display: 'flex',
-  },
-});

@@ -3,30 +3,36 @@ import {
   Alert,
   Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/container';
 import CustomHeader from '../../components/custom-header';
 import HeaderButton from '../../components/header-button';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useNavigation} from '@react-navigation/native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MaskInput from 'react-native-mask-input';
 import InputWithLabel from '../../components/input-with-label';
 import LinearGradient from 'react-native-linear-gradient';
-import CityModal from '../../components/city-modal';
 import DatePicker from 'react-native-date-picker';
 import {useSelector} from 'react-redux';
 import {phoneNumberRegex} from '../../utils/regex';
 import {getUserInfoByEmail} from '../../utils/utils';
 import HoroscopesModal from '../../components/horoscopes-modal';
 import {doc, updateDoc} from 'firebase/firestore';
+import {GOOGLE_MAPS_URL, GOOGLE_PLACES_API_KEY} from '@env';
 import {db} from '../../utils/firebase';
-import {convertToISOTime} from '../../utils/helpers';
+import {
+  convertToISOTime,
+  formatWithoutSecondTime,
+  windowHeight,
+} from '../../utils/helpers';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import Geolocation from '@react-native-community/geolocation';
 
 const EditMyInfo = () => {
   const navigation = useNavigation();
@@ -39,11 +45,41 @@ const EditMyInfo = () => {
   const [userForm, setUserForm] = useState({
     fullName: '',
     phone: '',
-    city: '',
+    location: null,
     horoscope: '',
     birthDate: new Date(),
     birthTime: new Date(),
   });
+
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    firstRender.current = false;
+  }, []);
+
+  useEffect(() => {
+    Geolocation.requestAuthorization();
+    navigator.geolocation = require('@react-native-community/geolocation');
+  }, []);
+
+  const handlePlaceSelect = async (data, details) => {
+    try {
+      const placeId = data.place_id;
+
+      const response = await fetch(
+        `${GOOGLE_MAPS_URL}?place_id=${placeId}&key=${GOOGLE_PLACES_API_KEY}`,
+      );
+
+      const result = await response.json();
+
+      const location = result.result.geometry.location;
+      const latitude = location.lat;
+      const longitude = location.lng;
+      handleInputChange('location', {...data, latitude, longitude});
+    } catch (error) {
+      console.error('Hata:', error);
+    }
+  };
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalHoroscopeVisible, setModalHoroscopeVisible] = useState(false);
@@ -58,8 +94,8 @@ const EditMyInfo = () => {
         setUserForm(prevState => ({
           ...prevState,
           fullName: res.fullName,
-          phone: res.phone,
-          city: res.country,
+          phone: res?.phone?.number,
+          location: res.location,
           horoscope: res.horoscope,
           birthDate: new Date(res.birthdate, 0),
           birthTime: convertToISOTime(res.birthtime),
@@ -70,12 +106,6 @@ const EditMyInfo = () => {
     userInfoControl();
   }, [user]);
 
-  const handleCitySelect = city => {
-    setUserForm(prevState => ({
-      ...prevState,
-      city,
-    }));
-  };
   const handleHoroscopeSelect = horoscope => {
     setUserForm(prevState => ({
       ...prevState,
@@ -110,8 +140,8 @@ const EditMyInfo = () => {
 
       await updateDoc(docRef, {
         fullName: userForm.fullName,
-        phone: userForm.phone,
-        country: userForm.city,
+        phone: {number: userForm.phone, validate: false},
+        location: userForm.location,
         birthdate: userForm.birthDate.getFullYear(),
         birthtime: userForm.birthTime.toLocaleTimeString('tr-TR'),
         horoscope: userForm.horoscope,
@@ -121,7 +151,6 @@ const EditMyInfo = () => {
       navigation.navigate('Profile');
       setProgressBar(false);
     } catch (e) {
-      console.error('Error updating document: ', e);
       setProgressBar(false);
     }
   };
@@ -146,14 +175,9 @@ const EditMyInfo = () => {
             iconTitle={'Bilgilerimi Düzenle'}
           />
 
-          <KeyboardAwareScrollView
-            enableOnAndroid={true}
-            contentContainerStyle={{flexGrow: 1}}
-            extraHeight={130}
-            scrollEnabled
-            extraScrollHeight={Platform.OS === 'ios' ? 130 : 0}
-            resetScrollToCoords={{x: 0, y: 0}}
-            style={{width: '100%', flexGrow: 1}}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            style={{height: windowHeight}}>
             <InputWithLabel
               label={'Ad & Soyad'}
               placeholder={'Adınızı ve soyadınızı giriniz.'}
@@ -173,14 +197,34 @@ const EditMyInfo = () => {
               />
             </View>
             <View style={styles.itemwithLabel}>
-              <Text style={styles.labelStyle}>Şehir</Text>
-              <TouchableOpacity
-                onPress={toggleModal}
-                style={styles.customButton}>
-                <Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>
-                  {userForm.city === '' ? 'Şehir Seçiniz.' : userForm.city}
-                </Text>
-              </TouchableOpacity>
+              <Text style={styles.labelStyle}>Konum</Text>
+
+              <GooglePlacesAutocomplete
+                styles={{
+                  container: {width: '90%'},
+                  textInput: styles.customButton,
+                  description: {color: 'black'},
+                }}
+                placeholder="Konum Seçiniz"
+                onPress={handlePlaceSelect}
+                query={{
+                  key: GOOGLE_PLACES_API_KEY,
+                  language: 'en',
+                }}
+                fetchDetails={true}
+                textInputProps={{
+                  value: firstRender.current && userForm?.location?.description,
+                  onChangeText: newText => {
+                    if (firstRender.current) {
+                      handleInputChange('location', newText);
+                    }
+                  },
+                  defaultValue: userForm?.location?.description,
+                  placeholderTextColor: 'white',
+                }}
+                currentLocation={true}
+                currentLocationLabel="Şuanki Konumunuz"
+              />
             </View>
 
             <View style={styles.itemwithLabel}>
@@ -192,6 +236,7 @@ const EditMyInfo = () => {
                   style={{
                     color: 'white',
                     fontSize: 16,
+                    fontFamily: 'EBGaramond-SemiBold',
                   }}>
                   {userForm.birthDate.getFullYear()}
                 </Text>
@@ -220,8 +265,9 @@ const EditMyInfo = () => {
                   style={{
                     color: 'white',
                     fontSize: 16,
+                    fontFamily: 'EBGaramond-SemiBold',
                   }}>
-                  {userForm.birthTime.toLocaleTimeString()}
+                  {formatWithoutSecondTime(userForm.birthTime)}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -243,7 +289,11 @@ const EditMyInfo = () => {
                   <ActivityIndicator size={'large'} color={'white'} />
                 ) : (
                   <Text
-                    style={{color: 'white', fontWeight: '600', fontSize: 18}}>
+                    style={{
+                      color: 'white',
+                      fontSize: 20,
+                      fontFamily: 'EBGaramond-ExtraBold',
+                    }}>
                     Bilgilerimi Düzenle
                   </Text>
                 )}
@@ -286,12 +336,7 @@ const EditMyInfo = () => {
               }}
               locale="tr"
             />
-            <CityModal
-              visible={isModalVisible}
-              onClose={toggleModal}
-              onSelectCity={handleCitySelect}
-            />
-          </KeyboardAwareScrollView>
+          </ScrollView>
         </SafeAreaView>
       )}
     </Container>
@@ -321,7 +366,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   itemwithLabel: {width: '100%', alignItems: 'center', marginTop: 10},
-  labelStyle: {color: 'white', fontSize: 18, width: '90%'},
+  labelStyle: {
+    color: 'white',
+    fontSize: 18,
+    width: '90%',
+    fontFamily: 'EBGaramond-Bold',
+  },
   customButton: {
     width: '90%',
     backgroundColor: 'black',
@@ -332,5 +382,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: 10,
     color: 'white',
+    fontFamily: 'EBGaramond-SemiBold',
   },
 });

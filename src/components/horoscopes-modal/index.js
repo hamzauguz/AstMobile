@@ -38,12 +38,14 @@ const HoroscopesModal = ({
             color: 'white',
             height: 50,
             fontSize: 16,
+            fontFamily: 'EBGaramond-SemiBold',
           },
           inputAndroid: {
             color: 'white',
             height: 50,
             fontSize: 16,
             right: 10,
+            fontFamily: 'EBGaramond-SemiBold',
           },
         }}
         onOpen={onOpen}

@@ -1,13 +1,12 @@
 import {
+  Alert,
   Image,
-  Platform,
+  ImageBackground,
   SafeAreaView,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import auth from '@react-native-firebase/auth';
 import Container from '../../components/container';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import CustomHeader from '../../components/custom-header';
@@ -16,34 +15,48 @@ import {useSelector} from 'react-redux';
 import {
   getHoroscopesInfoCollection,
   getUserInfoByEmail,
+  SignOut,
 } from '../../utils/utils';
 import moment from 'moment';
-import {windowHeight, windowWidth} from '../../utils/helpers';
 import OptionsMenu from 'react-native-option-menu';
 import {useNavigation} from '@react-navigation/native';
+import AvatarSkeneton from '../../components/skeneton-cards/avatar-skeneton';
+import ProfileSkenetonCard from '../../components/skeneton-cards/profile-skeneton-card';
+import RandomInfoSkenetonCard from '../../components/skeneton-cards/random-info-skeneton-card';
+import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   moment.locale('tr');
   const navigation = useNavigation();
-  const {user, userLoading} = useSelector(state => state.user);
+  const {user} = useSelector(state => state.user);
   const [userInfo, setUserInfo] = useState(null);
   const [horoscopeInfo, setHoroscopeInfo] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const userInfoControl = async () => {
+      setLoading(true);
       await getUserInfoByEmail(user.email).then(res => {
         setUserInfo(res);
       });
       await getHoroscopesInfoCollection().then(res => {
         setHoroscopeInfo(res.label);
       });
+      setLoading(false);
     };
     userInfoControl();
-  }, [user]);
+    const unsubscribe = navigation.addListener('focus', () => {
+      setUserInfo(null);
+      userInfoControl();
+    });
+
+    return unsubscribe;
+  }, [user, navigation]);
 
   const EditMyInfoNavigate = () => navigation.navigate('EditMyInfo');
+  const EditMyPhoto = () => navigation.navigate('EditMyPhoto');
   const EditMyPasswordNavigate = () => navigation.navigate('EditMyPassword');
-
+  console.log('userInfo?.profilePhoto: ', userInfo?.profilePhoto);
   return (
     <Container>
       <SafeAreaView style={styles.safeAreaContainer}>
@@ -51,90 +64,101 @@ const Profile = () => {
           containerStyle={styles.headerStyle}
           iconRight={
             <OptionsMenu
+              destructiveIndex={3}
               customButton={
-                <AntDesignIcon name="setting" size={30} color="black" />
+                <View
+                  style={{
+                    height: 40,
+                    width: 40,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <AntDesignIcon name="setting" size={30} color="black" />
+                </View>
               }
-              // destructiveIndex={3}
-              options={['Bilgilerimi Düzenle', 'Şifremi Değiştir', 'Cancel']}
-              actions={[EditMyInfoNavigate, EditMyPasswordNavigate]}
+              options={[
+                'Bilgilerimi Düzenle',
+                'Fotoğrafımı Değiştir',
+                'Şifremi Değiştir',
+                'Çıkış Yap',
+                'İptal',
+              ]}
+              actions={[
+                EditMyInfoNavigate,
+                EditMyPhoto,
+                EditMyPasswordNavigate,
+                SignOut,
+              ]}
             />
           }
         />
         <View style={styles.topContainer} />
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-          }}>
+        <View style={styles.avatarView}>
           <View>
-            <Image
-              style={{
-                width: windowWidth > 400 ? 120 : 100,
-                height: windowWidth > 400 ? 120 : 100,
-
-                backgroundColor: 'gray',
-                borderRadius: windowWidth > 400 ? 60 : 50,
-                alignItems: 'center',
-                justifyContent: 'center',
-                display: 'flex',
-                alignContent: 'center',
-                overflow: 'hidden',
-                resizeMode: 'contain',
-                borderColor: 'purple',
-                borderWidth: 5,
-              }}
-              // src={user.photoURL}
-              source={require('../../../assets/misis-lady.jpg')}
-              resizeMode="cover"
-            />
+            {userInfo === null ? (
+              <AvatarSkeneton />
+            ) : (
+              <FastImage
+                source={{
+                  uri: userInfo?.profilePhoto,
+                  priority: FastImage.priority.high,
+                }}
+                resizeMode="cover"
+                style={styles.avatarImageStyle}
+              />
+            )}
           </View>
-          <View
-            style={{
-              flex: 2,
-              width: '90%',
-              display: 'flex',
-              flexDirection: 'column',
-              top: windowHeight / 13.34,
-            }}>
+          <View style={styles.profileContainer}>
             <View style={styles.centerContainer}>
-              <View style={styles.centerView}>
-                <Text style={styles.dorianFontStyle}>
-                  {new Date().getFullYear() - userInfo?.birthdate}
-                </Text>
-              </View>
-              <View style={styles.centerView}>
-                <Text style={styles.dorianFontStyle}>
-                  {userInfo?.horoscope}
-                </Text>
-              </View>
+              {userInfo === null ? (
+                <>
+                  <ProfileSkenetonCard />
+                  <ProfileSkenetonCard />
+                </>
+              ) : (
+                <>
+                  <View style={styles.centerView}>
+                    <Text style={styles.garamondFontStyle}>
+                      {new Date().getFullYear() - userInfo?.birthdate}
+                    </Text>
+                  </View>
+                  <View style={styles.centerView}>
+                    <Text style={styles.garamondFontStyle}>
+                      {userInfo?.horoscope}
+                    </Text>
+                  </View>
+                </>
+              )}
             </View>
             <View style={styles.centerContainer}>
-              <View style={styles.centerView}>
-                <Text style={styles.dorianFontStyle}>{userInfo?.country}</Text>
-              </View>
-              <View style={styles.centerView}>
-                <Text style={styles.dorianFontStyle}>
-                  {userInfo?.birthtime}
-                </Text>
-              </View>
+              {userInfo === null ? (
+                <>
+                  <ProfileSkenetonCard />
+                  <ProfileSkenetonCard />
+                </>
+              ) : (
+                <>
+                  <View style={styles.centerView}>
+                    <Text style={styles.garamondFontStyle}>
+                      {userInfo?.location?.description}
+                    </Text>
+                  </View>
+                  <View style={styles.centerView}>
+                    <Text style={styles.garamondFontStyle}>
+                      {userInfo?.birthtime}
+                    </Text>
+                  </View>
+                </>
+              )}
             </View>
           </View>
-          <View
-            style={{
-              flex: 1,
-              width: '90%',
-              height: 100,
-              backgroundColor: '#BFBAFC',
-              justifyContent: 'center',
-              alignContent: 'flex-end',
-              alignItems: 'center',
-              marginTop: 200,
-              borderRadius: 10,
-              bottom: 20,
-              padding: 10,
-            }}>
-            <Text style={styles.dorianFontStyle}>{horoscopeInfo}</Text>
-          </View>
+          {horoscopeInfo === null ? (
+            <RandomInfoSkenetonCard />
+          ) : (
+            <View style={styles.randomInfoContainer}>
+              <Text style={styles.garamondFontStyle}>{horoscopeInfo}</Text>
+            </View>
+          )}
         </View>
       </SafeAreaView>
     </Container>
